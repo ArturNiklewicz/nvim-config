@@ -1,0 +1,25 @@
+# Neovim runtime files
+lazy-lock.json
+.luarc.json
+
+# LSP logs
+lsp.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Plugin data
+plugin/
+
+# Compiled bytecode
+*.luac
+
+# Local configuration overrides
+local.lua
