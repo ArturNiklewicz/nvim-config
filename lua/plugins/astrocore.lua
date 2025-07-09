@@ -43,6 +43,7 @@ return {
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
+        timeoutlen = 300, -- faster key sequence timeout (default 1000ms)
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -55,13 +56,16 @@ return {
     mappings = {
       -- first key is the mode
       n = {
-        -- second key is the lefthand side of the map
-
-        -- navigate buffer tabs
+        -- ================================
+        -- BUFFER MANAGEMENT
+        -- ================================
+        -- Buffer navigation
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
-        -- VSCode-style buffer switching (leader+1-9)
+        ["<Leader>a"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        ["<Leader>d"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        
+        -- Buffer switching (VSCode-style leader+1-9)
         ["<Leader>1"] = { function() 
           local buffers = vim.fn.getbufinfo({buflisted = 1})
           if buffers[1] and vim.api.nvim_buf_is_valid(buffers[1].bufnr) then 
@@ -117,6 +121,21 @@ return {
           end
         end, desc = "Go to buffer 9" },
 
+        -- Buffer closing
+        ["<Leader>w"] = { function() require("astrocore.buffer").close() end, desc = "Close current buffer" },
+        ["<Leader>rw"] = { function() require("astrocore.buffer").close_all() end, desc = "Close all buffers" },
+        ["<Leader>bd"] = {
+          function()
+            require("astroui.status.heirline").buffer_picker(
+              function(bufnr) require("astrocore.buffer").close(bufnr) end
+            )
+          end,
+          desc = "Close buffer from tabline",
+        },
+
+        -- ================================
+        -- WINDOW MANAGEMENT
+        -- ================================
         -- Window/split navigation (alt+1-8)
         ["<M-1>"] = { "1<C-w>w", desc = "Focus window 1" },
         ["<M-2>"] = { "2<C-w>w", desc = "Focus window 2" },
@@ -127,60 +146,139 @@ return {
         ["<M-7>"] = { "7<C-w>w", desc = "Focus window 7" },
         ["<M-8>"] = { "8<C-w>w", desc = "Focus window 8" },
 
-        -- Terminal toggle
-        ["<C-M-t>"] = { function() vim.cmd("ToggleTerm") end, desc = "Toggle terminal" },
-
-        -- Navigation shortcuts
-        ["<C-i>"] = { "<C-o>", desc = "Navigate back" },
-        ["<C-o>"] = { "<C-i>", desc = "Navigate forward" },
-
-        -- Go to definition/declaration
-        ["<C-A-d>"] = { function() vim.lsp.buf.declaration() end, desc = "Go to declaration" },
-        ["<C-A-r>"] = { function() vim.lsp.buf.references() end, desc = "Show references" },
-
-        -- Go to symbol
-        ["<C-A-f>"] = { function() require("telescope.builtin").lsp_document_symbols() end, desc = "Go to symbol" },
-
-        -- Maximize editor group
+        -- Window operations
         ["<C-A-m>"] = { "<C-w>o", desc = "Maximize current window" },
 
-        -- Delete lines
+        -- ================================
+        -- TERMINAL MANAGEMENT
+        -- ================================
+        ["<C-M-t>"] = { function() vim.cmd("ToggleTerm") end, desc = "Toggle terminal" },
+
+        -- ================================
+        -- NAVIGATION
+        -- ================================
+        -- General navigation
+        ["<C-i>"] = { "<C-o>", desc = "Navigate back" },
+        ["<C-o>"] = { "<C-i>", desc = "Navigate forward" },
+        
+        -- Scrolling with auto-center
+        ["<C-d>"] = { "<C-d>zz", desc = "Scroll down half page and center" },
+        ["<C-u>"] = { "<C-u>zz", desc = "Scroll up half page and center" },
+
+        -- LSP navigation
+        ["<C-A-d>"] = { function() vim.lsp.buf.declaration() end, desc = "Go to declaration" },
+        ["<C-A-r>"] = { function() vim.lsp.buf.references() end, desc = "Show references" },
+        ["<C-A-f>"] = { function() require("telescope.builtin").lsp_document_symbols() end, desc = "Go to symbol" },
+
+        -- Diff/diagnostic navigation
+        ["]d"] = { function()
+          if vim.wo.diff then
+            vim.cmd("normal! ]c")
+          else
+            vim.diagnostic.goto_next()
+          end
+        end, desc = "Next diff/diagnostic" },
+        ["[d"] = { function()
+          if vim.wo.diff then
+            vim.cmd("normal! [c")
+          else
+            vim.diagnostic.goto_prev()
+          end
+        end, desc = "Previous diff/diagnostic" },
+
+        -- ================================
+        -- DIFF OPERATIONS
+        -- ================================
+        ["<Leader>dp"] = { function()
+          if vim.wo.diff then
+            vim.cmd("diffput")
+          end
+        end, desc = "Put diff to other window" },
+        ["<Leader>do"] = { function()
+          if vim.wo.diff then
+            vim.cmd("diffget")
+          end
+        end, desc = "Get diff from other window" },
+
+        -- ================================
+        -- CLAUDE CODE INTEGRATION
+        -- ================================
+        -- Core commands
+        ["<Leader>ac"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Toggle Claude Code (with resume)" },
+        ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude Code" },
+        ["<Leader>ar"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Resume Claude Code" },
+        ["<Leader>aC"] = { "<cmd>ClaudeCodeFresh<cr>", desc = "Start fresh Claude Code chat" },
+        ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer to Claude" },
+        
+        -- Diff management
+        ["<Leader>aa"] = { "<cmd>ClaudeAcceptChanges<cr>", desc = "Accept Claude Code changes" },
+        ["<Leader>ad"] = { "<cmd>ClaudeRejectChanges<cr>", desc = "Reject Claude Code changes" },
+        ["<Leader>ao"] = { "<cmd>ClaudeOpenAllFiles<cr>", desc = "Open all Claude Code edited files" },
+        ["<Leader>ai"] = { "<cmd>ClaudeShowDiff<cr>", desc = "Show Claude Code diff for current file" },
+        ["<Leader>aD"] = { "<cmd>ClaudeShowAllDiffs<cr>", desc = "Show Claude Code diff for all edited files" },
+
+        -- ================================
+        -- EDITING & FILES
+        -- ================================
+        ["<Leader>s"] = { "<cmd>w<cr>", desc = "Save file" },
         ["<S-A-d>"] = { "dd", desc = "Delete line" },
 
-        -- Zen mode toggle
+        -- ================================
+        -- UI & MODES
+        -- ================================
         ["<C-A-z>"] = { function() require("zen-mode").toggle() end, desc = "Toggle zen mode" },
 
-        -- Close all editors in group
-        ["<Leader>rw"] = { function() require("astrocore.buffer").close_all() end, desc = "Close all buffers" },
+        -- ================================
+        -- ERROR MESSAGE MANAGEMENT
+        -- ================================
+        ["<Leader>me"] = { "<cmd>Errors<cr>", desc = "Show error messages" },
+        ["<Leader>ma"] = { "<cmd>Messages<cr>", desc = "Show all messages" },
+        ["<Leader>mc"] = { "<cmd>CopyLastError<cr>", desc = "Copy last error message" },
+        ["<Leader>mC"] = { "<cmd>CopyAllErrors<cr>", desc = "Copy all error messages" },
+        ["<Leader>mA"] = { "<cmd>CopyAllMessages<cr>", desc = "Copy all messages" },
 
-        -- Claude Code integration
-        ["<Leader>ac"] = { "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code" },
-        ["<Leader>ad"] = { "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept Claude Code changes" },
-        ["<Leader>ar"] = { "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Reject Claude Code changes" },
+        -- ================================
+        -- VSCODE-LIKE EDITING
+        -- ================================
+        -- Search and replace
+        ["<Leader>sr"] = { "<cmd>Spectre<cr>", desc = "Find and replace (Spectre)" },
+        ["<Leader>sw"] = { function() require("spectre").open_visual({select_word=true}) end, desc = "Search current word" },
+        ["<Leader>sp"] = { function() require("spectre").open_file_search({select_word=true}) end, desc = "Search in current file" },
+        
+        -- Clipboard management
+        ["<Leader>vy"] = { "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
+        ["<Leader>vp"] = { function() require("telescope").extensions.neoclip.default() end, desc = "Paste from clipboard history" },
+        
+        -- Enhanced navigation
+        ["<Leader>vi"] = { function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Find in current buffer" },
+        ["<Leader>vl"] = { function() require("illuminate").next_reference() end, desc = "Next reference" },
+        ["<Leader>vh"] = { function() require("illuminate").prev_reference() end, desc = "Previous reference" },
 
-        -- mappings seen under group name "Buffer"
-        ["<Leader>bd"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Close buffer from tabline",
-        },
-
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
-
-        -- setting a mapping to false will disable it
+        -- ================================
+        -- DISABLED MAPPINGS
+        -- ================================
         -- ["<C-S>"] = false,
       },
-      -- Visual mode mappings
+      
+      -- ================================
+      -- VISUAL MODE MAPPINGS
+      -- ================================
       v = {
         -- Claude Code integration
-        ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude Code" },
+        ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send selection to Claude Code" },
+        ["<Leader>aS"] = { function() 
+          vim.cmd("ClaudeCodeSend")
+          vim.cmd("ClaudeCodeFocus")
+        end, desc = "Send selection to Claude Code and focus" },
+        
+        -- VSCode-like editing
+        ["<Leader>sr"] = { "<cmd>Spectre<cr>", desc = "Find and replace selection" },
+        ["<Leader>sw"] = { function() require("spectre").open_visual() end, desc = "Search selection" },
       },
-      -- Terminal mode mappings
+      
+      -- ================================
+      -- TERMINAL MODE MAPPINGS
+      -- ================================
       t = {
         -- Terminal navigation
         ["<C-M-Tab>1"] = { "<C-\\><C-n>:1ToggleTerm<CR>", desc = "Focus terminal 1" },
