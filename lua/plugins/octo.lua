@@ -24,7 +24,7 @@ return {
     reaction_viewer_hint_icon = " ",
     user_icon = " ",
     timeline_marker = " ",
-    timeline_indent = "2",
+    timeline_indent = 2,
     right_bubble_delimiter = "",
     left_bubble_delimiter = "",
     snippet_context_lines = 4,

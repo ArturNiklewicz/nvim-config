@@ -147,3 +147,22 @@ If a keybinding doesn't work:
 2. Run `:map <Leader>xy` to see if it's mapped
 3. Check for conflicts with `:verbose map <Leader>xy`
 4. Ensure required plugins are installed
+
+## Migration from Previous Structure
+
+This section helps users migrate from the older keybinding structure that was present in main.
+
+### Key Differences
+
+**Multicursor Updates:**
+- `<Leader>cd` - Create multicursor (like VSCode Ctrl+D)
+- `<Leader>cn` - Create multicursor for pattern  
+- `<Leader>cc` - Clear all multicursors
+- `<Leader>ca` - Add cursor at visual selection
+- `<Leader>cw` - Add cursor under word
+- Kept compatibility: `<Leader>vd/vn/vm` still work
+
+**Enhanced Organization:**
+- Better emoji icons for which-key groups
+- Clearer naming conventions
+- More consistent patterns across categories

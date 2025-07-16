@@ -17,7 +17,8 @@ return {
   -- Multicursor support (VSCode-like Ctrl+D behavior)
   {
     "smoka7/multicursors.nvim",
-    event = "VeryLazy",
+    event = "User AstroFile",
+    cmd = { "MCstart", "MCpattern", "MCclear", "MCvisualCursor", "MCunderCursor" },
     dependencies = { 
       "nvim-treesitter/nvim-treesitter",
       "smoka7/hydra.nvim",
@@ -37,6 +38,37 @@ return {
       },
     },
     keys = {
+      {
+        "<Leader>cd",
+        "<Cmd>MCstart<CR>",
+        mode = { "v", "n" },
+        desc = "Create multicursor (like Ctrl+D)",
+      },
+      {
+        "<Leader>cn",
+        "<Cmd>MCpattern<CR>",
+        mode = { "v", "n" },
+        desc = "Create multicursor for pattern",
+      },
+      {
+        "<Leader>cc",
+        "<Cmd>MCclear<CR>",
+        mode = { "n" },
+        desc = "Clear all multicursors",
+      },
+      {
+        "<Leader>ca",
+        "<Cmd>MCvisualCursor<CR>",
+        mode = { "v" },
+        desc = "Add cursor at visual selection",
+      },
+      {
+        "<Leader>cw",
+        "<Cmd>MCunderCursor<CR>",
+        mode = { "n" },
+        desc = "Add cursor under word",
+      },
+      -- Keep some VSCode-style bindings for compatibility
       {
         "<Leader>vd",
         "<Cmd>MCstart<CR>",

@@ -35,7 +35,7 @@ return {
     icons = {
       breadcrumb = "»",
       separator = "➜",
-      group = "+",
+      group = "", -- remove the + icon
     },
     popup_mappings = {
       scroll_down = "<c-d>",
@@ -72,22 +72,23 @@ return {
     local wk = require("which-key")
     wk.setup(opts)
     
-    -- Register group names for better organization
+    -- Register group names for better organization (merge both approaches)
     wk.register({
       ["<leader>"] = {
-        a = { name = "󰚩 AI/Claude", _ = "which_key_ignore" },
-        b = { name = " Buffers", _ = "which_key_ignore" },
-        c = { name = " Code/LSP", _ = "which_key_ignore" },
+        a = { name = "🤖 AI/Claude", _ = "which_key_ignore" },
+        b = { name = "📁 Buffers", _ = "which_key_ignore" },
+        c = { name = "💻 Code/LSP", _ = "which_key_ignore" },
+        d = { name = "🔧 Debug/Errors", _ = "which_key_ignore" },
         f = { name = " Find/Files", _ = "which_key_ignore" },
-        g = { name = " Git/GitHub", _ = "which_key_ignore" },
-        j = { name = "󰪫 Jupyter/Molten", _ = "which_key_ignore" },
+        g = { name = "🌿 Git", _ = "which_key_ignore" },
+        j = { name = "📊 Jupyter/Molten", _ = "which_key_ignore" },
         l = { name = " LSP", _ = "which_key_ignore" },
         m = { name = " Messages", _ = "which_key_ignore" },
         o = { name = " Octo/GitHub", _ = "which_key_ignore" },
         p = { name = " Packages", _ = "which_key_ignore" },
         r = { name = "󰛔 Replace/Refactor", _ = "which_key_ignore" },
-        s = { name = " Search", _ = "which_key_ignore" },
-        t = { name = " Test", _ = "which_key_ignore" },
+        s = { name = "🔍 Search", _ = "which_key_ignore" },
+        t = { name = "🧪 Testing", _ = "which_key_ignore" },
         u = { name = " UI/Toggles", _ = "which_key_ignore" },
         v = { name = " VSCode", _ = "which_key_ignore" },
         w = { name = " Windows", _ = "which_key_ignore" },
@@ -97,10 +98,10 @@ return {
       -- Visual mode groups
       ["<leader>"] = {
         mode = { "v" },
-        a = { name = "󰚩 AI/Claude", _ = "which_key_ignore" },
-        j = { name = "󰪫 Jupyter", _ = "which_key_ignore" },
+        a = { name = "🤖 AI/Claude", _ = "which_key_ignore" },
+        j = { name = "📊 Jupyter", _ = "which_key_ignore" },
         r = { name = "󰛔 Replace", _ = "which_key_ignore" },
-        s = { name = " Search", _ = "which_key_ignore" },
+        s = { name = "🔍 Search", _ = "which_key_ignore" },
         v = { name = " VSCode", _ = "which_key_ignore" },
       },
       -- Additional navigation hints
