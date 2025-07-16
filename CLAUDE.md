@@ -62,6 +62,7 @@ Leader: `<Space>` | Local Leader: `,`
 - `sr` - Find and replace
 - `sw/sp` - Search word/file
 - `vy/vp` - Clipboard history/paste
+- `vd/vn` - Create multicursor
 - `vv` - Smart selection (treesitter)
 - `vi/vs/vd` - Incremental selection expand/scope/shrink
 

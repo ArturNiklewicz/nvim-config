@@ -1,162 +1,168 @@
-# Neovim Keybinding Migration Guide
+# Keybinding Migration Guide
 
-## Migration Instructions
+This guide helps you transition from the old keybinding structure to the new organized system.
 
-### Phase 1: Test the New Mappings (Current)
+## Key Changes
 
-1. **Backup your current configuration:**
-   ```bash
-   cp ~/.config/nvim/lua/plugins/astrocore.lua ~/.config/nvim/lua/plugins/astrocore.lua.backup
-   ```
+### 1. Visual Menu Discovery
+- Press `<Leader>` and wait 300ms to see all available options
+- Each category now has clear icons and descriptions
+- Nested menus show sub-options automatically
 
-2. **Rename the new mappings file to replace the old one:**
-   ```bash
-   mv ~/.config/nvim/lua/plugins/astrocore_new_mappings.lua ~/.config/nvim/lua/plugins/astrocore.lua
-   ```
+### 2. Namespace Reorganization
 
-3. **Restart Neovim and test the new keybindings**
+#### Moved Keybindings
 
-4. **If something breaks, restore the backup:**
-   ```bash
-   cp ~/.config/nvim/lua/plugins/astrocore.lua.backup ~/.config/nvim/lua/plugins/astrocore.lua
-   ```
+| Old Binding | New Binding | Description |
+|-------------|-------------|-------------|
+| `<Leader>s` | `<Leader>bs` | Save buffer (moved to buffer group) |
+| `<Leader>rw` | `<Leader>W` | Close all buffers (clearer naming) |
+| `<Leader>me` → `<Leader>ml` | `<Leader>je` → `<Leader>jl` | Molten/Jupyter (moved from 'm' to 'j') |
+| `<Leader>sr` | `<Leader>rr` | Replace with Spectre (moved to replace group) |
+| `<Leader>gi` → `<Leader>gp` | `<Leader>oi` → `<Leader>op` | GitHub/Octo (moved to 'o' prefix) |
 
-### Phase 2: Learning the New Structure
+#### New Logical Groups
 
-Press `<Space>` and wait to see the which-key menu showing all available commands grouped by category.
+**AI/Claude (`<Leader>a`)**
+- All Claude Code commands consolidated here
+- Consistent naming: accept/reject changes
 
-## New Keybinding Structure
+**Buffers (`<Leader>b`)**
+- `b1-b9`: Direct buffer access
+- `bb`: List buffers
+- `bd/bD`: Delete buffer/all
+- `bs/bS`: Save buffer/all
 
-### 🔥 Frequent Operations (Single Leader)
-- `<Leader>w` → Save file (write)
-- `<Leader>q` → Close buffer (quit)
-- `<Leader>e` → File explorer
-- `<Leader>/` → Search in file
-- `<Leader><Tab>` → Last buffer toggle
+**Code/LSP (`<Leader>c`)**
+- All LSP operations
+- Code actions, definitions, references
+- Formatting and refactoring
 
-### 📁 Buffers (`<Leader>b`)
-- `<Leader>bb` → Buffer menu
-- `<Leader>bn` → Next buffer
-- `<Leader>bp` → Previous buffer
-- `<Leader>b1-9` → Jump to buffer 1-9
-- `<Leader>bd` → Delete buffer
-- `<Leader>ba` → All buffers
+**Find/Files (`<Leader>f`)**
+- All Telescope file operations
+- Find files, grep, symbols
+- Help and command search
 
-### 📁 Windows (`<Leader>B`)
-- `<Leader>Bs` → Split horizontal
-- `<Leader>Bv` → Split vertical
-- `<Leader>Bm` → Maximize window
-- `<Leader>Bh/j/k/l` → Navigate windows
+**Git/GitHub (`<Leader>g`)**
+- Git operations (status, diff, commits)
+- Gitsigns integration
 
-### 🔍 Search & Replace (`<Leader>s`)
-- `<Leader>sf` → Find files
-- `<Leader>sr` → Replace (Spectre)
-- `<Leader>sw` → Search word
-- `<Leader>sb` → Search buffers
-- `<Leader>sh` → Search history
-- `<Leader>sg` → Live grep
+**Jupyter/Molten (`<Leader>j`)**
+- All Jupyter notebook operations
+- Clear separation from messages
 
-### 💻 Code & LSP (`<Leader>c`)
-- `<Leader>ca` → Code actions
-- `<Leader>cd` → Go to definition
-- `<Leader>cr` → Rename
-- `<Leader>cf` → Format
-- `<Leader>cs` → Symbols
-- `<Leader>ch` → Hover info
+**Messages (`<Leader>m`)**
+- Error and message management
+- Copy operations
 
-### 🤖 AI/Claude (`<Leader>a`)
-- `<Leader>ac` → Chat (resume)
-- `<Leader>an` → New chat
-- `<Leader>aa` → Accept changes
-- `<Leader>ar` → Reject changes
-- `<Leader>ad` → Show diff
-- `<Leader>as` → Send selection (visual mode)
+**Octo/GitHub (`<Leader>o`)**
+- GitHub issues and PRs
+- Review operations
 
-### 🌿 Git (`<Leader>g`)
-#### Status & Info
-- `<Leader>gs` → Git status
-- `<Leader>gb` → Blame line
-- `<Leader>gl` → Git log
+**Replace/Refactor (`<Leader>r`)**
+- Spectre and native replace
+- Refactoring operations
 
-#### Hunks (`<Leader>gh`)
-- `<Leader>ghn` → Next hunk
-- `<Leader>ghp` → Previous hunk
-- `<Leader>ghs` → Stage hunk
-- `<Leader>ghr` → Reset hunk
-- `<Leader>ghd` → Diff hunk
+**Search (`<Leader>s`)**
+- Project and buffer search
+- Search history
 
-### 🌿 GitHub/PR (`<Leader>G`)
-- `<Leader>Gi` → Issues list
-- `<Leader>Gp` → PRs list
-- `<Leader>Gc` → Create PR
-- `<Leader>Gr` → Start review
+**Test (`<Leader>t`)**
+- Test execution
+- Debug operations
 
-### 🧪 Testing (`<Leader>t`)
-- `<Leader>tr` → Run test
-- `<Leader>ta` → All tests
-- `<Leader>tf` → Test file
-- `<Leader>tl` → Last test
+**UI/Toggles (`<Leader>u`)**
+- All UI toggles (zen mode, numbers, etc.)
+- Terminal toggle
 
-### 📊 Jupyter/Molten (`<Leader>j`)
-- `<Leader>ji` → Initialize
-- `<Leader>jr` → Run cell
-- `<Leader>jn/jp` → Next/Previous cell
-- `<Leader>js` → Show output
+**VSCode Features (`<Leader>v`)**
+- Multicursor
+- Clipboard history
+- Smart selection
 
-### ⚡ Quick Toggles (`<Leader>T`)
-- `<Leader>Tz` → Zen mode
-- `<Leader>Tg` → Git signs
-- `<Leader>Tb` → Blame line
-- `<Leader>Tw` → Word wrap
-- `<Leader>Ts` → Spell check
+**Diagnostics (`<Leader>x`)**
+- Error navigation
+- Diagnostic lists
 
-### 🔧 Debug/Errors (`<Leader>d`)
-- `<Leader>de` → Show errors
-- `<Leader>dm` → Messages
-- `<Leader>dc` → Clear messages
-- `<Leader>dl` → LSP log
+### 3. Quick Access Patterns
 
-### Direct Mappings (No Leader)
-- `]d / [d` → Next/Previous diagnostic
-- `]h / [h` → Next/Previous git hunk
-- `]c / [c` → Next/Previous Jupyter cell
-- `<C-s>` → Save
-- `<C-/>` → Comment toggle
+- **Number keys**: `<Leader>1-9` for direct buffer access
+- **Alt keys**: `<Alt>1-8` for window focus
+- **Bracket navigation**: `[` and `]` for previous/next operations
+- **Quick saves**: `<Leader>w` to close, `<Leader>W` to close all
+- **Comments**: `<Leader>/` to toggle comments
 
-## Key Changes from Old Structure
+## Learning the New System
 
-### Moved Mappings
-- `<Leader>1-9` → `<Leader>b1-9` (buffer switching)
-- `<Leader>a/d` → `<Leader>bp/bn` (buffer navigation)
-- `<Leader>w` → Now saves file (was close buffer, use `<Leader>q` instead)
-- `<Leader>s` → Now search prefix (was save, use `<Leader>w` instead)
-- GitHub commands moved from `<Leader>g*` to `<Leader>G*`
-- Error messages moved from `<Leader>m*` to `<Leader>d*`
-- VSCode features moved from `<Leader>v*` to appropriate categories
+1. **Start with which-key**: Press `<Leader>` and explore visually
+2. **Use categories**: Think in terms of what you want to do (buffer, search, git, etc.)
+3. **Consistent patterns**: 
+   - Lowercase = common operation
+   - Uppercase = stronger version (e.g., `w` close one, `W` close all)
+   - Double letter = list/menu (e.g., `bb` list buffers, `ff` find files)
 
-### Preserved for Muscle Memory
-- `[b / ]b` → Still work for buffer navigation
-- `<M-1-8>` → Still work for window navigation
-- `<C-M-t>` → Still toggles terminal
-- All `<C-A-*>` shortcuts preserved
+## Customization
 
-## Tips for Transition
+To add your own keybindings while maintaining organization:
 
-1. **Use which-key**: Press `<Space>` and wait to see available commands
-2. **Practice common operations**: Focus on `<Leader>w` (save) and `<Leader>q` (quit) first
-3. **Learn by category**: Master one category at a time (e.g., buffers, then search)
-4. **Keep this guide open**: Reference it while working until muscle memory develops
+```lua
+-- In your user configuration
+return {
+  "AstroNvim/astrocore",
+  opts = function(_, opts)
+    opts.mappings.n["<Leader>yc"] = { "<cmd>YourCommand<cr>", desc = "Your custom command" }
+    
+    -- Register with which-key
+    require("which-key").register({
+      ["<leader>y"] = { name = "Your Category", _ = "which_key_ignore" },
+    })
+    
+    return opts
+  end,
+}
+```
+
+## Quick Reference Card
+
+```
+┌─ Quick Actions ─┐  ┌─ Navigation ──┐  ┌─ Search/Find ─┐
+│ ,w  Close buff  │  │ ,1-9 Buffer N │  │ ,ff Find file │
+│ ,W  Close all   │  │ [b   Prev buf │  │ ,fg Live grep │
+│ ,q  Quit        │  │ ]b   Next buf │  │ ,ss Search buf│
+│ ,/  Comment     │  │ [d   Prev diag│  │ ,sw Search wrd│
+└─────────────────┘  └───────────────┘  └───────────────┘
+
+┌─ AI/Claude ─────┐  ┌─ Git/GitHub ──┐  ┌─ Code/LSP ────┐
+│ ,ac Resume chat │  │ ,gs Git status│  │ ,ca Code actn │
+│ ,aa Accept diff │  │ ,gd Git diff  │  │ ,cd Definition│
+│ ,ad Reject diff │  │ ,op PR list   │  │ ,cr References│
+│ ,ao Open files  │  │ ,oi Issue list│  │ ,cf Format    │
+└─────────────────┘  └───────────────┘  └───────────────┘
+```
 
 ## Troubleshooting
 
-If keybindings don't work:
-1. Check for conflicts with `:verbose map <key>`
-2. Ensure plugins are loaded: `:Lazy`
-3. Look for errors: `:messages`
-4. Restore backup if needed
+If a keybinding doesn't work:
+1. Check if which-key shows it when you press `<Leader>`
+2. Run `:map <Leader>xy` to see if it's mapped
+3. Check for conflicts with `:verbose map <Leader>xy`
+4. Ensure required plugins are installed
 
-## Future Enhancements
+## Migration from Previous Structure
 
-- Add more specialized mappings as needed
-- Consider adding custom which-key groups
-- Integrate with more plugins as they're added
+This section helps users migrate from the older keybinding structure that was present in main.
+
+### Key Differences
+
+**Multicursor Updates:**
+- `<Leader>cd` - Create multicursor (like VSCode Ctrl+D)
+- `<Leader>cn` - Create multicursor for pattern  
+- `<Leader>cc` - Clear all multicursors
+- `<Leader>ca` - Add cursor at visual selection
+- `<Leader>cw` - Add cursor under word
+- Kept compatibility: `<Leader>vd/vn/vm` still work
+
+**Enhanced Organization:**
+- Better emoji icons for which-key groups
+- Clearer naming conventions
+- More consistent patterns across categories

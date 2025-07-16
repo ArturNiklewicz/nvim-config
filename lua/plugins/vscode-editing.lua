@@ -68,6 +68,25 @@ return {
         mode = { "n" },
         desc = "Add cursor under word",
       },
+      -- Keep some VSCode-style bindings for compatibility
+      {
+        "<Leader>vd",
+        "<Cmd>MCstart<CR>",
+        mode = { "v" },
+        desc = "Create multicursor selection",
+      },
+      {
+        "<Leader>vn",
+        "<Cmd>MCpattern<CR>",
+        mode = { "v" },
+        desc = "Create multicursor for pattern",
+      },
+      {
+        "<Leader>vm",
+        "<Cmd>MCclear<CR>",
+        mode = { "n" },
+        desc = "Clear multicursor",
+      },
     },
   },
   
