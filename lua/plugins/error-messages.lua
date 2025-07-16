@@ -28,34 +28,89 @@ return {
       -- Enhanced message handling functions
       local M = {}
 
-      -- Function to get all messages
+      -- Function to check clipboard availability
+      local function has_clipboard()
+        return vim.fn.has('clipboard') == 1
+      end
+
+      -- Function to copy text to clipboard with validation
+      local function safe_clipboard_copy(text)
+        if has_clipboard() then
+          vim.fn.setreg('+', text)
+          vim.fn.setreg('*', text)
+        else
+          -- Fallback to unnamed register
+          vim.fn.setreg('"', text)
+          vim.notify("Clipboard not available, copied to unnamed register", vim.log.levels.WARN)
+        end
+      end
+
+      -- Function to get all messages with improved parsing
       function M.get_messages()
         local messages = {}
-        local output = vim.fn.execute("messages")
-        for line in output:gmatch("[^\r\n]+") do
-          table.insert(messages, line)
+        
+        -- Use nvim_exec2 for better structured output
+        local ok, result = pcall(function()
+          return vim.api.nvim_exec2("messages", { output = true })
+        end)
+        
+        if not ok then
+          vim.notify("Failed to retrieve messages: " .. tostring(result), vim.log.levels.ERROR)
+          return {}
         end
+        
+        local output = result.output or ""
+        
+        -- Use vim.split for proper line parsing
+        local lines = vim.split(output, '\n', { trimempty = true })
+        
+        for _, line in ipairs(lines) do
+          -- Filter out truly empty lines but keep lines with just whitespace
+          if line:match('%S') then  -- Has non-whitespace characters
+            -- Check for truncated messages
+            if line:match("%.%.%.$") then
+              table.insert(messages, line .. " [truncated]")
+            else
+              table.insert(messages, vim.trim(line))
+            end
+          end
+        end
+        
         return messages
       end
 
-      -- Function to get recent error messages
+      -- Function to get recent error messages with comprehensive pattern matching
       function M.get_error_messages()
         local messages = M.get_messages()
         local errors = {}
         for _, msg in ipairs(messages) do
-          if msg:match("^Error") or msg:match("^E%d+:") or msg:match("ERROR") then
+          -- More comprehensive error detection
+          if msg:match("^E%d+:") or      -- Vim error codes
+             msg:match("^Error") or       -- Generic errors
+             msg:match("^W%d+:") or       -- Warning codes
+             msg:match("ERROR") or        -- Uppercase ERROR
+             msg:match("^%.%.%.") or      -- Truncated messages that might be errors
+             msg:match("^%s*Error") or    -- Indented errors
+             msg:match("stack traceback:") or  -- Lua stack traces
+             msg:match("^%s*at") then     -- Stack trace lines
             table.insert(errors, msg)
           end
         end
         return errors
       end
 
-      -- Function to copy messages to clipboard
+      -- Function to copy messages to clipboard with validation
       function M.copy_messages(messages)
+        if #messages == 0 then
+          vim.notify("No messages to copy", vim.log.levels.WARN)
+          return
+        end
+        
         local text = table.concat(messages, "\n")
-        vim.fn.setreg("+", text)
-        vim.fn.setreg("*", text)
-        vim.notify("Messages copied to clipboard", vim.log.levels.INFO)
+        safe_clipboard_copy(text)
+        
+        local clipboard_msg = has_clipboard() and "clipboard" or "unnamed register"
+        vim.notify(string.format("Copied %d messages to %s", #messages, clipboard_msg), vim.log.levels.INFO)
       end
 
       -- Function to show messages in a floating window
@@ -93,21 +148,26 @@ return {
         vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", opts)
         vim.keymap.set("n", "yy", function()
           local line = vim.api.nvim_get_current_line()
-          vim.fn.setreg("+", line)
-          vim.fn.setreg("*", line)
-          vim.notify("Line copied to clipboard", vim.log.levels.INFO)
+          safe_clipboard_copy(line)
+          
+          local clipboard_msg = has_clipboard() and "clipboard" or "unnamed register"
+          vim.notify("Line copied to " .. clipboard_msg, vim.log.levels.INFO)
         end, opts)
         vim.keymap.set("n", "Y", function()
           M.copy_messages(messages)
         end, opts)
         vim.keymap.set("v", "y", function()
-          local start_pos = vim.fn.getpos("'<")
-          local end_pos = vim.fn.getpos("'>")
-          local lines = vim.api.nvim_buf_get_lines(buf, start_pos[2] - 1, end_pos[2], false)
-          local text = table.concat(lines, "\n")
-          vim.fn.setreg("+", text)
-          vim.fn.setreg("*", text)
-          vim.notify("Selection copied to clipboard", vim.log.levels.INFO)
+          -- Properly handle visual mode selection
+          vim.cmd('normal! "vy')
+          local text = vim.fn.getreg('v')
+          
+          if text and text ~= "" then
+            safe_clipboard_copy(text)
+            local clipboard_msg = has_clipboard() and "clipboard" or "unnamed register"
+            vim.notify("Selection copied to " .. clipboard_msg, vim.log.levels.INFO)
+          else
+            vim.notify("No text selected", vim.log.levels.WARN)
+          end
         end, opts)
       end
 
@@ -139,9 +199,10 @@ return {
           return
         end
         local last_error = errors[#errors]
-        vim.fn.setreg("+", last_error)
-        vim.fn.setreg("*", last_error)
-        vim.notify("Last error copied to clipboard", vim.log.levels.INFO)
+        safe_clipboard_copy(last_error)
+        
+        local clipboard_msg = has_clipboard() and "clipboard" or "unnamed register"
+        vim.notify("Last error copied to " .. clipboard_msg, vim.log.levels.INFO)
       end
 
       -- Function to copy all error messages
@@ -170,6 +231,14 @@ return {
       vim.api.nvim_create_user_command("CopyLastError", M.copy_last_error, { desc = "Copy last error message to clipboard" })
       vim.api.nvim_create_user_command("CopyAllErrors", M.copy_all_errors, { desc = "Copy all error messages to clipboard" })
       vim.api.nvim_create_user_command("CopyAllMessages", M.copy_all_messages, { desc = "Copy all messages to clipboard" })
+      
+      -- Test command to generate sample messages
+      vim.api.nvim_create_user_command("TestMessages", function()
+        vim.notify("This is a test notification", vim.log.levels.INFO)
+        vim.cmd("echoerr 'This is a test error message'")
+        vim.cmd("echohl WarningMsg | echo 'This is a warning' | echohl None")
+        vim.notify("Messages generated for testing", vim.log.levels.INFO)
+      end, { desc = "Generate test messages for debugging" })
 
       -- Make functions globally available
       _G.ErrorMessages = M
