@@ -1,107 +1,113 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this AstroNvim v5+ configuration.
 
 ## Repository Overview
 
-This is a personal AstroNvim v5+ configuration repository. AstroNvim is a Neovim configuration framework that provides a structured way to configure plugins, keybindings, and settings.
+Personal AstroNvim v5+ configuration with enhanced productivity features and IDE-like capabilities.
 
 ## Architecture
 
 ### Core Structure
-- **`init.lua`** - Bootstrap file that sets up Lazy.nvim package manager
-- **`lua/lazy_setup.lua`** - Main Lazy.nvim configuration with plugin imports
-- **`lua/polish.lua`** - Final configuration step for custom Lua code (currently disabled)
-- **`lua/community.lua`** - AstroCommunity plugin imports (currently disabled)
-- **`lua/plugins/`** - Individual plugin configurations
+- `init.lua` - Bootstrap Lazy.nvim
+- `lua/lazy_setup.lua` - Plugin imports
+- `lua/plugins/` - Individual plugin configs
 
-### Key Configuration Files
-- **`lua/plugins/astrocore.lua`** - Core AstroNvim settings, keybindings, and vim options
-- **`lua/plugins/astroui.lua`** - UI configuration and theming (currently disabled)
-- **`lua/plugins/astrolsp.lua`** - LSP configuration
-- **`lua/plugins/mason.lua`** - Package manager for LSP servers, formatters, linters
-- **`lua/plugins/treesitter.lua`** - Syntax highlighting and parsing
-- **`lua/plugins/none-ls.lua`** - Formatting and linting integration
+### Key Files
+- `astrocore.lua` - Core settings, keybindings, vim options
+- `astroui.lua` - UI configuration
+- `astrolsp.lua` - LSP configuration
+- `mason.lua` - LSP/formatter/linter management
+- `treesitter.lua` - Syntax highlighting
+- `none-ls.lua` - Formatting and linting
 
 ### Custom Plugins
-- **`lua/plugins/zen-mode.lua`** - Distraction-free editing mode
-- **`lua/plugins/bufferline.lua`** - Enhanced buffer/tab navigation
-- **`lua/plugins/molten.lua`** - Jupyter notebook integration
-- **`lua/plugins/claude-code.lua`** - Claude Code AI assistant integration
-- **`lua/plugins/user.lua`** - Custom user-specific plugins
+- `zen-mode.lua` - Distraction-free editing
+- `bufferline.lua` - Buffer navigation
+- `molten.lua` - Jupyter notebook integration
+- `claudecode.lua` - Claude Code AI integration
+- `error-messages.lua` - Error handling
+- `markdown-preview.lua` - Terminal markdown preview
+- `vscode-editing.lua` - VSCode-like features
+- `text-objects.lua` - Enhanced text objects
+- `user.lua` - User overrides
 
-## Configuration Management
+## Keybindings
 
-### Activation Pattern
-Many configuration files use the pattern `if true then return {} end` at the top to disable them by default. Remove this line to activate the configuration.
+Leader: `<Space>` | Local Leader: `,`
 
-### Leader Key
-- Leader key: `<Space>`
-- Local leader key: `,`
-
-### Custom Keybindings
-The configuration includes VSCode-inspired keybindings:
+### Core Navigation
 - `<Leader>1-9` - Switch to buffer 1-9
-- `<Alt>1-8` - Focus window/split 1-8
-- `<Ctrl+Alt>T` - Toggle terminal
-- `<Ctrl+Alt>Tab1-4` - Focus specific terminal instances
+- `<Leader>a/d` - Previous/next buffer
+- `<Leader>w` - Close buffer
+- `<Alt>1-8` - Focus window 1-8
+- `<Ctrl+I/O>` - Navigate back/forward
+- `]d/[d` - Next/previous diagnostic/diff
 
-### Claude Code Integration
-- `<Leader>ac` - Toggle Claude Code terminal
-- `<Leader>as` - Send selected text to Claude Code (visual mode)
-- `<Leader>ad` - Accept Claude Code changes
-- `<Leader>ar` - Reject Claude Code changes
+### Claude Code (`<Leader>a`)
+- `ac` - Toggle terminal (with resume)
+- `aC` - Fresh chat (no resume)
+- `aa/ad` - Accept/deny diff changes
+- `ao` - Open all edited files
+- `as` - Send selection (visual)
+- `ab` - Add buffer to context
+
+### Molten/Jupyter (`<Leader>m`)
+- `mi` - Initialize
+- `ml/mv` - Evaluate line/selection
+- `mo/mh` - Show/hide output
+- `ms/mS/mR` - Start/stop/restart kernel
+
+### VSCode Features (`<Leader>v`)
+- `sr` - Find and replace
+- `sw/sp` - Search word/file
+- `vy/vp` - Clipboard history/paste
+- `vv` - Smart selection (treesitter)
+- `vi/vs/vd` - Incremental selection expand/scope/shrink
+
+### Multicursor (`<Leader>c`)
+- `cd` - Create multicursor (like VSCode Ctrl+D)
+- `cn` - Create multicursor for pattern
+- `cc` - Clear all multicursors
+- `ca` - Add cursor at visual selection
+- `cw` - Add cursor under word
+
+### Terminal
+- `<Ctrl+Alt>T` - Toggle terminal
+- `<Ctrl+Alt>Tab1-4` - Focus terminal 1-4
+
+## Language Support
+- Lua (lua_ls, Selene)
+- TypeScript/JavaScript
+- Python (Ruff/Black)
+- Tailwind CSS
+
+## Claude Code Integration
+
+### Setup
+1. Install: `npm install -g @anthropic-ai/claude-code`
+2. Plugin auto-configured in `claudecode.lua`
+
+### Features
+- Auto-resume previous sessions
+- Side-by-side diff view
+- Auto-open edited files
+- WebSocket MCP protocol (ports 41041-41099)
+
+### Memory
+- Project: `./CLAUDE.md` (this file)
+- User: `~/.claude/CLAUDE.md`
+- Session: `claude --resume`
+- Quick: Start with `#` to add to memory
 
 ## Development Notes
+- macOS optimized (Cmd key mappings)
+- Uses Lazy.nvim package manager
+- Custom buffer validation
+- Requires backing up Neovim dirs before install
 
-### Language Support
-Community packs are configured for:
-- Lua (lua_ls)
-- TypeScript/JavaScript (with Next.js support)
-- Tailwind CSS
-- Python (with Ruff/Black formatting)
-
-### Linting
-Uses Selene for Lua linting with relaxed rules configured in `selene.toml`.
-
-### Plugin Management
-Uses Lazy.nvim with:
-- Version pinning for AstroNvim (^5)
-- Community plugin imports
-- Custom plugin configurations in `lua/plugins/`
-
-### Buffer Navigation
-Custom buffer switching functions validate buffer existence before switching to prevent "Invalid buffer id" errors.
-
-## Installation Requirements
-
-Requires backing up existing Neovim configuration directories:
-- `~/.config/nvim`
-- `~/.local/share/nvim`
-- `~/.local/state/nvim`
-- `~/.cache/nvim`
-
-## Important Notes
-
-- This configuration is personalized for macOS (uses `<D->` for Cmd key mappings)
-- Terminal-specific configurations may need adjustment for different terminal emulators
-- Custom keybindings override some default AstroNvim mappings
-
-## Claude Code Setup
-
-### Prerequisites
-1. Install Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
-2. Ensure `folke/snacks.nvim` is available (already configured in user.lua)
-
-### Usage
-1. Navigate to your project directory
-2. Run `claude` in terminal to start Claude Code
-3. Use `<Leader>ac` in Neovim to toggle Claude Code terminal
-4. Select text and use `<Leader>as` to send to Claude Code
-5. Use `<Leader>ad` to accept or `<Leader>ar` to reject changes
-
-### Plugin Details
-- Uses `coder/claudecode.nvim` - reverse-engineered from official VS Code extension
-- Implements WebSocket-based Model Context Protocol (MCP)
-- Provides real-time context and file interaction with Claude Code
-- Pure Lua implementation with zero external dependencies
+## Important Instructions
+- Prefer editing existing files over creating new ones
+- Never create documentation unless explicitly requested
+- Follow existing code conventions and patterns
+- Check for required libraries before using them
