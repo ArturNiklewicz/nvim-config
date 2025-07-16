@@ -3,6 +3,12 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+-- Compatibility checks
+if vim.fn.has("nvim-0.8.0") == 0 then
+  vim.notify("This configuration requires Neovim 0.8.0+", vim.log.levels.ERROR)
+  return {}
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",

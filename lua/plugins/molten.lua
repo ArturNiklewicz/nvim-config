@@ -1,6 +1,7 @@
 return {
   "benlubas/molten-nvim",
-  lazy = false,  -- Load immediately, not on filetype
+  ft = { "python", "markdown", "quarto", "ipynb" },  -- Load on relevant filetypes
+  cmd = { "MoltenInit", "MoltenEvaluateOperator", "MoltenEvaluateLine", "MoltenEvaluateVisual" },
   dependencies = { 
     "3rd/image.nvim", 
     "stevearc/dressing.nvim",
