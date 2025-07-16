@@ -57,13 +57,28 @@ return {
       -- first key is the mode
       n = {
         -- ================================
+        -- WHICH-KEY GROUP DEFINITIONS
+        -- ================================
+        -- Which-key group names (only for groups that don't have a direct command)
+        ["<Leader>a"] = { name = "AI/Claude" },
+        ["<Leader>b"] = { name = "Buffers" },
+        ["<Leader>f"] = { name = "Files" },
+        ["<Leader>g"] = { name = "GitHub/Git" },
+        ["<Leader>h"] = { name = "Git Hunks" },
+        ["<Leader>m"] = { name = "Messages/Molten" },
+        ["<Leader>r"] = { name = "Replace/Refactor" },
+        ["<Leader>s"] = { name = "Search/Spectre" },
+        ["<Leader>t"] = { name = "Test/Toggle" },
+        ["<Leader>v"] = { name = "VSCode Features" },
+        
+        -- ================================
         -- BUFFER MANAGEMENT
         -- ================================
         -- Buffer navigation
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>a"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>d"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        -- Removed <Leader>a mapping as it conflicts with AI/Claude group
+        -- Removed <Leader>d mapping as it might conflict with other uses
         
         -- Buffer switching (VSCode-style leader+1-9)
         ["<Leader>1"] = { function() 
@@ -220,7 +235,7 @@ return {
         -- ================================
         -- EDITING & FILES
         -- ================================
-        ["<Leader>s"] = { "<cmd>w<cr>", desc = "Save file" },
+        ["<Leader>fs"] = { "<cmd>w<cr>", desc = "Save file" },
         ["<S-A-d>"] = { "dd", desc = "Delete line" },
 
         -- ================================
