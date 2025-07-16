@@ -62,8 +62,15 @@ Leader: `<Space>` | Local Leader: `,`
 - `sr` - Find and replace
 - `sw/sp` - Search word/file
 - `vy/vp` - Clipboard history/paste
-- `vd/vn` - Create multicursor
-- `vv` - Smart selection
+- `vv` - Smart selection (treesitter)
+- `vi/vs/vd` - Incremental selection expand/scope/shrink
+
+### Multicursor (`<Leader>c`)
+- `cd` - Create multicursor (like VSCode Ctrl+D)
+- `cn` - Create multicursor for pattern
+- `cc` - Clear all multicursors
+- `ca` - Add cursor at visual selection
+- `cw` - Add cursor under word
 
 ### Terminal
 - `<Ctrl+Alt>T` - Toggle terminal

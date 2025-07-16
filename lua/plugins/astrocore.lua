@@ -57,13 +57,28 @@ return {
       -- first key is the mode
       n = {
         -- ================================
+        -- WHICH-KEY GROUP DEFINITIONS
+        -- ================================
+        -- Which-key group names (only for groups that don't have a direct command)
+        ["<Leader>a"] = { name = "AI/Claude" },
+        ["<Leader>b"] = { name = "Buffers" },
+        ["<Leader>f"] = { name = "Files" },
+        ["<Leader>g"] = { name = "GitHub/Git" },
+        ["<Leader>h"] = { name = "Git Hunks" },
+        ["<Leader>m"] = { name = "Messages/Molten" },
+        ["<Leader>r"] = { name = "Replace/Refactor" },
+        ["<Leader>s"] = { name = "Search/Spectre" },
+        ["<Leader>t"] = { name = "Test/Toggle" },
+        ["<Leader>v"] = { name = "VSCode Features" },
+        
+        -- ================================
         -- BUFFER MANAGEMENT
         -- ================================
         -- Buffer navigation
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>a"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>d"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        -- Removed <Leader>a mapping as it conflicts with AI/Claude group
+        -- Removed <Leader>d mapping as it might conflict with other uses
         
         -- Buffer switching (VSCode-style leader+1-9)
         ["<Leader>1"] = { function() 
@@ -220,7 +235,7 @@ return {
         -- ================================
         -- EDITING & FILES
         -- ================================
-        ["<Leader>s"] = { "<cmd>w<cr>", desc = "Save file" },
+        ["<Leader>fs"] = { "<cmd>w<cr>", desc = "Save file" },
         ["<S-A-d>"] = { "dd", desc = "Delete line" },
 
         -- ================================
@@ -377,6 +392,62 @@ return {
         ["<C-M-Tab>2"] = { "<C-\\><C-n>:2ToggleTerm<CR>", desc = "Focus terminal 2" },
         ["<C-M-Tab>3"] = { "<C-\\><C-n>:3ToggleTerm<CR>", desc = "Focus terminal 3" },
         ["<C-M-Tab>4"] = { "<C-\\><C-n>:4ToggleTerm<CR>", desc = "Focus terminal 4" },
+      },
+    },
+    -- Autocommands for enhanced functionality
+    autocmds = {
+      -- Keybinding conflict detection
+      keybinding_conflicts = {
+        {
+          event = "VimEnter",
+          desc = "Detect keybinding conflicts on startup",
+          callback = function()
+            vim.defer_fn(function()
+              local conflicts = {}
+              local seen_mappings = {}
+              
+              -- Check all modes for conflicts
+              for _, mode in ipairs({"n", "v", "x", "s", "o", "i", "c", "t"}) do
+                local maps = vim.api.nvim_get_keymap(mode)
+                
+                for _, map in ipairs(maps) do
+                  local key = mode .. ":" .. map.lhs
+                  if seen_mappings[key] then
+                    table.insert(conflicts, {
+                      mode = mode,
+                      key = map.lhs,
+                      from = seen_mappings[key].from or "unknown",
+                      to = map.from or "unknown"
+                    })
+                  else
+                    seen_mappings[key] = map
+                  end
+                end
+              end
+              
+              -- Report conflicts if found
+              if #conflicts > 0 then
+                local msg = "Keybinding conflicts detected:\n"
+                for _, conflict in ipairs(conflicts) do
+                  msg = msg .. string.format("  Mode '%s': %s (defined in: %s and %s)\n", 
+                    conflict.mode, conflict.key, conflict.from, conflict.to)
+                end
+                vim.notify(msg, vim.log.levels.WARN, { title = "Keybinding Conflicts" })
+              end
+            end, 100) -- Delay to ensure all plugins are loaded
+          end,
+        },
+      },
+      -- Multicursor helpers
+      multicursor_enhancements = {
+        {
+          event = "User",
+          pattern = "MulticursorStart",
+          desc = "Show multicursor help on start",
+          callback = function()
+            vim.notify("Multicursor active: <Leader>cc to clear, <Leader>cn for pattern", vim.log.levels.INFO)
+          end,
+        },
       },
     },
   },
