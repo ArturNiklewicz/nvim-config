@@ -394,5 +394,61 @@ return {
         ["<C-M-Tab>4"] = { "<C-\\><C-n>:4ToggleTerm<CR>", desc = "Focus terminal 4" },
       },
     },
+    -- Autocommands for enhanced functionality
+    autocmds = {
+      -- Keybinding conflict detection
+      keybinding_conflicts = {
+        {
+          event = "VimEnter",
+          desc = "Detect keybinding conflicts on startup",
+          callback = function()
+            vim.defer_fn(function()
+              local conflicts = {}
+              local seen_mappings = {}
+              
+              -- Check all modes for conflicts
+              for _, mode in ipairs({"n", "v", "x", "s", "o", "i", "c", "t"}) do
+                local maps = vim.api.nvim_get_keymap(mode)
+                
+                for _, map in ipairs(maps) do
+                  local key = mode .. ":" .. map.lhs
+                  if seen_mappings[key] then
+                    table.insert(conflicts, {
+                      mode = mode,
+                      key = map.lhs,
+                      from = seen_mappings[key].from or "unknown",
+                      to = map.from or "unknown"
+                    })
+                  else
+                    seen_mappings[key] = map
+                  end
+                end
+              end
+              
+              -- Report conflicts if found
+              if #conflicts > 0 then
+                local msg = "Keybinding conflicts detected:\n"
+                for _, conflict in ipairs(conflicts) do
+                  msg = msg .. string.format("  Mode '%s': %s (defined in: %s and %s)\n", 
+                    conflict.mode, conflict.key, conflict.from, conflict.to)
+                end
+                vim.notify(msg, vim.log.levels.WARN, { title = "Keybinding Conflicts" })
+              end
+            end, 100) -- Delay to ensure all plugins are loaded
+          end,
+        },
+      },
+      -- Multicursor helpers
+      multicursor_enhancements = {
+        {
+          event = "User",
+          pattern = "MulticursorStart",
+          desc = "Show multicursor help on start",
+          callback = function()
+            vim.notify("Multicursor active: <Leader>cc to clear, <Leader>cn for pattern", vim.log.levels.INFO)
+          end,
+        },
+      },
+    },
   },
 }
