@@ -255,6 +255,98 @@ return {
         ["<Leader>vh"] = { function() require("illuminate").prev_reference() end, desc = "Previous reference" },
 
         -- ================================
+        -- TESTING COMMANDS
+        -- ================================
+        ["<Leader>tt"] = { function()
+          -- Run tests in current file
+          local file = vim.fn.expand("%:p")
+          if file:match("_spec%.lua$") then
+            vim.notify("Running tests in " .. vim.fn.expand("%:t"))
+            vim.cmd("PlenaryBustedFile " .. file)
+          else
+            vim.notify("Not a test file (*_spec.lua)")
+          end
+        end, desc = "Run tests in current file" },
+        
+        ["<Leader>ta"] = { function()
+          -- Run all tests
+          vim.notify("Running all tests...")
+          vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}")
+        end, desc = "Run all tests" },
+        
+        ["<Leader>tn"] = { function()
+          -- Run nearest test
+          local line = vim.api.nvim_win_get_cursor(0)[1]
+          vim.notify("Running nearest test at line " .. line)
+          vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}")
+        end, desc = "Run nearest test" },
+
+        -- ================================
+        -- GITHUB INTEGRATION (OCTO)
+        -- ================================
+        -- Core GitHub commands
+        ["<Leader>gi"] = { "<cmd>Octo issue list<cr>", desc = "List GitHub issues" },
+        ["<Leader>gI"] = { "<cmd>Octo issue create<cr>", desc = "Create GitHub issue" },
+        ["<Leader>gp"] = { "<cmd>Octo pr list<cr>", desc = "List pull requests" },
+        ["<Leader>gP"] = { "<cmd>Octo pr create<cr>", desc = "Create pull request" },
+        ["<Leader>gr"] = { "<cmd>Octo repo list<cr>", desc = "List repositories" },
+        ["<Leader>gs"] = { "<cmd>Octo search<cr>", desc = "Search GitHub" },
+        
+        -- GitHub CLI commands
+        ["<Leader>gv"] = { function()
+          -- View current PR in browser
+          vim.fn.system("gh pr view --web")
+          vim.notify("Opening PR in browser...")
+        end, desc = "View PR in browser" },
+        
+        ["<Leader>gc"] = { function()
+          -- List PR checks
+          local output = vim.fn.system("gh pr checks")
+          vim.notify(output)
+        end, desc = "Show PR checks" },
+        
+        ["<Leader>gm"] = { function()
+          -- Quick merge current PR
+          vim.ui.input({ prompt = "Merge method (merge/squash/rebase): " }, function(method)
+            if method and (method == "merge" or method == "squash" or method == "rebase") then
+              local cmd = string.format("gh pr merge --%s", method)
+              vim.fn.system(cmd)
+              vim.notify("PR merged with " .. method)
+            end
+          end)
+        end, desc = "Merge current PR" },
+        
+        ["<Leader>gb"] = { function()
+          -- Create issue from current line or selection
+          local line = vim.api.nvim_get_current_line()
+          vim.ui.input({ prompt = "Issue title: ", default = line }, function(title)
+            if title then
+              local cmd = string.format("gh issue create --title '%s' --body ''", title:gsub("'", "\\'"))
+              local output = vim.fn.system(cmd)
+              vim.notify("Issue created: " .. output)
+            end
+          end)
+        end, desc = "Create issue from current line" },
+        
+        ["<Leader>gf"] = { "<cmd>Octo pr diff<cr>", desc = "Show PR diff" },
+        ["<Leader>go"] = { "<cmd>Octo pr checkout<cr>", desc = "Checkout PR" },
+        ["<Leader>ga"] = { "<cmd>Octo assignee add<cr>", desc = "Add assignee" },
+        ["<Leader>gl"] = { "<cmd>Octo label add<cr>", desc = "Add label" },
+        ["<Leader>gC"] = { "<cmd>Octo comment add<cr>", desc = "Add comment" },
+        ["<Leader>gR"] = { "<cmd>Octo review start<cr>", desc = "Start review" },
+        
+        -- Quick GitHub navigation
+        ["<Leader>g/"] = { function()
+          vim.ui.input({ prompt = "Search GitHub: " }, function(query)
+            if query then
+              local cmd = string.format("gh search repos '%s'", query:gsub("'", "\\'"))
+              local output = vim.fn.system(cmd)
+              vim.notify(output)
+            end
+          end)
+        end, desc = "Search GitHub repos" },
+
+        -- ================================
         -- DISABLED MAPPINGS
         -- ================================
         -- ["<C-S>"] = false,

@@ -7,8 +7,9 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     event = "User AstroFile",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = {
-      textobjects = {
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        textobjects = {
         select = {
           enable = true,
           lookahead = true,
@@ -117,7 +118,8 @@ return {
           },
         },
       },
-    },
+      })
+    end,
   },
   
   -- Additional text objects that complement treesitter
@@ -137,16 +139,18 @@ return {
     "RRethy/nvim-treesitter-textsubjects",
     event = "User AstroFile",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = {
-      textsubjects = {
-        enable = true,
-        prev_selection = ',',
-        keymaps = {
-          ['.'] = 'textsubjects-smart',
-          [';'] = 'textsubjects-container-outer',
-          ['i;'] = 'textsubjects-container-inner',
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        textsubjects = {
+          enable = true,
+          prev_selection = ',',
+          keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+            ['i;'] = 'textsubjects-container-inner',
+          },
         },
-      },
-    },
+      })
+    end,
   },
 }

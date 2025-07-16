@@ -18,7 +18,10 @@ return {
   {
     "smoka7/multicursors.nvim",
     event = "VeryLazy",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { 
+      "nvim-treesitter/nvim-treesitter",
+      "smoka7/hydra.nvim",
+    },
     opts = {
       hint_config = {
         border = "rounded",
