@@ -73,6 +73,30 @@ Leader: `<Space>` | Local Leader: `,`
 - `ca` - Add cursor at visual selection
 - `cw` - Add cursor under word
 
+### Git (`<Leader>g`)
+- `gs` - Git status
+- `gb` - Git branches
+- `gc` - Git commits
+- `gC` - Buffer commits
+- `gd/gD` - Git diff view (open/close)
+- `gh/gH` - File/branch history
+- `gt` - Toggle git signs
+- `gn` - Toggle line number highlighting
+- `gl` - Toggle line highlighting
+- `gw` - Toggle word diff
+- `gT` - Toggle blame line
+- `gr` - Refresh git signs
+
+### GitHub (`<Leader>G`)
+- `Gi/GI` - List/create GitHub issues
+- `Gp/GP` - List/create GitHub PRs
+- `Gr` - List GitHub repos
+- `Gs` - Search GitHub
+- `Ga/Gl/Gc` - Add assignee/label/comment
+- `GR` - Start GitHub review
+- `Gd/Go/Gm` - PR diff/checkout/merge
+- `Gv/Gw` - View PR/repo in browser
+
 ### Terminal
 - `<Ctrl+Alt>T` - Toggle terminal
 - `<Ctrl+Alt>Tab1-4` - Focus terminal 1-4

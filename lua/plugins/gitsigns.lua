@@ -25,7 +25,7 @@ return {
     },
     signs_staged_enable = true,
     signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-    numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+    numhl      = true,  -- Enable git signs in line numbers (colorize line numbers)
     linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
     word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
     watch_gitdir = {
@@ -103,13 +103,5 @@ return {
       map('n', '<leader>hq', function() gitsigns.setqflist('all') end, {desc = "List all hunks in quickfix"})
       map('n', '<leader>hQ', gitsigns.setqflist, {desc = "List buffer hunks in quickfix"})
     end
-  },
-  keys = {
-    -- Additional global keybindings (ones that work even before buffer is attached)
-    { "<leader>gT", "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
-    { "<leader>gn", "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle git number highlight" },
-    { "<leader>gl", "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle git line highlight" },
-    { "<leader>gw", "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle git word diff" },
-    { "<leader>gR", "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
   },
 }

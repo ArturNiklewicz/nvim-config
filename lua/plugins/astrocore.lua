@@ -118,7 +118,7 @@ return {
           ["<Leader>fR"] = { function() require("telescope.builtin").registers() end, desc = "Registers" },
           
           -- ================================
-          -- GIT/GITHUB (<Leader>g)
+          -- GIT (<Leader>g)
           -- ================================
           ["<Leader>gs"] = { function() require("telescope.builtin").git_status() end, desc = "Git status" },
           ["<Leader>gb"] = { function() require("telescope.builtin").git_branches() end, desc = "Git branches" },
@@ -128,6 +128,14 @@ return {
           ["<Leader>gD"] = { "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
           ["<Leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
           ["<Leader>gH"] = { "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
+          
+          -- Git signs toggles
+          ["<Leader>gt"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
+          ["<Leader>gn"] = { "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle line number highlighting" },
+          ["<Leader>gl"] = { "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle line highlighting" },
+          ["<Leader>gw"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle word diff" },
+          ["<Leader>gT"] = { "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
+          ["<Leader>gr"] = { "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
           
           -- ================================
           -- JUPYTER/MOLTEN (<Leader>j)
@@ -157,28 +165,38 @@ return {
           ["<Leader>md"] = { "<cmd>messages clear<cr>", desc = "Clear messages" },
           
           -- ================================
-          -- OCTO/GITHUB (<Leader>o)
+          -- GITHUB (<Leader>G)
           -- ================================
-          ["<Leader>oi"] = { "<cmd>Octo issue list<cr>", desc = "List issues" },
-          ["<Leader>oI"] = { "<cmd>Octo issue create<cr>", desc = "Create issue" },
-          ["<Leader>op"] = { "<cmd>Octo pr list<cr>", desc = "List PRs" },
-          ["<Leader>oP"] = { "<cmd>Octo pr create<cr>", desc = "Create PR" },
-          ["<Leader>or"] = { "<cmd>Octo repo list<cr>", desc = "List repos" },
-          ["<Leader>os"] = { "<cmd>Octo search<cr>", desc = "Search GitHub" },
-          ["<Leader>oa"] = { "<cmd>Octo assignee add<cr>", desc = "Add assignee" },
-          ["<Leader>ol"] = { "<cmd>Octo label add<cr>", desc = "Add label" },
-          ["<Leader>oc"] = { "<cmd>Octo comment add<cr>", desc = "Add comment" },
-          ["<Leader>oR"] = { "<cmd>Octo review start<cr>", desc = "Start review" },
-          ["<Leader>od"] = { "<cmd>Octo pr diff<cr>", desc = "Show PR diff" },
-          ["<Leader>oo"] = { "<cmd>Octo pr checkout<cr>", desc = "Checkout PR" },
-          ["<Leader>om"] = { function()
+          ["<Leader>Gi"] = { "<cmd>Octo issue list<cr>", desc = "List GitHub issues" },
+          ["<Leader>GI"] = { "<cmd>Octo issue create<cr>", desc = "Create GitHub issue" },
+          ["<Leader>Gp"] = { "<cmd>Octo pr list<cr>", desc = "List GitHub PRs" },
+          ["<Leader>GP"] = { "<cmd>Octo pr create<cr>", desc = "Create GitHub PR" },
+          ["<Leader>Gr"] = { "<cmd>Octo repo list<cr>", desc = "List GitHub repos" },
+          ["<Leader>Gs"] = { "<cmd>Octo search<cr>", desc = "Search GitHub" },
+          ["<Leader>Ga"] = { "<cmd>Octo assignee add<cr>", desc = "Add GitHub assignee" },
+          ["<Leader>Gl"] = { "<cmd>Octo label add<cr>", desc = "Add GitHub label" },
+          ["<Leader>Gc"] = { "<cmd>Octo comment add<cr>", desc = "Add GitHub comment" },
+          ["<Leader>GR"] = { "<cmd>Octo review start<cr>", desc = "Start GitHub review" },
+          ["<Leader>Gd"] = { "<cmd>Octo pr diff<cr>", desc = "Show GitHub PR diff" },
+          ["<Leader>Go"] = { "<cmd>Octo pr checkout<cr>", desc = "Checkout GitHub PR" },
+          ["<Leader>Gm"] = { function()
             vim.ui.input({ prompt = "Merge method (merge/squash/rebase): " }, function(method)
               if method and (method == "merge" or method == "squash" or method == "rebase") then
                 vim.fn.system("gh pr merge --" .. method)
                 vim.notify("PR merged with " .. method)
               end
             end)
-          end, desc = "Merge PR" },
+          end, desc = "Merge GitHub PR" },
+          
+          -- Additional GitHub CLI commands
+          ["<Leader>Gv"] = { function()
+            vim.fn.system("gh pr view --web")
+            vim.notify("Opening PR in browser...")
+          end, desc = "View GitHub PR in browser" },
+          ["<Leader>Gw"] = { function()
+            vim.fn.system("gh repo view --web")
+            vim.notify("Opening repo in browser...")
+          end, desc = "View GitHub repo in browser" },
           
           -- ================================
           -- REPLACE/REFACTOR (<Leader>r)
