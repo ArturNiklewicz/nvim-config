@@ -36,6 +36,11 @@ Personal AstroNvim v5+ configuration with enhanced productivity features and IDE
 
 Leader: `<Space>` | Local Leader: `,`
 
+### Keybindings Help
+- `<Leader>?` - Show all keybindings help
+- `:Keybindings` or `:Keys` - Show keybindings in Neovim
+- `~/.config/nvim/nvim-keys` - Terminal script to show all keybindings
+
 ### Core Navigation
 - `<Leader>1-9` - Switch to buffer 1-9
 - `<Leader>a/d` - Previous/next buffer
