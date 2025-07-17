@@ -1,386 +1,367 @@
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
--- Configuration documentation can be found with `:h astrocore`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
+-- This is the updated version with reorganized keybindings and which-key integration
 
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
-  opts = {
-    -- Configure core features of AstroNvim
-    features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
-    },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {
-      virtual_text = true,
-      underline = true,
-    },
-    -- passed to `vim.filetype.add`
-    filetypes = {
-      -- see `:h vim.filetype.add` for usage
-      extension = {
-        foo = "fooscript",
+  opts = function(_, opts)
+    -- Load buffer navigation utilities
+    local buffer_nav = require("utils.buffer-nav")
+    
+    return vim.tbl_deep_extend("force", opts, {
+      -- Configure core features of AstroNvim
+      features = {
+        large_buf = { size = 1024 * 256, lines = 10000 },
+        autopairs = true,
+        cmp = true,
+        diagnostics = { virtual_text = true, virtual_lines = false },
+        highlighturl = true,
+        notifications = true,
       },
-      filename = {
-        [".foorc"] = "fooscript",
+      -- Diagnostics configuration
+      diagnostics = {
+        virtual_text = true,
+        underline = true,
       },
-      pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
-      },
-    },
-    -- vim options can be configured here
-    options = {
-      opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
-        timeoutlen = 300, -- faster key sequence timeout (default 1000ms)
-      },
-      g = { -- vim.g.<key>
-        -- configure global vim variables (vim.g)
-        -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
-        -- This can be found in the `lua/lazy_setup.lua` file
-      },
-    },
-    -- Mappings can be configured through AstroCore as well.
-    -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
-    mappings = {
-      -- first key is the mode
-      n = {
-        -- ================================
-        -- BUFFER MANAGEMENT
-        -- ================================
-        -- Buffer navigation
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>a"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-        ["<Leader>d"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        
-        -- Buffer switching (VSCode-style leader+1-9)
-        ["<Leader>1"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[1] and vim.api.nvim_buf_is_valid(buffers[1].bufnr) then 
-            vim.cmd("buffer " .. buffers[1].bufnr) 
-          end
-        end, desc = "Go to buffer 1" },
-        ["<Leader>2"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[2] and vim.api.nvim_buf_is_valid(buffers[2].bufnr) then 
-            vim.cmd("buffer " .. buffers[2].bufnr) 
-          end
-        end, desc = "Go to buffer 2" },
-        ["<Leader>3"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[3] and vim.api.nvim_buf_is_valid(buffers[3].bufnr) then 
-            vim.cmd("buffer " .. buffers[3].bufnr) 
-          end
-        end, desc = "Go to buffer 3" },
-        ["<Leader>4"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[4] and vim.api.nvim_buf_is_valid(buffers[4].bufnr) then 
-            vim.cmd("buffer " .. buffers[4].bufnr) 
-          end
-        end, desc = "Go to buffer 4" },
-        ["<Leader>5"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[5] and vim.api.nvim_buf_is_valid(buffers[5].bufnr) then 
-            vim.cmd("buffer " .. buffers[5].bufnr) 
-          end
-        end, desc = "Go to buffer 5" },
-        ["<Leader>6"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[6] and vim.api.nvim_buf_is_valid(buffers[6].bufnr) then 
-            vim.cmd("buffer " .. buffers[6].bufnr) 
-          end
-        end, desc = "Go to buffer 6" },
-        ["<Leader>7"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[7] and vim.api.nvim_buf_is_valid(buffers[7].bufnr) then 
-            vim.cmd("buffer " .. buffers[7].bufnr) 
-          end
-        end, desc = "Go to buffer 7" },
-        ["<Leader>8"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[8] and vim.api.nvim_buf_is_valid(buffers[8].bufnr) then 
-            vim.cmd("buffer " .. buffers[8].bufnr) 
-          end
-        end, desc = "Go to buffer 8" },
-        ["<Leader>9"] = { function() 
-          local buffers = vim.fn.getbufinfo({buflisted = 1})
-          if buffers[9] and vim.api.nvim_buf_is_valid(buffers[9].bufnr) then 
-            vim.cmd("buffer " .. buffers[9].bufnr) 
-          end
-        end, desc = "Go to buffer 9" },
-
-        -- Buffer closing
-        ["<Leader>w"] = { function() require("astrocore.buffer").close() end, desc = "Close current buffer" },
-        ["<Leader>rw"] = { function() require("astrocore.buffer").close_all() end, desc = "Close all buffers" },
-        ["<Leader>bd"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Close buffer from tabline",
+      -- vim options
+      options = {
+        opt = {
+          relativenumber = true,
+          number = true,
+          spell = false,
+          signcolumn = "yes",
+          wrap = false,
+          timeoutlen = 300, -- Reduced for which-key
+          scrolloff = 8,    -- Keep cursor centered
+          sidescrolloff = 8,
         },
-
-        -- ================================
-        -- WINDOW MANAGEMENT
-        -- ================================
-        -- Window/split navigation (alt+1-8)
-        ["<M-1>"] = { "1<C-w>w", desc = "Focus window 1" },
-        ["<M-2>"] = { "2<C-w>w", desc = "Focus window 2" },
-        ["<M-3>"] = { "3<C-w>w", desc = "Focus window 3" },
-        ["<M-4>"] = { "4<C-w>w", desc = "Focus window 4" },
-        ["<M-5>"] = { "5<C-w>w", desc = "Focus window 5" },
-        ["<M-6>"] = { "6<C-w>w", desc = "Focus window 6" },
-        ["<M-7>"] = { "7<C-w>w", desc = "Focus window 7" },
-        ["<M-8>"] = { "8<C-w>w", desc = "Focus window 8" },
-
-        -- Window operations
-        ["<C-A-m>"] = { "<C-w>o", desc = "Maximize current window" },
-
-        -- ================================
-        -- TERMINAL MANAGEMENT
-        -- ================================
-        ["<C-M-t>"] = { function() vim.cmd("ToggleTerm") end, desc = "Toggle terminal" },
-
-        -- ================================
-        -- NAVIGATION
-        -- ================================
-        -- General navigation
-        ["<C-i>"] = { "<C-o>", desc = "Navigate back" },
-        ["<C-o>"] = { "<C-i>", desc = "Navigate forward" },
-        
-        -- Scrolling with auto-center
-        ["<C-d>"] = { "<C-d>zz", desc = "Scroll down half page and center" },
-        ["<C-u>"] = { "<C-u>zz", desc = "Scroll up half page and center" },
-
-        -- LSP navigation
-        ["<C-A-d>"] = { function() vim.lsp.buf.declaration() end, desc = "Go to declaration" },
-        ["<C-A-r>"] = { function() vim.lsp.buf.references() end, desc = "Show references" },
-        ["<C-A-f>"] = { function() require("telescope.builtin").lsp_document_symbols() end, desc = "Go to symbol" },
-
-        -- Diff/diagnostic navigation
-        ["]d"] = { function()
-          if vim.wo.diff then
-            vim.cmd("normal! ]c")
-          else
-            vim.diagnostic.goto_next()
-          end
-        end, desc = "Next diff/diagnostic" },
-        ["[d"] = { function()
-          if vim.wo.diff then
-            vim.cmd("normal! [c")
-          else
-            vim.diagnostic.goto_prev()
-          end
-        end, desc = "Previous diff/diagnostic" },
-
-        -- ================================
-        -- DIFF OPERATIONS
-        -- ================================
-        ["<Leader>dp"] = { function()
-          if vim.wo.diff then
-            vim.cmd("diffput")
-          end
-        end, desc = "Put diff to other window" },
-        ["<Leader>do"] = { function()
-          if vim.wo.diff then
-            vim.cmd("diffget")
-          end
-        end, desc = "Get diff from other window" },
-
-        -- ================================
-        -- CLAUDE CODE INTEGRATION
-        -- ================================
-        -- Core commands
-        ["<Leader>ac"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Toggle Claude Code (with resume)" },
-        ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude Code" },
-        ["<Leader>ar"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Resume Claude Code" },
-        ["<Leader>aC"] = { "<cmd>ClaudeCodeFresh<cr>", desc = "Start fresh Claude Code chat" },
-        ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer to Claude" },
-        
-        -- Diff management
-        ["<Leader>aa"] = { "<cmd>ClaudeAcceptChanges<cr>", desc = "Accept Claude Code changes" },
-        ["<Leader>ad"] = { "<cmd>ClaudeRejectChanges<cr>", desc = "Reject Claude Code changes" },
-        ["<Leader>ao"] = { "<cmd>ClaudeOpenAllFiles<cr>", desc = "Open all Claude Code edited files" },
-        ["<Leader>ai"] = { "<cmd>ClaudeShowDiff<cr>", desc = "Show Claude Code diff for current file" },
-        ["<Leader>aD"] = { "<cmd>ClaudeShowAllDiffs<cr>", desc = "Show Claude Code diff for all edited files" },
-
-        -- ================================
-        -- EDITING & FILES
-        -- ================================
-        ["<Leader>s"] = { "<cmd>w<cr>", desc = "Save file" },
-        ["<S-A-d>"] = { "dd", desc = "Delete line" },
-
-        -- ================================
-        -- UI & MODES
-        -- ================================
-        ["<C-A-z>"] = { function() require("zen-mode").toggle() end, desc = "Toggle zen mode" },
-
-        -- ================================
-        -- ERROR MESSAGE MANAGEMENT
-        -- ================================
-        ["<Leader>me"] = { "<cmd>Errors<cr>", desc = "Show error messages" },
-        ["<Leader>ma"] = { "<cmd>Messages<cr>", desc = "Show all messages" },
-        ["<Leader>mc"] = { "<cmd>CopyLastError<cr>", desc = "Copy last error message" },
-        ["<Leader>mC"] = { "<cmd>CopyAllErrors<cr>", desc = "Copy all error messages" },
-        ["<Leader>mA"] = { "<cmd>CopyAllMessages<cr>", desc = "Copy all messages" },
-
-        -- ================================
-        -- VSCODE-LIKE EDITING
-        -- ================================
-        -- Search and replace
-        ["<Leader>sr"] = { "<cmd>Spectre<cr>", desc = "Find and replace (Spectre)" },
-        ["<Leader>sw"] = { function() require("spectre").open_visual({select_word=true}) end, desc = "Search current word" },
-        ["<Leader>sp"] = { function() require("spectre").open_file_search({select_word=true}) end, desc = "Search in current file" },
-        
-        -- Clipboard management
-        ["<Leader>vy"] = { "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
-        ["<Leader>vp"] = { function() require("telescope").extensions.neoclip.default() end, desc = "Paste from clipboard history" },
-        
-        -- Enhanced navigation
-        ["<Leader>vi"] = { function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Find in current buffer" },
-        ["<Leader>vl"] = { function() require("illuminate").next_reference() end, desc = "Next reference" },
-        ["<Leader>vh"] = { function() require("illuminate").prev_reference() end, desc = "Previous reference" },
-
-        -- ================================
-        -- TESTING COMMANDS
-        -- ================================
-        ["<Leader>tt"] = { function()
-          -- Run tests in current file
-          local file = vim.fn.expand("%:p")
-          if file:match("_spec%.lua$") then
-            vim.notify("Running tests in " .. vim.fn.expand("%:t"))
-            vim.cmd("PlenaryBustedFile " .. file)
-          else
-            vim.notify("Not a test file (*_spec.lua)")
-          end
-        end, desc = "Run tests in current file" },
-        
-        ["<Leader>ta"] = { function()
-          -- Run all tests
-          vim.notify("Running all tests...")
-          vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}")
-        end, desc = "Run all tests" },
-        
-        ["<Leader>tn"] = { function()
-          -- Run nearest test
-          local line = vim.api.nvim_win_get_cursor(0)[1]
-          vim.notify("Running nearest test at line " .. line)
-          vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}")
-        end, desc = "Run nearest test" },
-
-        -- ================================
-        -- GITHUB INTEGRATION (OCTO)
-        -- ================================
-        -- Core GitHub commands
-        ["<Leader>gi"] = { "<cmd>Octo issue list<cr>", desc = "List GitHub issues" },
-        ["<Leader>gI"] = { "<cmd>Octo issue create<cr>", desc = "Create GitHub issue" },
-        ["<Leader>gp"] = { "<cmd>Octo pr list<cr>", desc = "List pull requests" },
-        ["<Leader>gP"] = { "<cmd>Octo pr create<cr>", desc = "Create pull request" },
-        ["<Leader>gr"] = { "<cmd>Octo repo list<cr>", desc = "List repositories" },
-        ["<Leader>gs"] = { "<cmd>Octo search<cr>", desc = "Search GitHub" },
-        
-        -- GitHub CLI commands
-        ["<Leader>gv"] = { function()
-          -- View current PR in browser
-          vim.fn.system("gh pr view --web")
-          vim.notify("Opening PR in browser...")
-        end, desc = "View PR in browser" },
-        
-        ["<Leader>gc"] = { function()
-          -- List PR checks
-          local output = vim.fn.system("gh pr checks")
-          vim.notify(output)
-        end, desc = "Show PR checks" },
-        
-        ["<Leader>gm"] = { function()
-          -- Quick merge current PR
-          vim.ui.input({ prompt = "Merge method (merge/squash/rebase): " }, function(method)
-            if method and (method == "merge" or method == "squash" or method == "rebase") then
-              local cmd = string.format("gh pr merge --%s", method)
-              vim.fn.system(cmd)
-              vim.notify("PR merged with " .. method)
-            end
-          end)
-        end, desc = "Merge current PR" },
-        
-        ["<Leader>gb"] = { function()
-          -- Create issue from current line or selection
-          local line = vim.api.nvim_get_current_line()
-          vim.ui.input({ prompt = "Issue title: ", default = line }, function(title)
-            if title then
-              local cmd = string.format("gh issue create --title '%s' --body ''", title:gsub("'", "\\'"))
-              local output = vim.fn.system(cmd)
-              vim.notify("Issue created: " .. output)
-            end
-          end)
-        end, desc = "Create issue from current line" },
-        
-        ["<Leader>gf"] = { "<cmd>Octo pr diff<cr>", desc = "Show PR diff" },
-        ["<Leader>go"] = { "<cmd>Octo pr checkout<cr>", desc = "Checkout PR" },
-        ["<Leader>ga"] = { "<cmd>Octo assignee add<cr>", desc = "Add assignee" },
-        ["<Leader>gl"] = { "<cmd>Octo label add<cr>", desc = "Add label" },
-        ["<Leader>gC"] = { "<cmd>Octo comment add<cr>", desc = "Add comment" },
-        ["<Leader>gR"] = { "<cmd>Octo review start<cr>", desc = "Start review" },
-        
-        -- Quick GitHub navigation
-        ["<Leader>g/"] = { function()
-          vim.ui.input({ prompt = "Search GitHub: " }, function(query)
-            if query then
-              local cmd = string.format("gh search repos '%s'", query:gsub("'", "\\'"))
-              local output = vim.fn.system(cmd)
-              vim.notify(output)
-            end
-          end)
-        end, desc = "Search GitHub repos" },
-
-        -- ================================
-        -- DISABLED MAPPINGS
-        -- ================================
-        -- ["<C-S>"] = false,
+        g = {},
       },
-      
-      -- ================================
-      -- VISUAL MODE MAPPINGS
-      -- ================================
-      v = {
-        -- Claude Code integration
-        ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send selection to Claude Code" },
-        ["<Leader>aS"] = { function() 
-          vim.cmd("ClaudeCodeSend")
-          vim.cmd("ClaudeCodeFocus")
-        end, desc = "Send selection to Claude Code and focus" },
+      -- Reorganized mappings with logical grouping
+      mappings = {
+        n = {
+          -- ================================
+          -- QUICK ACTIONS (Root Level)
+          -- ================================
+          ["<Leader>w"] = { function() buffer_nav.close_smart() end, desc = "Close buffer" },
+          ["<Leader>W"] = { function() require("astrocore.buffer").close_all() end, desc = "Close all buffers" },
+          ["<Leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" },
+          ["<Leader>Q"] = { "<cmd>qa!<cr>", desc = "Quit all (force)" },
+          ["<Leader>/"] = { function() require("Comment.api").toggle.linewise.current() end, desc = "Toggle comment" },
+          ["<Leader><Leader>"] = { function() buffer_nav.nav_to_last() end, desc = "Last buffer" },
+          
+          -- ================================
+          -- AI/CLAUDE CODE (<Leader>a)
+          -- ================================
+          ["<Leader>ac"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Claude toggle (resume)" },
+          ["<Leader>aC"] = { "<cmd>ClaudeCodeFresh<cr>", desc = "Claude fresh chat" },
+          ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Claude focus" },
+          ["<Leader>ar"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Claude resume" },
+          ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add buffer to Claude" },
+          ["<Leader>aa"] = { "<cmd>ClaudeAcceptChanges<cr>", desc = "Accept changes" },
+          ["<Leader>ad"] = { "<cmd>ClaudeRejectChanges<cr>", desc = "Reject changes" },
+          ["<Leader>ao"] = { "<cmd>ClaudeOpenAllFiles<cr>", desc = "Open edited files" },
+          ["<Leader>ai"] = { "<cmd>ClaudeShowDiff<cr>", desc = "Show diff" },
+          ["<Leader>aD"] = { "<cmd>ClaudeShowAllDiffs<cr>", desc = "Show all diffs" },
+          
+          -- ================================
+          -- BUFFERS (<Leader>b)
+          -- ================================
+          ["<Leader>bb"] = { function() require("telescope.builtin").buffers() end, desc = "List buffers" },
+          ["<Leader>bd"] = { function() buffer_nav.close_smart() end, desc = "Delete buffer" },
+          ["<Leader>bD"] = { function() require("astrocore.buffer").close_all() end, desc = "Delete all buffers" },
+          ["<Leader>bo"] = { function() buffer_nav.close_others() end, desc = "Delete other buffers" },
+          ["<Leader>bn"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+          ["<Leader>bp"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+          ["<Leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" },
+          ["<Leader>bS"] = { "<cmd>wa<cr>", desc = "Save all buffers" },
+          ["<Leader>b1"] = { function() buffer_nav.nav_to(1) end, desc = "Buffer 1" },
+          ["<Leader>b2"] = { function() buffer_nav.nav_to(2) end, desc = "Buffer 2" },
+          ["<Leader>b3"] = { function() buffer_nav.nav_to(3) end, desc = "Buffer 3" },
+          ["<Leader>b4"] = { function() buffer_nav.nav_to(4) end, desc = "Buffer 4" },
+          ["<Leader>b5"] = { function() buffer_nav.nav_to(5) end, desc = "Buffer 5" },
+          ["<Leader>b6"] = { function() buffer_nav.nav_to(6) end, desc = "Buffer 6" },
+          ["<Leader>b7"] = { function() buffer_nav.nav_to(7) end, desc = "Buffer 7" },
+          ["<Leader>b8"] = { function() buffer_nav.nav_to(8) end, desc = "Buffer 8" },
+          ["<Leader>b9"] = { function() buffer_nav.nav_to(9) end, desc = "Buffer 9" },
+          ["<Leader>bc"] = { function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf() .. " (" .. buffer_nav.count() .. " total)") end, desc = "Buffer count" },
+          
+          -- ================================
+          -- CODE/LSP (<Leader>c)
+          -- ================================
+          ["<Leader>ca"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
+          ["<Leader>cd"] = { function() vim.lsp.buf.definition() end, desc = "Go to definition" },
+          ["<Leader>cD"] = { function() vim.lsp.buf.declaration() end, desc = "Go to declaration" },
+          ["<Leader>ci"] = { function() vim.lsp.buf.implementation() end, desc = "Go to implementation" },
+          ["<Leader>cr"] = { function() vim.lsp.buf.references() end, desc = "Find references" },
+          ["<Leader>cR"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
+          ["<Leader>ct"] = { function() vim.lsp.buf.type_definition() end, desc = "Type definition" },
+          ["<Leader>ch"] = { function() vim.lsp.buf.hover() end, desc = "Hover documentation" },
+          ["<Leader>cs"] = { function() vim.lsp.buf.signature_help() end, desc = "Signature help" },
+          ["<Leader>cf"] = { function() vim.lsp.buf.format({ async = true }) end, desc = "Format code" },
+          
+          -- ================================
+          -- FIND/FILES (<Leader>f)
+          -- ================================
+          ["<Leader>ff"] = { function() require("telescope.builtin").find_files() end, desc = "Find files" },
+          ["<Leader>fr"] = { function() require("telescope.builtin").oldfiles() end, desc = "Recent files" },
+          ["<Leader>fg"] = { function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
+          ["<Leader>fb"] = { function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
+          ["<Leader>fh"] = { function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
+          ["<Leader>fm"] = { function() require("telescope.builtin").marks() end, desc = "Find marks" },
+          ["<Leader>fc"] = { function() require("telescope.builtin").commands() end, desc = "Commands" },
+          ["<Leader>fk"] = { function() require("telescope.builtin").keymaps() end, desc = "Keymaps" },
+          ["<Leader>fs"] = { function() require("telescope.builtin").lsp_document_symbols() end, desc = "Document symbols" },
+          ["<Leader>fS"] = { function() require("telescope.builtin").lsp_workspace_symbols() end, desc = "Workspace symbols" },
+          ["<Leader>fo"] = { function() require("telescope.builtin").vim_options() end, desc = "Vim options" },
+          ["<Leader>fR"] = { function() require("telescope.builtin").registers() end, desc = "Registers" },
+          
+          -- ================================
+          -- GIT/GITHUB (<Leader>g)
+          -- ================================
+          ["<Leader>gs"] = { function() require("telescope.builtin").git_status() end, desc = "Git status" },
+          ["<Leader>gb"] = { function() require("telescope.builtin").git_branches() end, desc = "Git branches" },
+          ["<Leader>gc"] = { function() require("telescope.builtin").git_commits() end, desc = "Git commits" },
+          ["<Leader>gC"] = { function() require("telescope.builtin").git_bcommits() end, desc = "Buffer commits" },
+          ["<Leader>gd"] = { "<cmd>DiffviewOpen<cr>", desc = "Git diff view" },
+          ["<Leader>gD"] = { "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
+          ["<Leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
+          ["<Leader>gH"] = { "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
+          
+          -- ================================
+          -- JUPYTER/MOLTEN (<Leader>j)
+          -- ================================
+          ["<Leader>ji"] = { "<cmd>MoltenInit<cr>", desc = "Initialize Molten" },
+          ["<Leader>je"] = { "<cmd>MoltenEvaluateOperator<cr>", desc = "Evaluate operator" },
+          ["<Leader>jl"] = { "<cmd>MoltenEvaluateLine<cr>", desc = "Evaluate line" },
+          ["<Leader>jr"] = { "<cmd>MoltenReevaluateCell<cr>", desc = "Re-evaluate cell" },
+          ["<Leader>jo"] = { "<cmd>MoltenShowOutput<cr>", desc = "Show output" },
+          ["<Leader>jh"] = { "<cmd>MoltenHideOutput<cr>", desc = "Hide output" },
+          ["<Leader>jd"] = { "<cmd>MoltenDelete<cr>", desc = "Delete cell" },
+          ["<Leader>js"] = { "<cmd>MoltenStart<cr>", desc = "Start kernel" },
+          ["<Leader>jS"] = { "<cmd>MoltenStop<cr>", desc = "Stop kernel" },
+          ["<Leader>jR"] = { "<cmd>MoltenRestart<cr>", desc = "Restart kernel" },
+          ["<Leader>jk"] = { "<cmd>MoltenKernelStatusToggle<cr>", desc = "Toggle kernel status" },
+          ["<Leader>jI"] = { "<cmd>MoltenImportOutput<cr>", desc = "Import output" },
+          ["<Leader>jE"] = { "<cmd>MoltenExportOutput<cr>", desc = "Export output" },
+          
+          -- ================================
+          -- MESSAGES/ERRORS (<Leader>m)
+          -- ================================
+          ["<Leader>me"] = { "<cmd>Errors<cr>", desc = "Show errors" },
+          ["<Leader>ma"] = { "<cmd>Messages<cr>", desc = "Show all messages" },
+          ["<Leader>mc"] = { "<cmd>CopyLastError<cr>", desc = "Copy last error" },
+          ["<Leader>mC"] = { "<cmd>CopyAllErrors<cr>", desc = "Copy all errors" },
+          ["<Leader>mA"] = { "<cmd>CopyAllMessages<cr>", desc = "Copy all messages" },
+          ["<Leader>md"] = { "<cmd>messages clear<cr>", desc = "Clear messages" },
+          
+          -- ================================
+          -- OCTO/GITHUB (<Leader>o)
+          -- ================================
+          ["<Leader>oi"] = { "<cmd>Octo issue list<cr>", desc = "List issues" },
+          ["<Leader>oI"] = { "<cmd>Octo issue create<cr>", desc = "Create issue" },
+          ["<Leader>op"] = { "<cmd>Octo pr list<cr>", desc = "List PRs" },
+          ["<Leader>oP"] = { "<cmd>Octo pr create<cr>", desc = "Create PR" },
+          ["<Leader>or"] = { "<cmd>Octo repo list<cr>", desc = "List repos" },
+          ["<Leader>os"] = { "<cmd>Octo search<cr>", desc = "Search GitHub" },
+          ["<Leader>oa"] = { "<cmd>Octo assignee add<cr>", desc = "Add assignee" },
+          ["<Leader>ol"] = { "<cmd>Octo label add<cr>", desc = "Add label" },
+          ["<Leader>oc"] = { "<cmd>Octo comment add<cr>", desc = "Add comment" },
+          ["<Leader>oR"] = { "<cmd>Octo review start<cr>", desc = "Start review" },
+          ["<Leader>od"] = { "<cmd>Octo pr diff<cr>", desc = "Show PR diff" },
+          ["<Leader>oo"] = { "<cmd>Octo pr checkout<cr>", desc = "Checkout PR" },
+          ["<Leader>om"] = { function()
+            vim.ui.input({ prompt = "Merge method (merge/squash/rebase): " }, function(method)
+              if method and (method == "merge" or method == "squash" or method == "rebase") then
+                vim.fn.system("gh pr merge --" .. method)
+                vim.notify("PR merged with " .. method)
+              end
+            end)
+          end, desc = "Merge PR" },
+          
+          -- ================================
+          -- REPLACE/REFACTOR (<Leader>r)
+          -- ================================
+          ["<Leader>rr"] = { "<cmd>Spectre<cr>", desc = "Replace (Spectre)" },
+          ["<Leader>rw"] = { function() require("spectre").open_visual({select_word=true}) end, desc = "Replace word" },
+          ["<Leader>rf"] = { function() require("spectre").open_file_search({select_word=true}) end, desc = "Replace in file" },
+          ["<Leader>rc"] = { ":%s/<C-r><C-w>//g<Left><Left>", desc = "Replace word (native)" },
+          ["<Leader>rn"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
+          
+          -- ================================
+          -- SEARCH (<Leader>s)
+          -- ================================
+          ["<Leader>ss"] = { function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Search buffer" },
+          ["<Leader>sg"] = { function() require("telescope.builtin").live_grep() end, desc = "Search project" },
+          ["<Leader>sw"] = { function() require("telescope.builtin").grep_string() end, desc = "Search word" },
+          ["<Leader>sW"] = { function() require("telescope.builtin").grep_string({ word_match = "-w" }) end, desc = "Search word (whole)" },
+          ["<Leader>sh"] = { function() require("telescope.builtin").search_history() end, desc = "Search history" },
+          ["<Leader>sc"] = { function() require("telescope.builtin").command_history() end, desc = "Command history" },
+          ["<Leader>sn"] = { "<cmd>nohlsearch<cr>", desc = "Clear search highlight" },
+          ["<Leader>sr"] = { function() require("telescope.builtin").resume() end, desc = "Resume last search" },
+          
+          -- ================================
+          -- TEST (<Leader>t)
+          -- ================================
+          ["<Leader>tt"] = { function()
+            local file = vim.fn.expand("%:p")
+            if file:match("_spec%.lua$") then
+              vim.notify("Running tests in " .. vim.fn.expand("%:t"))
+              vim.cmd("PlenaryBustedFile " .. file)
+            else
+              vim.notify("Not a test file (*_spec.lua)")
+            end
+          end, desc = "Run current test file" },
+          ["<Leader>ta"] = { function()
+            vim.notify("Running all tests...")
+            vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}")
+          end, desc = "Run all tests" },
+          ["<Leader>tn"] = { function()
+            local line = vim.api.nvim_win_get_cursor(0)[1]
+            vim.notify("Running nearest test at line " .. line)
+            vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}")
+          end, desc = "Run nearest test" },
+          
+          -- ================================
+          -- UI/TOGGLES (<Leader>u)
+          -- ================================
+          ["<Leader>uz"] = { function() require("zen-mode").toggle() end, desc = "Toggle zen mode" },
+          ["<Leader>un"] = { "<cmd>set number!<cr>", desc = "Toggle line numbers" },
+          ["<Leader>ur"] = { "<cmd>set relativenumber!<cr>", desc = "Toggle relative numbers" },
+          ["<Leader>uw"] = { "<cmd>set wrap!<cr>", desc = "Toggle word wrap" },
+          ["<Leader>us"] = { "<cmd>set spell!<cr>", desc = "Toggle spell check" },
+          ["<Leader>ul"] = { "<cmd>set list!<cr>", desc = "Toggle list chars" },
+          ["<Leader>uh"] = { "<cmd>set hlsearch!<cr>", desc = "Toggle search highlight" },
+          ["<Leader>ut"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+          ["<Leader>uc"] = { "<cmd>set cursorline!<cr>", desc = "Toggle cursor line" },
+          ["<Leader>uC"] = { "<cmd>set cursorcolumn!<cr>", desc = "Toggle cursor column" },
+          
+          -- ================================
+          -- VSCODE FEATURES (<Leader>v)
+          -- ================================
+          ["<Leader>vd"] = { "<Cmd>MCstart<CR>", desc = "Create multicursor" },
+          ["<Leader>vn"] = { "<Cmd>MCpattern<CR>", desc = "Multicursor pattern" },
+          ["<Leader>vm"] = { "<Cmd>MCclear<CR>", desc = "Clear multicursors" },
+          ["<Leader>vy"] = { "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
+          ["<Leader>vp"] = { function() require("telescope").extensions.neoclip.default() end, desc = "Paste from history" },
+          ["<Leader>vl"] = { function() require("illuminate").next_reference() end, desc = "Next reference" },
+          ["<Leader>vh"] = { function() require("illuminate").prev_reference() end, desc = "Previous reference" },
+          
+          -- ================================
+          -- DIAGNOSTICS (<Leader>x)
+          -- ================================
+          ["<Leader>xx"] = { function() vim.diagnostic.open_float() end, desc = "Show diagnostics" },
+          ["<Leader>xl"] = { function() vim.diagnostic.setloclist() end, desc = "Diagnostics to loclist" },
+          ["<Leader>xq"] = { function() vim.diagnostic.setqflist() end, desc = "Diagnostics to qflist" },
+          ["<Leader>xn"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
+          ["<Leader>xp"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
+          ["<Leader>xN"] = { function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, desc = "Next error" },
+          ["<Leader>xP"] = { function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, desc = "Previous error" },
+          
+          -- ================================
+          -- NUMBER KEY SHORTCUTS (Direct buffer access)
+          -- ================================
+          ["<Leader>1"] = { function() buffer_nav.nav_to(1) end, desc = "Go to buffer 1" },
+          ["<Leader>2"] = { function() buffer_nav.nav_to(2) end, desc = "Go to buffer 2" },
+          ["<Leader>3"] = { function() buffer_nav.nav_to(3) end, desc = "Go to buffer 3" },
+          ["<Leader>4"] = { function() buffer_nav.nav_to(4) end, desc = "Go to buffer 4" },
+          ["<Leader>5"] = { function() buffer_nav.nav_to(5) end, desc = "Go to buffer 5" },
+          ["<Leader>6"] = { function() buffer_nav.nav_to(6) end, desc = "Go to buffer 6" },
+          ["<Leader>7"] = { function() buffer_nav.nav_to(7) end, desc = "Go to buffer 7" },
+          ["<Leader>8"] = { function() buffer_nav.nav_to(8) end, desc = "Go to buffer 8" },
+          ["<Leader>9"] = { function() buffer_nav.nav_to(9) end, desc = "Go to buffer 9" },
+          ["<Leader>0"] = { function() buffer_nav.nav_to(10) end, desc = "Go to buffer 10" },
+          
+          -- ================================
+          -- WINDOW NAVIGATION (Alt keys remain unchanged)
+          -- ================================
+          ["<M-1>"] = { "1<C-w>w", desc = "Focus window 1" },
+          ["<M-2>"] = { "2<C-w>w", desc = "Focus window 2" },
+          ["<M-3>"] = { "3<C-w>w", desc = "Focus window 3" },
+          ["<M-4>"] = { "4<C-w>w", desc = "Focus window 4" },
+          ["<M-5>"] = { "5<C-w>w", desc = "Focus window 5" },
+          ["<M-6>"] = { "6<C-w>w", desc = "Focus window 6" },
+          ["<M-7>"] = { "7<C-w>w", desc = "Focus window 7" },
+          ["<M-8>"] = { "8<C-w>w", desc = "Focus window 8" },
+          ["<C-M-m>"] = { "<C-w>o", desc = "Maximize window" },
+          
+          -- ================================
+          -- NAVIGATION IMPROVEMENTS
+          -- ================================
+          ["<C-d>"] = { "<C-d>zz", desc = "Scroll down and center" },
+          ["<C-u>"] = { "<C-u>zz", desc = "Scroll up and center" },
+          ["n"] = { "nzzzv", desc = "Next search result centered" },
+          ["N"] = { "Nzzzv", desc = "Previous search result centered" },
+          ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+          ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+          ["]d"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
+          ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
+          ["]c"] = { "<cmd>MoltenNext<cr>", desc = "Next cell" },
+          ["[c"] = { "<cmd>MoltenPrev<cr>", desc = "Previous cell" },
+          ["]g"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
+          ["[g"] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
+          
+          -- ================================
+          -- TERMINAL
+          -- ================================
+          ["<C-M-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+          
+          -- ================================
+          -- QUICK EDITS
+          -- ================================
+          ["<S-A-d>"] = { "dd", desc = "Delete line" },
+          ["<C-a>"] = { "ggVG", desc = "Select all" },
+        },
         
-        -- VSCode-like editing
-        ["<Leader>sr"] = { "<cmd>Spectre<cr>", desc = "Find and replace selection" },
-        ["<Leader>sw"] = { function() require("spectre").open_visual() end, desc = "Search selection" },
+        -- ================================
+        -- VISUAL MODE MAPPINGS
+        -- ================================
+        v = {
+          ["<Leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment" },
+          
+          -- AI/Claude
+          ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude" },
+          ["<Leader>aS"] = { function() 
+            vim.cmd("ClaudeCodeSend")
+            vim.cmd("ClaudeCodeFocus")
+          end, desc = "Send to Claude and focus" },
+          
+          -- Jupyter
+          ["<Leader>jv"] = { ":<C-u>MoltenEvaluateVisual<cr>gv", desc = "Evaluate selection" },
+          
+          -- Replace
+          ["<Leader>rr"] = { "<cmd>Spectre<cr>", desc = "Replace selection" },
+          ["<Leader>rw"] = { function() require("spectre").open_visual() end, desc = "Replace selection" },
+          
+          -- Search
+          ["<Leader>sw"] = { function() 
+            require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) 
+          end, desc = "Search selection" },
+          
+          -- VSCode
+          ["<Leader>vd"] = { "<Cmd>MCstart<CR>", desc = "Create multicursor" },
+          ["<Leader>vn"] = { "<Cmd>MCpattern<CR>", desc = "Multicursor pattern" },
+          
+          -- Navigation
+          ["<"] = { "<gv", desc = "Indent left" },
+          [">"] = { ">gv", desc = "Indent right" },
+          ["J"] = { ":m '>+1<CR>gv=gv", desc = "Move selection down" },
+          ["K"] = { ":m '<-2<CR>gv=gv", desc = "Move selection up" },
+        },
+        
+        -- ================================
+        -- TERMINAL MODE MAPPINGS
+        -- ================================
+        t = {
+          ["<C-M-Tab>1"] = { "<C-\\><C-n>:1ToggleTerm<CR>", desc = "Terminal 1" },
+          ["<C-M-Tab>2"] = { "<C-\\><C-n>:2ToggleTerm<CR>", desc = "Terminal 2" },
+          ["<C-M-Tab>3"] = { "<C-\\><C-n>:3ToggleTerm<CR>", desc = "Terminal 3" },
+          ["<C-M-Tab>4"] = { "<C-\\><C-n>:4ToggleTerm<CR>", desc = "Terminal 4" },
+          ["<Esc><Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          ["<C-M-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+        },
       },
-      
-      -- ================================
-      -- TERMINAL MODE MAPPINGS
-      -- ================================
-      t = {
-        -- Terminal navigation
-        ["<C-M-Tab>1"] = { "<C-\\><C-n>:1ToggleTerm<CR>", desc = "Focus terminal 1" },
-        ["<C-M-Tab>2"] = { "<C-\\><C-n>:2ToggleTerm<CR>", desc = "Focus terminal 2" },
-        ["<C-M-Tab>3"] = { "<C-\\><C-n>:3ToggleTerm<CR>", desc = "Focus terminal 3" },
-        ["<C-M-Tab>4"] = { "<C-\\><C-n>:4ToggleTerm<CR>", desc = "Focus terminal 4" },
-      },
-    },
-    -- Autocommands for enhanced functionality
-    autocmds = {
       -- Keybinding conflict detection
       keybinding_conflicts = {
         {
@@ -435,5 +416,6 @@ return {
         },
       },
     },
-  },
+    })
+  end,
 }
