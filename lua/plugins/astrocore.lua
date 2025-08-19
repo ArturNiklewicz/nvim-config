@@ -4,10 +4,15 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
+  lazy = false,
+  priority = 1000,
   ---@type AstroCoreOpts
   opts = function(_, opts)
-    -- Load buffer navigation utilities
-    local buffer_nav = require("utils.buffer-nav")
+    -- Load buffer navigation utilities safely
+    local ok, buffer_nav = pcall(require, "utils.buffer-nav")
+    if not ok then
+      buffer_nav = { close_smart = function() vim.cmd("bd") end }
+    end
     
     return vim.tbl_deep_extend("force", opts, {
       -- Configure core features of AstroNvim
@@ -45,11 +50,15 @@ return {
           -- QUICK ACTIONS (Root Level)
           -- ================================
           ["<Leader>w"] = { function() buffer_nav.close_smart() end, desc = "Close buffer" },
-          ["<Leader>W"] = { function() require("astrocore.buffer").close_all() end, desc = "Close all buffers" },
+          ["<Leader>W"] = { "<cmd>wa<cr>", desc = "Save all" },
           ["<Leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" },
-          ["<Leader>Q"] = { "<cmd>qa!<cr>", desc = "Quit all (force)" },
+          ["<Leader>Q"] = { "<cmd>qa!<cr>", desc = "Quit all" },
+          ["<Leader>?"] = { "<cmd>Keybindings<cr>", desc = "Show keybindings" },
           ["<Leader>/"] = { function() require("Comment.api").toggle.linewise.current() end, desc = "Toggle comment" },
           ["<Leader><Leader>"] = { function() buffer_nav.nav_to_last() end, desc = "Last buffer" },
+          ["<Leader>n"] = { "<cmd>enew<cr>", desc = "New file" },
+          ["<Leader>R"] = { "<cmd>e!<cr>", desc = "Reload file" },
+          ["<Leader>`"] = { function() buffer_nav.nav_to_last() end, desc = "Switch to last buffer" },
           
           -- ================================
           -- AI/CLAUDE CODE (<Leader>a)
@@ -72,8 +81,7 @@ return {
           ["<Leader>bd"] = { function() buffer_nav.close_smart() end, desc = "Delete buffer" },
           ["<Leader>bD"] = { function() require("astrocore.buffer").close_all() end, desc = "Delete all buffers" },
           ["<Leader>bo"] = { function() buffer_nav.close_others() end, desc = "Delete other buffers" },
-          ["<Leader>bn"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-          ["<Leader>bp"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+          -- Buffer navigation removed - use <Leader>a/d instead
           ["<Leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" },
           ["<Leader>bS"] = { "<cmd>wa<cr>", desc = "Save all buffers" },
           ["<Leader>b1"] = { function() buffer_nav.nav_to(1) end, desc = "Buffer 1" },
@@ -91,15 +99,15 @@ return {
           -- CODE/LSP (<Leader>c)
           -- ================================
           ["<Leader>ca"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
-          ["<Leader>cd"] = { function() vim.lsp.buf.definition() end, desc = "Go to definition" },
-          ["<Leader>cD"] = { function() vim.lsp.buf.declaration() end, desc = "Go to declaration" },
-          ["<Leader>ci"] = { function() vim.lsp.buf.implementation() end, desc = "Go to implementation" },
-          ["<Leader>cr"] = { function() vim.lsp.buf.references() end, desc = "Find references" },
-          ["<Leader>cR"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
-          ["<Leader>ct"] = { function() vim.lsp.buf.type_definition() end, desc = "Type definition" },
-          ["<Leader>ch"] = { function() vim.lsp.buf.hover() end, desc = "Hover documentation" },
-          ["<Leader>cs"] = { function() vim.lsp.buf.signature_help() end, desc = "Signature help" },
-          ["<Leader>cf"] = { function() vim.lsp.buf.format({ async = true }) end, desc = "Format code" },
+          ["<Leader>cd"] = { function() vim.lsp.buf.definition() end, desc = "Code definition" },
+          ["<Leader>cD"] = { function() vim.lsp.buf.declaration() end, desc = "Code declaration" },
+          ["<Leader>ci"] = { function() vim.lsp.buf.implementation() end, desc = "Code implementation" },
+          ["<Leader>cr"] = { function() vim.lsp.buf.references() end, desc = "Code references" },
+          ["<Leader>cR"] = { function() vim.lsp.buf.rename() end, desc = "Code rename" },
+          ["<Leader>ct"] = { function() vim.lsp.buf.type_definition() end, desc = "Code type definition" },
+          ["<Leader>ch"] = { function() vim.lsp.buf.hover() end, desc = "Code hover" },
+          ["<Leader>cs"] = { function() vim.lsp.buf.signature_help() end, desc = "Code signature" },
+          ["<Leader>cf"] = { function() vim.lsp.buf.format({ async = true }) end, desc = "Code format" },
           
           -- ================================
           -- FIND/FILES (<Leader>f)
@@ -133,9 +141,53 @@ return {
           ["<Leader>gt"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
           ["<Leader>gn"] = { "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle line number highlighting" },
           ["<Leader>gl"] = { "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle line highlighting" },
-          ["<Leader>gw"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle word diff" },
+          ["<Leader>gW"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle word diff" },
           ["<Leader>gT"] = { "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
           ["<Leader>gr"] = { "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
+          
+          -- Git file navigation (enhanced with monitoring)
+          ["<Leader>gj"] = { function()
+            require("utils.git-monitor").jump_file("next")
+          end, desc = "Next changed file" },
+          
+          ["<Leader>gk"] = { function()
+            require("utils.git-monitor").jump_file("prev")
+          end, desc = "Previous changed file" },
+          
+          ["<Leader>gf"] = { function()
+            -- List all files with git changes
+            require("telescope.builtin").git_status()
+          end, desc = "List changed files" },
+          
+          -- Git file monitoring/watchlist
+          ["<Leader>gwa"] = { function()
+            require("utils.git-monitor").add_to_watchlist()
+          end, desc = "Add file to watchlist" },
+          
+          ["<Leader>gwr"] = { function()
+            require("utils.git-monitor").remove_from_watchlist()
+          end, desc = "Remove file from watchlist" },
+          
+          ["<Leader>gwl"] = { function()
+            require("utils.git-monitor").show_watchlist()
+          end, desc = "Show watchlist" },
+          
+          ["<Leader>gwj"] = { function()
+            require("utils.git-monitor").jump_watchlist("next")
+          end, desc = "Next watchlist file" },
+          
+          ["<Leader>gwk"] = { function()
+            require("utils.git-monitor").jump_watchlist("prev")
+          end, desc = "Previous watchlist file" },
+          
+          ["<Leader>gwm"] = { function()
+            require("utils.git-monitor").monitor_changes()
+          end, desc = "Check for changes" },
+          
+          ["<Leader>gws"] = { function()
+            require("utils.git-monitor").setup_auto_monitor()
+            vim.notify("Auto-monitoring enabled for watchlist", vim.log.levels.INFO)
+          end, desc = "Start auto-monitoring" },
           
           -- ================================
           -- JUPYTER/MOLTEN (<Leader>j)
@@ -154,15 +206,16 @@ return {
           ["<Leader>jI"] = { "<cmd>MoltenImportOutput<cr>", desc = "Import output" },
           ["<Leader>jE"] = { "<cmd>MoltenExportOutput<cr>", desc = "Export output" },
           
+          
           -- ================================
-          -- MESSAGES/ERRORS (<Leader>m)
+          -- MESSAGES/ERRORS (<Leader>M)
           -- ================================
-          ["<Leader>me"] = { "<cmd>Errors<cr>", desc = "Show errors" },
-          ["<Leader>ma"] = { "<cmd>Messages<cr>", desc = "Show all messages" },
-          ["<Leader>mc"] = { "<cmd>CopyLastError<cr>", desc = "Copy last error" },
-          ["<Leader>mC"] = { "<cmd>CopyAllErrors<cr>", desc = "Copy all errors" },
-          ["<Leader>mA"] = { "<cmd>CopyAllMessages<cr>", desc = "Copy all messages" },
-          ["<Leader>md"] = { "<cmd>messages clear<cr>", desc = "Clear messages" },
+          ["<Leader>Me"] = { "<cmd>Errors<cr>", desc = "Show errors" },
+          ["<Leader>Ma"] = { "<cmd>Messages<cr>", desc = "Show all messages" },
+          ["<Leader>Mc"] = { "<cmd>CopyLastError<cr>", desc = "Copy last error" },
+          ["<Leader>MC"] = { "<cmd>CopyAllErrors<cr>", desc = "Copy all errors" },
+          ["<Leader>MA"] = { "<cmd>CopyAllMessages<cr>", desc = "Copy all messages" },
+          ["<Leader>Md"] = { "<cmd>messages clear<cr>", desc = "Clear messages" },
           
           -- ================================
           -- GITHUB (<Leader>G)
@@ -242,6 +295,18 @@ return {
           end, desc = "Run nearest test" },
           
           -- ================================
+          -- TERMINAL (<Leader>T)
+          -- ================================
+          ["<Leader>Tt"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle" },
+          ["<Leader>Tf"] = { "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
+          ["<Leader>Th"] = { "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal" },
+          ["<Leader>Tv"] = { "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical" },
+          ["<Leader>T1"] = { "<cmd>1ToggleTerm<cr>", desc = "Terminal 1" },
+          ["<Leader>T2"] = { "<cmd>2ToggleTerm<cr>", desc = "Terminal 2" },
+          ["<Leader>T3"] = { "<cmd>3ToggleTerm<cr>", desc = "Terminal 3" },
+          ["<Leader>T4"] = { "<cmd>4ToggleTerm<cr>", desc = "Terminal 4" },
+          
+          -- ================================
           -- UI/TOGGLES (<Leader>u)
           -- ================================
           ["<Leader>uz"] = { function() require("zen-mode").toggle() end, desc = "Toggle zen mode" },
@@ -251,16 +316,40 @@ return {
           ["<Leader>us"] = { "<cmd>set spell!<cr>", desc = "Toggle spell check" },
           ["<Leader>ul"] = { "<cmd>set list!<cr>", desc = "Toggle list chars" },
           ["<Leader>uh"] = { "<cmd>set hlsearch!<cr>", desc = "Toggle search highlight" },
-          ["<Leader>ut"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+          -- Terminal removed from UI toggles - use <C-M-t> instead
           ["<Leader>uc"] = { "<cmd>set cursorline!<cr>", desc = "Toggle cursor line" },
           ["<Leader>uC"] = { "<cmd>set cursorcolumn!<cr>", desc = "Toggle cursor column" },
           
           -- ================================
+          -- UI/THEME (<Leader>U)
+          -- ================================
+          ["<Leader>Ut"] = { function() vim.cmd("Telescope colorscheme") end, desc = "Choose theme" },
+          ["<Leader>Ud"] = { function() vim.o.background = "dark" end, desc = "Dark mode" },
+          ["<Leader>Ul"] = { function() vim.o.background = "light" end, desc = "Light mode" },
+          ["<Leader>UT"] = { function() 
+            vim.o.background = vim.o.background == "dark" and "light" or "dark" 
+          end, desc = "Toggle dark/light" },
+          ["<Leader>Uc"] = { "<cmd>Telescope highlights<cr>", desc = "View highlights" },
+          ["<Leader>Ur"] = { "<cmd>source $MYVIMRC<cr>", desc = "Reload config" },
+          ["<Leader>U1"] = { "<cmd>colorscheme rose-pine-main<cr>", desc = "Rose Pine Main" },
+          ["<Leader>U2"] = { "<cmd>colorscheme rose-pine-moon<cr>", desc = "Rose Pine Moon" },
+          ["<Leader>U3"] = { "<cmd>colorscheme rose-pine-dawn<cr>", desc = "Rose Pine Dawn" },
+          
+          -- ================================
+          -- PACKAGES (<Leader>p)
+          -- ================================
+          ["<Leader>pi"] = { "<cmd>Lazy install<cr>", desc = "Install" },
+          ["<Leader>ps"] = { "<cmd>Lazy sync<cr>", desc = "Sync" },
+          ["<Leader>pS"] = { "<cmd>Lazy sync<cr>", desc = "Plugins Sync" },
+          ["<Leader>pu"] = { "<cmd>Lazy update<cr>", desc = "Update" },
+          ["<Leader>pU"] = { "<cmd>Lazy update<cr>", desc = "Plugins Update" },
+          ["<Leader>pc"] = { "<cmd>Lazy clean<cr>", desc = "Clean" },
+          ["<Leader>pm"] = { "<cmd>Mason<cr>", desc = "Mason" },
+          ["<Leader>pM"] = { "<cmd>MasonUpdate<cr>", desc = "Mason Update" },
+          
+          -- ================================
           -- VSCODE FEATURES (<Leader>v)
           -- ================================
-          ["<Leader>vd"] = { "<Cmd>MCstart<CR>", desc = "Create multicursor" },
-          ["<Leader>vn"] = { "<Cmd>MCpattern<CR>", desc = "Multicursor pattern" },
-          ["<Leader>vm"] = { "<Cmd>MCclear<CR>", desc = "Clear multicursors" },
           ["<Leader>vy"] = { "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
           ["<Leader>vp"] = { function() require("telescope").extensions.neoclip.default() end, desc = "Paste from history" },
           ["<Leader>vl"] = { function() require("illuminate").next_reference() end, desc = "Next reference" },
@@ -315,8 +404,8 @@ return {
           ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["]d"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
           ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
-          ["]c"] = { "<cmd>MoltenNext<cr>", desc = "Next cell" },
-          ["[c"] = { "<cmd>MoltenPrev<cr>", desc = "Previous cell" },
+          ["]j"] = { "<cmd>MoltenNext<cr>", desc = "Next Jupyter cell" },
+          ["[j"] = { "<cmd>MoltenPrev<cr>", desc = "Previous Jupyter cell" },
           ["]g"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
           ["[g"] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
           
@@ -357,9 +446,6 @@ return {
             require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) 
           end, desc = "Search selection" },
           
-          -- VSCode
-          ["<Leader>vd"] = { "<Cmd>MCstart<CR>", desc = "Create multicursor" },
-          ["<Leader>vn"] = { "<Cmd>MCpattern<CR>", desc = "Multicursor pattern" },
           
           -- Navigation
           ["<"] = { "<gv", desc = "Indent left" },
@@ -380,8 +466,10 @@ return {
           ["<C-M-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
         },
       },
-      -- Keybinding conflict detection
-      keybinding_conflicts = {
+      -- Custom autocommands
+      autocmds = {
+        -- Keybinding conflict detection
+        keybinding_conflicts = {
         {
           event = "VimEnter",
           desc = "Detect keybinding conflicts on startup",
@@ -434,6 +522,6 @@ return {
         },
       },
     },
-    })
+  })
   end,
 }

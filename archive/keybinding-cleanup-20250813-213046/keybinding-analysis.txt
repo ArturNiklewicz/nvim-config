@@ -1,0 +1,1951 @@
+NEOVIM KEYBINDING ANALYSIS REPORT
+Generated: ptk 18 lip 15:33:00 2025
+=====================================
+
+DUPLICATES:
+
+[n] <C-u> (10 definitions):
+  - lua/plugins/astrocore.lua:724 (Pattern match)
+  - lua/plugins/astrocore.lua:724 (Pattern match)
+  - lua/plugins/astrocore.lua:724 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:325 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:325 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:640 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:640 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:653 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:653 (Pattern match)
+  - lua/plugins/molten.lua:63 (Pattern match)
+
+[n] <C-w> (46 definitions):
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:276 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:272 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:80 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:270 (Pattern match)
+
+[n] <C-A-d> (3 definitions):
+  - lua/plugins/astrocore.lua.bak:330 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:645 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:658 (Pattern match)
+
+[n] <C-A-f> (3 definitions):
+  - lua/plugins/astrocore.lua.bak:334 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:649 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:662 (Pattern match)
+
+[n] <C-y> (2 definitions):
+  - lua/plugins/octo.lua:90 (Pattern match)
+  - lua/plugins/octo.lua:90 (Pattern match)
+
+[n] <CR> (53 definitions):
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/gitsigns.lua:191 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/which-key.lua:114 (Pattern match)
+  - plugin/tmux-swap.vim:56 (Pattern match)
+  - plugin/tmux-swap.vim:56 (Pattern match)
+  - plugin/tmux-swap.vim:56 (Pattern match)
+  - plugin/tmux-swap.vim:56 (Pattern match)
+
+[n] <Cmd> (16 definitions):
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/astrocore.lua:406 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/vscode-editing.lua:168 (Pattern match)
+  - lua/plugins/which-key.lua:114 (Pattern match)
+
+[n] <Esc> (8 definitions):
+  - lua/plugins/astrocore.lua:860 (Pattern match)
+  - lua/plugins/astrocore.lua:860 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:760 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:760 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:779 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:779 (Pattern match)
+  - lua/plugins/error-messages.lua:502 (Pattern match)
+  - lua/plugins/error-messages.lua:502 (vim.keymap.set)
+
+[n] <Leader> (649 definitions):
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua:92 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:108 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:22 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:108 (Pattern match)
+  - lua/plugins/astrolsp.lua:174 (Pattern match)
+  - lua/plugins/keybind-help.lua:74 (Pattern match)
+  - lua/plugins/markdown-preview.lua:591 (Pattern match)
+  - lua/plugins/markdown-preview.lua:591 (Pattern match)
+  - lua/plugins/markdown-preview.lua:591 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/molten.lua:55 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/neo-tree.lua:26 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/plugins/text-objects.lua:128 (Pattern match)
+  - lua/utils/git-monitor.lua:318 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+  - validate-keybindings.lua:48 (Pattern match)
+
+[n] q (2 definitions):
+  - lua/plugins/error-messages.lua:500 (vim.keymap.set)
+  - lua/plugins/fugitive.lua:166 (vim.keymap.set)
+
+[v] <leader>gO (2 definitions):
+  - lua/plugins/fugitive.lua:136 (Lazy.nvim keys)
+  - lua/plugins/fugitive.lua:136 (Lazy.nvim keys)
+
+[n] ? (2 definitions):
+  - lua/plugins/gitsigns.lua:123 (on_attach)
+  - lua/plugins/which-key.lua:404 (which-key.register)
+
+[s] <bs> (2 definitions):
+  - lua/plugins/neo-tree.lua:282 (AstroNvim mappings (string))
+  - lua/plugins/neo-tree.lua:282 (AstroNvim mappings (string))
+
+[n] <C-A-r> (3 definitions):
+  - lua/plugins/astrocore.lua.bak:332 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:647 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:660 (Pattern match)
+
+[n] <Plug> (2 definitions):
+  - lua/plugins/astrocore.lua:780 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:751 (Pattern match)
+
+[n] <C-M-Tab> (16 definitions):
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+
+[n] <Leader>w (3 definitions):
+  - lua/plugins/astrocore.lua:92 (AstroNvim mappings)
+  - lua/plugins/astrocore_fixed.lua:122 (AstroNvim mappings)
+  - lua/plugins/astrocore_new_mappings.lua:122 (AstroNvim mappings)
+
+[s] <Leader>w (3 definitions):
+  - lua/plugins/astrocore.lua:92 (AstroNvim mappings)
+  - lua/plugins/astrocore_fixed.lua:122 (AstroNvim mappings)
+  - lua/plugins/astrocore_new_mappings.lua:122 (AstroNvim mappings)
+
+[n] <Left> (2 definitions):
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+
+[n] <C-M-t> (7 definitions):
+  - lua/plugins/astrocore.lua:610 (Pattern match)
+  - lua/plugins/astrocore.lua:610 (Pattern match)
+  - lua/plugins/astrocore.lua:610 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:304 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:625 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:638 (Pattern match)
+  - validate-keybindings.lua:292 (Pattern match)
+
+[n] <S-A-d> (4 definitions):
+  - lua/plugins/astrocore.lua:764 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:436 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:677 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:690 (Pattern match)
+
+[n] <Tab> (5 definitions):
+  - lua/plugins/astrocore_fixed.lua:130 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:30 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:130 (Pattern match)
+  - lua/plugins/fugitive.lua:164 (vim.keymap.set)
+  - lua/plugins/fugitive.lua:164 (Pattern match)
+
+[n] <C-a> (2 definitions):
+  - lua/plugins/astrocore.lua:766 (Pattern match)
+  - lua/plugins/octo.lua:156 (Pattern match)
+
+[n] <C-b> (2 definitions):
+  - lua/plugins/octo.lua:88 (Pattern match)
+  - lua/plugins/octo.lua:88 (Pattern match)
+
+[s] . (2 definitions):
+  - lua/plugins/neo-tree.lua:8 (AstroNvim mappings (string))
+  - lua/plugins/neo-tree.lua:8 (AstroNvim mappings (string))
+
+[n] <C-d> (8 definitions):
+  - lua/plugins/astrocore.lua:722 (Pattern match)
+  - lua/plugins/astrocore.lua:722 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:323 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:323 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:638 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:638 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:651 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:651 (Pattern match)
+
+[n] <C-i> (6 definitions):
+  - lua/plugins/astrocore.lua.bak:315 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:315 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:630 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:630 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:643 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:643 (Pattern match)
+
+[n] <C-c> (3 definitions):
+  - lua/plugins/octo.lua:162 (Pattern match)
+  - lua/plugins/octo.lua:162 (Pattern match)
+  - lua/plugins/octo.lua:162 (Pattern match)
+
+[n] <C-n> (19 definitions):
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua:852 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:734 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:748 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:767 (Pattern match)
+
+[n] <C-o> (7 definitions):
+  - lua/plugins/astrocore.lua.bak:315 (Pattern match)
+  - lua/plugins/astrocore.lua.bak:315 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:630 (Pattern match)
+  - lua/plugins/astrocore_fixed.lua:630 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:643 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:643 (Pattern match)
+  - lua/plugins/octo.lua:234 (Pattern match)
+
+[n] <C-r> (4 definitions):
+  - lua/plugins/astrocore.lua:516 (Pattern match)
+  - lua/plugins/octo.lua:86 (Pattern match)
+  - lua/plugins/octo.lua:86 (Pattern match)
+  - lua/plugins/octo.lua:86 (Pattern match)
+
+[n] <C-s> (3 definitions):
+  - lua/plugins/astrocore_fixed.lua:600 (Pattern match)
+  - lua/plugins/astrocore_keybindings_patch.lua:196 (Pattern match)
+  - lua/plugins/astrocore_new_mappings.lua:608 (Pattern match)
+
+
+ALL KEYBINDINGS:
+[s] # | fuzzy_sorter | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:292
+[s] . | set_root | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:8
+[s] . | set_root | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:8
+[s] / | fuzzy_finder | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:8
+[n] 2 | Buffer 2 | which-key.register | lua/plugins/which-key.lua:32
+[n] 3 | Buffer 3 | which-key.register | lua/plugins/which-key.lua:16
+[n] 4 | Buffer 4 | which-key.register | lua/plugins/which-key.lua:102
+[n] 5 | Buffer 5 | which-key.register | lua/plugins/which-key.lua:102
+[n] 6 | Buffer 6 | which-key.register | lua/plugins/which-key.lua:392
+[n] 7 | Buffer 7 | which-key.register | lua/plugins/which-key.lua:394
+[n] 8 | Buffer 8 | which-key.register | lua/plugins/which-key.lua:396
+[n] 9 | Buffer 9 | which-key.register | lua/plugins/which-key.lua:398
+[n] <C-A-d> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:330
+[n] <C-A-d> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:645
+[n] <C-A-d> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:658
+[n] <C-A-f> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:334
+[n] <C-A-f> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:649
+[n] <C-A-f> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:662
+[n] <C-A-m> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:295
+[n] <C-A-r> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:332
+[n] <C-A-r> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:647
+[n] <C-A-r> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:660
+[n] <C-A-z> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:445
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-M-Tab> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-M-l> | Found in context | Pattern match | plugin/tmux-swap.vim:60
+[n] <C-M-m> | Found in context | Pattern match | lua/plugins/astrocore.lua:712
+[n] <C-M-n> | Found in context | Pattern match | plugin/tmux-swap.vim:56
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore.lua:610
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore.lua:610
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore.lua:610
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:304
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:625
+[n] <C-M-t> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:638
+[n] <C-M-t> | Found in context | Pattern match | validate-keybindings.lua:292
+[n] <C-S> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:686
+[n] <C-U> | Found in context | Pattern match | lua/plugins/gitsigns.lua:191
+[n] <C-a> | Found in context | Pattern match | lua/plugins/astrocore.lua:766
+[n] <C-a> | Found in context | Pattern match | lua/plugins/octo.lua:156
+[n] <C-b> | Found in context | Pattern match | lua/plugins/octo.lua:88
+[n] <C-b> | Found in context | Pattern match | lua/plugins/octo.lua:88
+[n] <C-c> | Found in context | Pattern match | lua/plugins/octo.lua:162
+[n] <C-c> | Found in context | Pattern match | lua/plugins/octo.lua:162
+[n] <C-c> | Found in context | Pattern match | lua/plugins/octo.lua:162
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore.lua:722
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore.lua:722
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:323
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:323
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:638
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:638
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:651
+[n] <C-d> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:651
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:315
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:315
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:630
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:630
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:643
+[n] <C-i> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:643
+[n] <C-m> | Found in context | Pattern match | lua/plugins/octo.lua:158
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua:852
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-n> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:315
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:315
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:630
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:630
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:643
+[n] <C-o> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:643
+[n] <C-o> | Found in context | Pattern match | lua/plugins/octo.lua:234
+[n] <C-r> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-r> | Found in context | Pattern match | lua/plugins/octo.lua:86
+[n] <C-r> | Found in context | Pattern match | lua/plugins/octo.lua:86
+[n] <C-r> | Found in context | Pattern match | lua/plugins/octo.lua:86
+[n] <C-s> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:600
+[n] <C-s> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:196
+[n] <C-s> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:608
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore.lua:724
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore.lua:724
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore.lua:724
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:325
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:325
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:640
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:640
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:653
+[n] <C-u> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:653
+[n] <C-u> | Found in context | Pattern match | lua/plugins/molten.lua:63
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:276
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:272
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:80
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-w> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:270
+[n] <C-x> | Found in context | Pattern match | lua/plugins/neo-tree.lua:296
+[s] <C-x> | clear_filter | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:296
+[n] <C-y> | Found in context | Pattern match | lua/plugins/octo.lua:90
+[n] <C-y> | Found in context | Pattern match | lua/plugins/octo.lua:90
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:734
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:748
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <CR> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:767
+[n] <CR> | Found in context | Pattern match | lua/plugins/gitsigns.lua:191
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <CR> | Found in context | Pattern match | lua/plugins/which-key.lua:114
+[n] <CR> | Found in context | Pattern match | plugin/tmux-swap.vim:56
+[n] <CR> | Found in context | Pattern match | plugin/tmux-swap.vim:56
+[n] <CR> | Found in context | Pattern match | plugin/tmux-swap.vim:56
+[n] <CR> | Found in context | Pattern match | plugin/tmux-swap.vim:56
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/astrocore.lua:406
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/vscode-editing.lua:168
+[n] <Cmd> | Found in context | Pattern match | lua/plugins/which-key.lua:114
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore.lua:860
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore.lua:860
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:760
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:760
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:779
+[n] <Esc> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:779
+[n] <Esc> | Found in context | Pattern match | lua/plugins/error-messages.lua:502
+[n] <Esc> | No description | vim.keymap.set | lua/plugins/error-messages.lua:502
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua:92
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:22
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:108
+[n] <Leader> | Found in context | Pattern match | lua/plugins/astrolsp.lua:174
+[n] <Leader> | Found in context | Pattern match | lua/plugins/keybind-help.lua:74
+[n] <Leader> | Found in context | Pattern match | lua/plugins/markdown-preview.lua:591
+[n] <Leader> | Found in context | Pattern match | lua/plugins/markdown-preview.lua:591
+[n] <Leader> | Found in context | Pattern match | lua/plugins/markdown-preview.lua:591
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/molten.lua:55
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/neo-tree.lua:26
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/plugins/text-objects.lua:128
+[n] <Leader> | Found in context | Pattern match | lua/utils/git-monitor.lua:318
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader> | Found in context | Pattern match | validate-keybindings.lua:48
+[n] <Leader>? | Show keybindings help | vim.keymap.set | lua/plugins/keybind-help.lua:74
+[n] <Leader>E | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:28
+[n] <Leader>bE | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:44
+[n] <Leader>be | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:42
+[n] <Leader>e | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:26
+[n] <Leader>gE | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:36
+[n] <Leader>ge | Toggle file explorer | Lazy.nvim keys | lua/plugins/neo-tree.lua:34
+[n] <Leader>w | Close buffer | AstroNvim mappings | lua/plugins/astrocore.lua:92
+[n] <Leader>w | Save file (write) | AstroNvim mappings | lua/plugins/astrocore_fixed.lua:122
+[n] <Leader>w | Save file (write) | AstroNvim mappings | lua/plugins/astrocore_new_mappings.lua:122
+[s] <Leader>w | Close buffer | AstroNvim mappings | lua/plugins/astrocore.lua:92
+[s] <Leader>w | Save file (write) | AstroNvim mappings | lua/plugins/astrocore_fixed.lua:122
+[s] <Leader>w | Save file (write) | AstroNvim mappings | lua/plugins/astrocore_new_mappings.lua:122
+[n] <Left> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <Left> | Found in context | Pattern match | lua/plugins/astrocore.lua:516
+[n] <Plug> | Found in context | Pattern match | lua/plugins/astrocore.lua:780
+[n] <Plug> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:751
+[n] <S-A-d> | Found in context | Pattern match | lua/plugins/astrocore.lua:764
+[n] <S-A-d> | Found in context | Pattern match | lua/plugins/astrocore.lua.bak:436
+[n] <S-A-d> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:677
+[n] <S-A-d> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:690
+[n] <Tab> | Found in context | Pattern match | lua/plugins/astrocore_fixed.lua:130
+[n] <Tab> | Found in context | Pattern match | lua/plugins/astrocore_keybindings_patch.lua:30
+[n] <Tab> | Found in context | Pattern match | lua/plugins/astrocore_new_mappings.lua:130
+[n] <Tab> | No description | vim.keymap.set | lua/plugins/fugitive.lua:164
+[n] <Tab> | Found in context | Pattern match | lua/plugins/fugitive.lua:164
+[s] <bs> | navigate_up | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:282
+[s] <bs> | navigate_up | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:282
+[n] <leader>"] = {
+        -- Quick actions
+        w = "Close buffer",
+        s = "Save file",
+        q = "Quit",
+        
+        -- Number keys for buffer switching
+        ["1 | Buffer 1 | which-key.register | lua/plugins/which-key.lua:0
+[v] <leader>gB | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:112
+[v] <leader>gC | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:80
+[v] <leader>gD | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:88
+[v] <leader>gL | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:98
+[v] <leader>gO | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:136
+[v] <leader>gO | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:136
+[v] <leader>gP | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:106
+[v] <leader>gS | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:120
+[v] <leader>gU | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:122
+[v] <leader>gb | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:94
+[v] <leader>gc | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:78
+[v] <leader>gd | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:86
+[v] <leader>gl | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:96
+[v] <leader>go | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:114
+[v] <leader>gp | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:104
+[v] <leader>gr | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:128
+[v] <leader>gs | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:76
+[v] <leader>gw | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:130
+[s] <space> | No description | AstroNvim mappings | lua/plugins/neo-tree.lua:166
+[?] ? | No description | vim.keymap.set | lua/plugins/gitsigns.lua:123
+[n] ? | LSP on_attach | on_attach | lua/plugins/gitsigns.lua:123
+[n] ? | Show all keybindings | which-key.register | lua/plugins/which-key.lua:404
+[s] A | git_add_all | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:212
+[s] D | fuzzy_finder_directory | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:254
+[s] H | toggle_hidden | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:286
+[n] U | No description | vim.keymap.set | lua/plugins/fugitive.lua:176
+[n] Y | No description | vim.keymap.set | lua/plugins/error-messages.lua:524
+[s] [g | prev_git_modified | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:298
+[n] ]b | Next buffer | AstroNvim mappings | lua/plugins/astrocore.lua.bak:124
+[s] ]b | Next buffer | AstroNvim mappings | lua/plugins/astrocore.lua.bak:124
+[s] ]g | next_git_modified | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:300
+[s] bd | buffer_delete | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:354
+[n] ca | No description | vim.keymap.set | lua/plugins/fugitive.lua:184
+[n] cc | No description | vim.keymap.set | lua/plugins/fugitive.lua:182
+[n] ce | No description | vim.keymap.set | lua/plugins/fugitive.lua:186
+[n] dd | No description | vim.keymap.set | lua/plugins/fugitive.lua:192
+[n] dv | No description | vim.keymap.set | lua/plugins/fugitive.lua:194
+[s] f | filter_on_submit | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:1
+[s] ga | git_add_file | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:282
+[s] gc | git_commit | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:324
+[s] gg | git_commit_and_push | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:24
+[s] gp | git_push | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:326
+[s] gr | git_revert_file | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:3
+[s] gu | git_unstage_file | AstroNvim mappings (string) | lua/plugins/neo-tree.lua:1
+[n] n | Next search result | Lazy.nvim keys | lua/plugins/vscode-editing.lua:1
+[v] n | Git status | Lazy.nvim keys | lua/plugins/fugitive.lua:1
+[n] q | No description | vim.keymap.set | lua/plugins/error-messages.lua:500
+[n] q | No description | vim.keymap.set | lua/plugins/fugitive.lua:166
+[n] s | No description | vim.keymap.set | lua/plugins/fugitive.lua:172
+[n] u | No description | vim.keymap.set | lua/plugins/fugitive.lua:174
+[v] y | No description | vim.keymap.set | lua/plugins/error-messages.lua:530
+[n] yy | No description | vim.keymap.set | lua/plugins/error-messages.lua:504

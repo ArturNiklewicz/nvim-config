@@ -34,7 +34,6 @@ return {
       desc = "Show all custom keybindings (short alias)"
     })
     
-    -- Add a keybinding to show the help
-    vim.keymap.set("n", "<Leader>?", show_keybindings, { desc = "Show keybindings help" })
+    -- Keybinding removed - now registered in which-key.lua to avoid conflict
   end,
 }

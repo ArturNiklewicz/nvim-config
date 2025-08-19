@@ -1,0 +1,5 @@
+Analysis Date: śro 13 sie 21:24:49 2025
+AstroCore: 191
+Which-Key: 0
+Coverage: 0.0%
+Unmapped: 191

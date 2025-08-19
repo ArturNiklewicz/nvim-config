@@ -1,0 +1,6 @@
+NEOVIM KEYBINDING DUPLICATE ANALYSIS
+Generated: ptk 18 lip 15:34:58 2025
+=====================================
+
+DUPLICATE KEYBINDINGS:
+

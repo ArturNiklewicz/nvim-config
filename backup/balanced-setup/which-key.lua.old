@@ -1,0 +1,300 @@
+-- Frequency-Based Keybinding Configuration
+-- Optimized for Full-stack, Mobile, and AI Development
+-- Everything important is 2 clicks away: <Leader> + key
+
+return {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  init = function()
+    vim.o.timeout = true
+    vim.o.timeoutlen = 200  -- Faster for frequent use
+  end,
+  config = function()
+    local wk = require("which-key")
+    
+    wk.setup({
+      plugins = {
+        marks = true,
+        registers = true,
+        spelling = { enabled = true, suggestions = 20 },
+        presets = {
+          operators = false,  -- Disable to reduce clutter
+          motions = false,
+          text_objects = false,
+          windows = true,
+          nav = true,
+          z = false,
+          g = true,
+        },
+      },
+      key_labels = {
+        ["<space>"] = "SPC",
+        ["<cr>"] = "RET",
+        ["<tab>"] = "TAB",
+      },
+      icons = {
+        breadcrumb = "»",
+        separator = "➜",
+        group = "+",
+      },
+      window = {
+        border = "single",
+        position = "bottom",
+        margin = { 0, 0, 0, 0 },
+        padding = { 1, 1, 1, 1 },
+        winblend = 0,
+      },
+      layout = {
+        height = { min = 4, max = 20 },
+        width = { min = 20, max = 40 },
+        spacing = 2,
+        align = "center",
+      },
+    })
+    
+    -- ═══════════════════════════════════════════════════════════════════
+    -- TIER 1: MOST FREQUENT (Direct access, no menu)
+    -- Used multiple times per minute
+    -- ═══════════════════════════════════════════════════════════════════
+    wk.register({
+      ["<leader>"] = {
+        -- Terminal (your #1 request)
+        t = { "<cmd>ToggleTerm direction=float<cr>", "🖥️ Float terminal" },
+        T = { "<cmd>ToggleTerm direction=horizontal<cr>", "Terminal split" },
+        
+        -- File management with Oil
+        e = { "<cmd>Oil<cr>", "📁 File explorer (Oil)" },
+        E = { "<cmd>Oil --float<cr>", "Float explorer" },
+        
+        -- Quick navigation
+        f = { "<cmd>Telescope find_files<cr>", "🔍 Find files" },
+        s = { "<cmd>Telescope live_grep<cr>", "🔎 Search project" },
+        b = { "<cmd>Telescope buffers<cr>", "📑 Buffers" },
+        
+        -- Git essentials
+        g = { "<cmd>Telescope git_status<cr>", "🌿 Git changes" },
+        G = { "<cmd>DiffviewOpen<cr>", "Git diff view" },
+        
+        -- Quick actions
+        w = { "<cmd>w<cr>", "💾 Save" },
+        q = { "<cmd>q<cr>", "❌ Quit" },
+        c = { "<cmd>bdelete<cr>", "Close buffer" },
+        
+        -- Rename (your request)
+        r = { function() vim.lsp.buf.rename() end, "🔄 Rename symbol" },
+        R = { ":%s/<C-r><C-w>//g<Left><Left>", "Rename all occurrences" },
+        
+        -- Testing (your request)
+        x = { function()
+          -- Run test file based on extension
+          local file = vim.fn.expand("%:p")
+          if file:match("%.spec%.") or file:match("%.test%.") then
+            vim.cmd("TermExec cmd='npm test %'")
+          elseif file:match("%.py$") then
+            vim.cmd("TermExec cmd='python -m pytest %'")
+          else
+            vim.notify("Not a test file")
+          end
+        end, "🧪 Run test" },
+        
+        -- AI/Claude
+        a = { "<cmd>ClaudeCodeToggle<cr>", "🤖 Claude AI" },
+        
+        -- Quick copy after selection (your request)
+        y = { '"+y', "📋 Copy to clipboard" },
+        p = { '"+p', "Paste from clipboard" },
+        
+        -- Direct buffer navigation (1-9)
+        ["1"] = { "<cmd>BufferLineGoToBuffer 1<cr>", "Buffer 1" },
+        ["2"] = { "<cmd>BufferLineGoToBuffer 2<cr>", "Buffer 2" },
+        ["3"] = { "<cmd>BufferLineGoToBuffer 3<cr>", "Buffer 3" },
+        ["4"] = { "<cmd>BufferLineGoToBuffer 4<cr>", "Buffer 4" },
+        ["5"] = { "<cmd>BufferLineGoToBuffer 5<cr>", "Buffer 5" },
+        ["6"] = { "<cmd>BufferLineGoToBuffer 6<cr>", "Buffer 6" },
+        ["7"] = { "<cmd>BufferLineGoToBuffer 7<cr>", "Buffer 7" },
+        ["8"] = { "<cmd>BufferLineGoToBuffer 8<cr>", "Buffer 8" },
+        ["9"] = { "<cmd>BufferLineGoToBuffer 9<cr>", "Buffer 9" },
+        
+        -- Quick jumps
+        j = { function() require("gitsigns").next_hunk() end, "↓ Next git change" },
+        k = { function() require("gitsigns").prev_hunk() end, "↑ Prev git change" },
+        
+        -- Fuzzy find symbols (your request)
+        o = { "<cmd>Telescope lsp_document_symbols<cr>", "🔤 Symbols in file" },
+        O = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Symbols in project" },
+        
+        -- Quick code actions
+        ["<space>"] = { function() vim.lsp.buf.code_action() end, "⚡ Code action" },
+        ["."] = { function() vim.lsp.buf.format() end, "Format" },
+        
+        -- Navigate errors
+        n = { function() vim.diagnostic.goto_next() end, "Next error" },
+        N = { function() vim.diagnostic.goto_prev() end, "Prev error" },
+      }
+    })
+    
+    -- ═══════════════════════════════════════════════════════════════════
+    -- TIER 2: FREQUENT (Submenus for related actions)
+    -- Used multiple times per hour
+    -- ═══════════════════════════════════════════════════════════════════
+    
+    -- Git operations submenu
+    wk.register({
+      ["<leader>g"] = {
+        name = "🌿 Git",
+        s = { "<cmd>Telescope git_status<cr>", "Status" },
+        c = { "<cmd>Telescope git_commits<cr>", "Commits" },
+        b = { "<cmd>Telescope git_branches<cr>", "Branches" },
+        d = { "<cmd>DiffviewOpen<cr>", "Diff view" },
+        D = { "<cmd>DiffviewClose<cr>", "Close diff" },
+        h = { "<cmd>DiffviewFileHistory %<cr>", "File history" },
+        H = { "<cmd>DiffviewFileHistory<cr>", "Branch history" },
+        -- Quick stage/unstage
+        a = { "<cmd>Gitsigns stage_hunk<cr>", "Stage hunk" },
+        u = { "<cmd>Gitsigns undo_stage_hunk<cr>", "Unstage hunk" },
+        r = { "<cmd>Gitsigns reset_hunk<cr>", "Reset hunk" },
+        p = { "<cmd>Gitsigns preview_hunk<cr>", "Preview hunk" },
+        -- Navigate changes in current file
+        j = { "<cmd>Gitsigns next_hunk<cr>", "Next hunk" },
+        k = { "<cmd>Gitsigns prev_hunk<cr>", "Prev hunk" },
+        -- Glance all changes (your request)
+        g = { "<cmd>Telescope git_status<cr>", "Glance all changes" },
+      }
+    })
+    
+    -- Find/Search submenu (when you need more options)
+    wk.register({
+      ["<leader>f"] = {
+        name = "🔍 Find",
+        f = { "<cmd>Telescope find_files<cr>", "Files" },
+        g = { "<cmd>Telescope live_grep<cr>", "Grep" },
+        b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+        h = { "<cmd>Telescope help_tags<cr>", "Help" },
+        r = { "<cmd>Telescope oldfiles<cr>", "Recent" },
+        w = { "<cmd>Telescope grep_string<cr>", "Word under cursor" },
+        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Symbols" },
+        S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "All symbols" },
+        d = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
+        c = { "<cmd>Telescope commands<cr>", "Commands" },
+        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+        m = { "<cmd>Telescope marks<cr>", "Marks" },
+        M = { "<cmd>Telescope man_pages<cr>", "Man pages" },
+        p = { "<cmd>Telescope resume<cr>", "Resume last" },
+      }
+    })
+    
+    -- LSP/Code submenu
+    wk.register({
+      ["<leader>l"] = {
+        name = "💻 LSP",
+        a = { function() vim.lsp.buf.code_action() end, "Action" },
+        d = { function() vim.lsp.buf.definition() end, "Definition" },
+        D = { function() vim.lsp.buf.declaration() end, "Declaration" },
+        i = { function() vim.lsp.buf.implementation() end, "Implementation" },
+        r = { function() vim.lsp.buf.references() end, "References" },
+        R = { function() vim.lsp.buf.rename() end, "Rename" },
+        t = { function() vim.lsp.buf.type_definition() end, "Type def" },
+        h = { function() vim.lsp.buf.hover() end, "Hover" },
+        s = { function() vim.lsp.buf.signature_help() end, "Signature" },
+        f = { function() vim.lsp.buf.format() end, "Format" },
+        e = { function() vim.diagnostic.open_float() end, "Show error" },
+        q = { function() vim.diagnostic.setqflist() end, "Quickfix" },
+        l = { function() vim.diagnostic.setloclist() end, "Loclist" },
+      }
+    })
+    
+    -- Terminal variations
+    wk.register({
+      ["<leader>t"] = {
+        name = "🖥️ Terminal",
+        t = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
+        h = { "<cmd>ToggleTerm direction=horizontal<cr>", "Horizontal" },
+        v = { "<cmd>ToggleTerm direction=vertical<cr>", "Vertical" },
+        ["1"] = { "<cmd>1ToggleTerm<cr>", "Terminal 1" },
+        ["2"] = { "<cmd>2ToggleTerm<cr>", "Terminal 2" },
+        ["3"] = { "<cmd>3ToggleTerm<cr>", "Terminal 3" },
+        ["4"] = { "<cmd>4ToggleTerm<cr>", "Terminal 4" },
+        g = { "<cmd>TermExec cmd='lazygit'<cr>", "Lazygit" },
+        n = { "<cmd>TermExec cmd='npm start'<cr>", "npm start" },
+        p = { "<cmd>TermExec cmd='python %'<cr>", "Python run" },
+        r = { "<cmd>TermExec cmd='cargo run'<cr>", "Cargo run" },
+      }
+    })
+    
+    -- ═══════════════════════════════════════════════════════════════════
+    -- TIER 3: OCCASIONAL (Less frequent, in submenus)
+    -- ═══════════════════════════════════════════════════════════════════
+    
+    -- UI toggles
+    wk.register({
+      ["<leader>u"] = {
+        name = "🎨 UI",
+        z = { "<cmd>ZenMode<cr>", "Zen mode" },
+        n = { "<cmd>set number!<cr>", "Numbers" },
+        r = { "<cmd>set relativenumber!<cr>", "Relative" },
+        w = { "<cmd>set wrap!<cr>", "Wrap" },
+        s = { "<cmd>set spell!<cr>", "Spell" },
+        c = { "<cmd>set cursorline!<cr>", "Cursor line" },
+        h = { "<cmd>nohlsearch<cr>", "Clear highlights" },
+      }
+    })
+    
+    -- Messages/Debugging
+    wk.register({
+      ["<leader>d"] = {
+        name = "🐛 Debug",
+        m = { "<cmd>messages<cr>", "Messages" },
+        e = { "<cmd>Telescope diagnostics<cr>", "Errors" },
+        l = { "<cmd>Lazy<cr>", "Lazy plugins" },
+        i = { "<cmd>LspInfo<cr>", "LSP info" },
+        I = { "<cmd>Mason<cr>", "Mason" },
+      }
+    })
+    
+    -- ═══════════════════════════════════════════════════════════════════
+    -- NON-LEADER SHORTCUTS (For ultra-fast access)
+    -- ═══════════════════════════════════════════════════════════════════
+    
+    -- Quick terminal toggle (no leader needed)
+    wk.register({
+      ["<C-`>"] = { "<cmd>ToggleTerm direction=float<cr>", "Float terminal" },
+      ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", "Toggle terminal" },
+      
+      -- Quick save/quit
+      ["<C-s>"] = { "<cmd>w<cr>", "Save" },
+      
+      -- Navigate between windows
+      ["<C-h>"] = { "<C-w>h", "Window left" },
+      ["<C-j>"] = { "<C-w>j", "Window down" },
+      ["<C-k>"] = { "<C-w>k", "Window up" },
+      ["<C-l>"] = { "<C-w>l", "Window right" },
+      
+      -- Quick buffer switching
+      ["<Tab>"] = { "<cmd>BufferLineCycleNext<cr>", "Next buffer" },
+      ["<S-Tab>"] = { "<cmd>BufferLineCyclePrev<cr>", "Prev buffer" },
+      
+      -- Oil.nvim file manager
+      ["-"] = { "<cmd>Oil<cr>", "Open parent directory" },
+    })
+    
+    -- Terminal mode mappings
+    wk.register({
+      ["<C-`>"] = { [[<C-\><C-n><cmd>ToggleTerm<cr>]], "Hide terminal" },
+      ["<Esc><Esc>"] = { [[<C-\><C-n>]], "Exit terminal mode" },
+    }, { mode = "t" })
+    
+    -- Visual mode: quick operations
+    wk.register({
+      ["<leader>"] = {
+        y = { '"+y', "Copy to clipboard" },
+        p = { '"+p', "Paste from clipboard" },
+        r = { ":<C-u>'<,'>s/<C-r><C-w>//g<Left><Left>", "Replace in selection" },
+        s = { function() require("telescope.builtin").grep_string() end, "Search selection" },
+        f = { function() vim.lsp.buf.format() end, "Format selection" },
+        c = { "gc", "Comment selection" },
+      }
+    }, { mode = "v" })
+    
+    print("✅ Frequency-based keybindings loaded!")
+  end,
+}

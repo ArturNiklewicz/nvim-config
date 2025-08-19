@@ -18,14 +18,6 @@ return {
     
     -- Auto-open files in buffers when Claude Code edits them
     auto_open_edited_files = true,
-    
-    -- Terminal configuration for better integration
-    terminal = {
-      split_side = "right",
-      split_width_percentage = 0.30,
-      provider = "auto",
-      auto_close = false,  -- Keep terminal open for ongoing interaction
-    },
   },
   
   config = function(_, opts)

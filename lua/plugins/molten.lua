@@ -36,9 +36,9 @@ return {
     keymap("n", "<Leader>mh", "<cmd>MoltenHideOutput<cr>", { desc = "Hide output" })
     keymap("n", "<Leader>md", "<cmd>MoltenDelete<cr>", { desc = "Delete cell" })
     
-    -- Navigation
-    keymap("n", "]c", "<cmd>MoltenNext<cr>", { desc = "Next cell" })
-    keymap("n", "[c", "<cmd>MoltenPrev<cr>", { desc = "Previous cell" })
+    -- Navigation (changed to ]j/[j to avoid conflict with git hunks)
+    keymap("n", "]j", "<cmd>MoltenNext<cr>", { desc = "Next Jupyter cell" })
+    keymap("n", "[j", "<cmd>MoltenPrev<cr>", { desc = "Previous Jupyter cell" })
     
     -- Kernel management
     keymap("n", "<Leader>mk", "<cmd>MoltenKernelStatusToggle<cr>", { desc = "Toggle kernel status" })

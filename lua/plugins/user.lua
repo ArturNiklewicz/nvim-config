@@ -17,10 +17,17 @@ return {
 
   -- == Examples of Overriding Plugins ==
 
-  -- customize dashboard options
+  -- customize dashboard options and fix buffer issues
   {
     "folke/snacks.nvim",
     opts = {
+      -- Fix buffer validation issues
+      win = {
+        backend = "nvim",
+        wo = {
+          winblend = 0,
+        },
+      },
       dashboard = {
         preset = {
           header = table.concat({
