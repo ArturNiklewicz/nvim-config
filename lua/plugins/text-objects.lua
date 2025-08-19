@@ -128,9 +128,10 @@ return {
     event = "User AstroFile",
     opts = {
       -- Use default keymaps for additional text objects
-      useDefaultKeymaps = true,
-      -- Disable notification when no text object is found
-      disabledKeymaps = {},
+      keymaps = {
+        useDefaults = true,
+        disabledDefaults = {},
+      },
     },
   },
   

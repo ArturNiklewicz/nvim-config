@@ -63,16 +63,14 @@ return {
           -- ================================
           -- AI/CLAUDE CODE (<Leader>a)
           -- ================================
-          ["<Leader>ac"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Claude toggle (resume)" },
-          ["<Leader>aC"] = { "<cmd>ClaudeCodeFresh<cr>", desc = "Claude fresh chat" },
-          ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Claude focus" },
-          ["<Leader>ar"] = { "<cmd>ClaudeCodeResume<cr>", desc = "Claude resume" },
-          ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add buffer to Claude" },
-          ["<Leader>aa"] = { "<cmd>ClaudeAcceptChanges<cr>", desc = "Accept changes" },
-          ["<Leader>ad"] = { "<cmd>ClaudeRejectChanges<cr>", desc = "Reject changes" },
-          ["<Leader>ao"] = { "<cmd>ClaudeOpenAllFiles<cr>", desc = "Open edited files" },
-          ["<Leader>ai"] = { "<cmd>ClaudeShowDiff<cr>", desc = "Show diff" },
-          ["<Leader>aD"] = { "<cmd>ClaudeShowAllDiffs<cr>", desc = "Show all diffs" },
+          ["<Leader>ac"] = { "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+          ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+          ["<Leader>ar"] = { "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+          ["<Leader>aC"] = { "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+          ["<Leader>am"] = { "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+          ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+          ["<Leader>aa"] = { "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+          ["<Leader>ad"] = { "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
           
           -- ================================
           -- BUFFERS (<Leader>b)
@@ -192,19 +190,6 @@ return {
           -- ================================
           -- JUPYTER/MOLTEN (<Leader>j)
           -- ================================
-          ["<Leader>ji"] = { "<cmd>MoltenInit<cr>", desc = "Initialize Molten" },
-          ["<Leader>je"] = { "<cmd>MoltenEvaluateOperator<cr>", desc = "Evaluate operator" },
-          ["<Leader>jl"] = { "<cmd>MoltenEvaluateLine<cr>", desc = "Evaluate line" },
-          ["<Leader>jr"] = { "<cmd>MoltenReevaluateCell<cr>", desc = "Re-evaluate cell" },
-          ["<Leader>jo"] = { "<cmd>MoltenShowOutput<cr>", desc = "Show output" },
-          ["<Leader>jh"] = { "<cmd>MoltenHideOutput<cr>", desc = "Hide output" },
-          ["<Leader>jd"] = { "<cmd>MoltenDelete<cr>", desc = "Delete cell" },
-          ["<Leader>js"] = { "<cmd>MoltenStart<cr>", desc = "Start kernel" },
-          ["<Leader>jS"] = { "<cmd>MoltenStop<cr>", desc = "Stop kernel" },
-          ["<Leader>jR"] = { "<cmd>MoltenRestart<cr>", desc = "Restart kernel" },
-          ["<Leader>jk"] = { "<cmd>MoltenKernelStatusToggle<cr>", desc = "Toggle kernel status" },
-          ["<Leader>jI"] = { "<cmd>MoltenImportOutput<cr>", desc = "Import output" },
-          ["<Leader>jE"] = { "<cmd>MoltenExportOutput<cr>", desc = "Export output" },
           
           
           -- ================================
@@ -254,9 +239,6 @@ return {
           -- ================================
           -- REPLACE/REFACTOR (<Leader>r)
           -- ================================
-          ["<Leader>rr"] = { "<cmd>Spectre<cr>", desc = "Replace (Spectre)" },
-          ["<Leader>rw"] = { function() require("spectre").open_visual({select_word=true}) end, desc = "Replace word" },
-          ["<Leader>rf"] = { function() require("spectre").open_file_search({select_word=true}) end, desc = "Replace in file" },
           ["<Leader>rc"] = { ":%s/<C-r><C-w>//g<Left><Left>", desc = "Replace word (native)" },
           ["<Leader>rn"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
           
@@ -350,10 +332,6 @@ return {
           -- ================================
           -- VSCODE FEATURES (<Leader>v)
           -- ================================
-          ["<Leader>vy"] = { "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
-          ["<Leader>vp"] = { function() require("telescope").extensions.neoclip.default() end, desc = "Paste from history" },
-          ["<Leader>vl"] = { function() require("illuminate").next_reference() end, desc = "Next reference" },
-          ["<Leader>vh"] = { function() require("illuminate").prev_reference() end, desc = "Previous reference" },
           
           -- ================================
           -- DIAGNOSTICS (<Leader>x)
@@ -404,8 +382,6 @@ return {
           ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["]d"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
           ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
-          ["]j"] = { "<cmd>MoltenNext<cr>", desc = "Next Jupyter cell" },
-          ["[j"] = { "<cmd>MoltenPrev<cr>", desc = "Previous Jupyter cell" },
           ["]g"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
           ["[g"] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
           
@@ -429,17 +405,10 @@ return {
           
           -- AI/Claude
           ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude" },
-          ["<Leader>aS"] = { function() 
-            vim.cmd("ClaudeCodeSend")
-            vim.cmd("ClaudeCodeFocus")
-          end, desc = "Send to Claude and focus" },
           
           -- Jupyter
-          ["<Leader>jv"] = { ":<C-u>MoltenEvaluateVisual<cr>gv", desc = "Evaluate selection" },
           
           -- Replace
-          ["<Leader>rr"] = { "<cmd>Spectre<cr>", desc = "Replace selection" },
-          ["<Leader>rw"] = { function() require("spectre").open_visual() end, desc = "Replace selection" },
           
           -- Search
           ["<Leader>sw"] = { function() 
@@ -458,6 +427,17 @@ return {
         -- TERMINAL MODE MAPPINGS
         -- ================================
         t = {
+          -- Terminal navigation with Alt keys (escape sequence for terminals)
+          ["<M-1>"] = { "<C-\\><C-n>1<C-w>w", desc = "Focus window 1" },
+          ["<M-2>"] = { "<C-\\><C-n>2<C-w>w", desc = "Focus window 2" },
+          ["<M-3>"] = { "<C-\\><C-n>3<C-w>w", desc = "Focus window 3" },
+          ["<M-4>"] = { "<C-\\><C-n>4<C-w>w", desc = "Focus window 4" },
+          ["<M-5>"] = { "<C-\\><C-n>5<C-w>w", desc = "Focus window 5" },
+          ["<M-6>"] = { "<C-\\><C-n>6<C-w>w", desc = "Focus window 6" },
+          ["<M-7>"] = { "<C-\\><C-n>7<C-w>w", desc = "Focus window 7" },
+          ["<M-8>"] = { "<C-\\><C-n>8<C-w>w", desc = "Focus window 8" },
+          
+          -- Traditional terminal navigation
           ["<C-M-Tab>1"] = { "<C-\\><C-n>:1ToggleTerm<CR>", desc = "Terminal 1" },
           ["<C-M-Tab>2"] = { "<C-\\><C-n>:2ToggleTerm<CR>", desc = "Terminal 2" },
           ["<C-M-Tab>3"] = { "<C-\\><C-n>:3ToggleTerm<CR>", desc = "Terminal 3" },

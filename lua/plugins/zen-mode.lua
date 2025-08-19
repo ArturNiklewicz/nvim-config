@@ -1,19 +1,21 @@
 return {
   "folke/zen-mode.nvim",
   opts = {
-    window = {
+    win = {
       backdrop = 0.95,                -- Subtle backdrop for focus
       width = 120,                    -- Content width
       height = 1,                     -- Full height
       options = {
-        -- Preserve all normal editor settings
-        signcolumn = "yes",           -- Keep git signs column visible
-        number = true,                -- Keep line numbers
-        relativenumber = true,        -- Keep relative line numbers
+        -- IMPORTANT: Preserve line numbers and git signs
+        signcolumn = "yes:2",         -- Ensure git signs column is always visible with width
+        number = true,                -- Always show line numbers
+        relativenumber = true,        -- Always show relative line numbers
         cursorline = true,            -- Keep cursor line highlight
         cursorcolumn = false,         -- Usually not needed
         foldcolumn = "1",             -- Keep fold column if you use folds
         list = false,                 -- Hide whitespace characters
+        colorcolumn = "",             -- Hide color column in zen mode
+        scrolloff = 999,              -- Center the cursor vertically
       },
     },
     plugins = {
@@ -24,23 +26,34 @@ return {
         showcmd = true,               -- Keep command display
         laststatus = 3,               -- Keep global statusline visible
       },
-      -- Keep essential plugins active
+      -- CRITICAL: Keep gitsigns and line numbers active
+      gitsigns = { enabled = true },  -- ALWAYS keep git signs visible
       twilight = { enabled = false }, -- Disable twilight dimming to see all code clearly
-      gitsigns = { enabled = true },  -- Keep git signs visible
       tmux = { enabled = false },     -- Don't modify tmux
       kitty = {
         enabled = false,              -- Don't modify terminal font
         font = "+4",
       },
+      alacritty = {
+        enabled = false,
+        font = "14",
+      },
     },
     -- Callback to ensure settings are preserved
     on_open = function(win)
-      -- Additional settings to preserve when entering zen mode
+      -- Force line numbers and gitsigns to stay visible
+      vim.opt_local.number = true
+      vim.opt_local.relativenumber = true
+      vim.opt_local.signcolumn = "yes:2"
       vim.opt_local.wrap = false      -- Keep nowrap
       vim.opt_local.linebreak = false -- Keep linebreak setting
+      
+      -- Ensure gitsigns refreshes
+      vim.cmd("Gitsigns refresh")
     end,
     on_close = function()
-      -- Nothing to restore as we're keeping everything
+      -- Restore normal scrolloff
+      vim.opt_local.scrolloff = 8
     end,
   },
 }

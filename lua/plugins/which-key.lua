@@ -49,21 +49,39 @@ return {
     local mappings = {
       -- Direct access commands (no submenu)
       { "<leader>e", "<cmd>Oil<cr>", desc = "File explorer (Oil)" },
-      { "<leader>E", "<cmd>Neotree toggle<cr>", desc = "Neo-tree toggle" },
+      { "<leader>E", function() require("oil").toggle_float() end, desc = "Oil float toggle" },
+      { "<leader>o", function()
+        local oil_buffers = vim.tbl_filter(function(buf)
+          return vim.bo[buf].filetype == "oil"
+        end, vim.api.nvim_list_bufs())
+        
+        if #oil_buffers > 0 then
+          for _, buf in ipairs(oil_buffers) do
+            local wins = vim.fn.win_findbuf(buf)
+            for _, win in ipairs(wins) do
+              vim.api.nvim_win_close(win, false)
+            end
+          end
+        else
+          vim.cmd("vsplit")
+          vim.cmd("Oil .")
+          vim.cmd("vertical resize 35")
+        end
+      end, desc = "Toggle Oil sidebar" },
       { "<leader>f", "<cmd>Telescope find_files<cr>", desc = "Find files" },
       { "<leader>s", "<cmd>Telescope live_grep<cr>", desc = "Search project" },
       { "<leader>w", function() require("astrocore.buffer").close() end, desc = "Close buffer" },
       { "<leader>q", "<cmd>q<cr>", desc = "Quit" },
       { "<leader>Q", "<cmd>qa<cr>", desc = "Quit all" },
-      { "<leader>h", "<cmd>nohlsearch<cr>", desc = "Clear highlights" },
-      { "<leader>P", "<cmd>Telescope commands<cr>", desc = "Command palette" },
+      { "<leader>h", "<cmd>nohlsearch<cr>", desc = " Clear highlights" },
+      { "<leader>P", "<cmd>Telescope commands<cr>", desc = " Command palette" },
       { "<leader>.", "<cmd>Telescope find_files cwd=%:p:h<cr>", desc = "Find in current dir" },
-      { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen mode" },
-      { "<leader>W", "<cmd>wa<cr>", desc = "Save all" },
+      { "<leader>z", "<cmd>ZenMode<cr>", desc = "󰈈 Zen mode" },
+      { "<leader>W", "<cmd>wa<cr>", desc = " Save all" },
       { "<leader>R", "<cmd>e!<cr>", desc = "Reload file" },
       { "<leader>n", "<cmd>enew<cr>", desc = "New file" },
       { "<leader>`", function() require("astrocore.buffer").nav_to_last() end, desc = "Switch to last buffer" },
-      { "<leader>?", "<cmd>Keybindings<cr>", desc = "Show keybindings" },
+      { "<leader>?", "<cmd>Keybindings<cr>", desc = "⌨ Show keybindings" },
       { "<leader>-", "<cmd>Oil .<cr>", desc = "Open current directory" },
       
       -- Buffer navigation (1-9, 0)
@@ -129,16 +147,14 @@ return {
 
       -- AI/Claude
       { "<leader>a", group = "AI/Claude" },
-      { "<leader>ac", "<cmd>ClaudeCodeResume<cr>", desc = "Claude toggle (resume)" },
-      { "<leader>aC", "<cmd>ClaudeCodeFresh<cr>", desc = "Claude fresh chat" },
-      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Claude focus" },
-      { "<leader>ar", "<cmd>ClaudeCodeResume<cr>", desc = "Claude resume" },
-      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add buffer to Claude" },
-      { "<leader>aa", "<cmd>ClaudeAcceptChanges<cr>", desc = "Accept changes" },
-      { "<leader>ad", "<cmd>ClaudeRejectChanges<cr>", desc = "Reject changes" },
-      { "<leader>ao", "<cmd>ClaudeOpenAllFiles<cr>", desc = "Open edited files" },
-      { "<leader>ai", "<cmd>ClaudeShowDiff<cr>", desc = "Show diff" },
-      { "<leader>aD", "<cmd>ClaudeShowAllDiffs<cr>", desc = "Show all diffs" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 
       -- Code/LSP
       { "<leader>c", group = "Code" },
@@ -170,19 +186,6 @@ return {
 
       -- Jupyter/Molten
       { "<leader>j", group = "Jupyter" },
-      { "<leader>ji", "<cmd>MoltenInit<cr>", desc = "Initialize Molten" },
-      { "<leader>je", "<cmd>MoltenEvaluateOperator<cr>", desc = "Evaluate operator" },
-      { "<leader>jl", "<cmd>MoltenEvaluateLine<cr>", desc = "Evaluate line" },
-      { "<leader>jr", "<cmd>MoltenReevaluateCell<cr>", desc = "Re-evaluate cell" },
-      { "<leader>jo", "<cmd>MoltenShowOutput<cr>", desc = "Show output" },
-      { "<leader>jh", "<cmd>MoltenHideOutput<cr>", desc = "Hide output" },
-      { "<leader>jd", "<cmd>MoltenDelete<cr>", desc = "Delete cell" },
-      { "<leader>js", "<cmd>MoltenStart<cr>", desc = "Start kernel" },
-      { "<leader>jS", "<cmd>MoltenStop<cr>", desc = "Stop kernel" },
-      { "<leader>jR", "<cmd>MoltenRestart<cr>", desc = "Restart kernel" },
-      { "<leader>jk", "<cmd>MoltenKernelStatusToggle<cr>", desc = "Toggle kernel status" },
-      { "<leader>jI", "<cmd>MoltenImportOutput<cr>", desc = "Import output" },
-      { "<leader>jE", "<cmd>MoltenExportOutput<cr>", desc = "Export output" },
 
 
       -- Messages/Errors
@@ -214,10 +217,7 @@ return {
       { "<leader>bc", function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf()) end, desc = "Buffer count" },
 
       -- Replace/Refactor
-      { "<leader>r", group = "Replace" },
-      { "<leader>rr", "<cmd>Spectre<cr>", desc = "Replace (Spectre)" },
-      { "<leader>rw", function() require("spectre").open_visual({select_word=true}) end, desc = "Replace word" },
-      { "<leader>rf", function() require("spectre").open_file_search({select_word=true}) end, desc = "Replace in file" },
+      { "<leader>r", group = " +Replace" },
       { "<leader>rc", ":%s/<C-r><C-w>//g<Left><Left>", desc = "Replace word (native)" },
       { "<leader>rn", function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
 
@@ -275,10 +275,6 @@ return {
 
       -- VSCode features
       { "<leader>v", group = "VSCode" },
-      { "<leader>vy", "<cmd>Telescope neoclip<cr>", desc = "Clipboard history" },
-      { "<leader>vp", function() require("telescope").extensions.neoclip.default() end, desc = "Paste from history" },
-      { "<leader>vl", function() require("illuminate").next_reference() end, desc = "Next reference" },
-      { "<leader>vh", function() require("illuminate").prev_reference() end, desc = "Previous reference" },
 
       -- Diagnostics
       { "<leader>x", group = "Diagnostics" },
@@ -304,10 +300,6 @@ return {
       -- Visual mode mappings
       { "<leader>/", ":<C-u>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", desc = "Toggle comment", mode = "v" },
       { "<leader>as", "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude", mode = "v" },
-      { "<leader>aS", function() vim.cmd("ClaudeCodeSend") vim.cmd("ClaudeCodeFocus") end, desc = "Send to Claude and focus", mode = "v" },
-      { "<leader>jv", ":<C-u>MoltenEvaluateVisual<cr>gv", desc = "Evaluate selection", mode = "v" },
-      { "<leader>rr", "<cmd>Spectre<cr>", desc = "Replace selection", mode = "v" },
-      { "<leader>rw", function() require("spectre").open_visual() end, desc = "Replace selection", mode = "v" },
       { "<leader>sw", function() require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) end, desc = "Search selection", mode = "v" },
     }
     
