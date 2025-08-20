@@ -4,16 +4,25 @@
 local M = {}
 
 -- Prompt template for generating commit messages
+-- You can customize this prompt to change how Claude generates commit messages
 local COMMIT_PROMPT = [[
 Analyze the following git diff and generate a conventional commit message.
 
 REQUIREMENTS:
 1. Use conventional commit format: type(scope): description
-2. Types: feat, fix, docs, style, refactor, perf, test, chore, build, ci
-3. Keep first line under 72 characters
+2. Types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert
+3. Keep first line under 50 characters (hard limit 72)
 4. Be concise but descriptive - capture the "why" not just the "what"
 5. Include critical implementation details when relevant
 6. Make it user-friendly and comprehensible at a glance
+7. Use present tense ("add" not "added", "fix" not "fixed")
+8. Don't end the subject line with a period
+
+BODY FORMAT (when needed):
+- Explain motivation for the change
+- Contrast behavior before and after
+- Include any breaking changes with "BREAKING CHANGE:" prefix
+- Reference issues with "Fixes #123" or "Closes #456"
 
 IMPORTANT DETAILS TO CONSIDER:
 - Breaking changes (add BREAKING CHANGE: in body)
@@ -22,6 +31,8 @@ IMPORTANT DETAILS TO CONSIDER:
 - API changes
 - User-facing changes
 - Dependencies updates
+- Migration requirements
+- Known limitations
 
 GIT DIFF:
 %s
