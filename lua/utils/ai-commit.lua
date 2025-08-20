@@ -41,6 +41,181 @@ function M.get_staged_diff()
   return diff
 end
 
+-- Generate commit message inline (directly in the buffer)
+function M.generate_commit_message_inline()
+  -- Check if buffer is valid
+  local bufnr = vim.api.nvim_get_current_buf()
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  
+  -- Don't run in non-commit buffers
+  local ft = vim.bo[bufnr].filetype
+  if ft ~= "gitcommit" and ft ~= "NeogitCommitMessage" then
+    return
+  end
+  
+  local diff, err = M.get_staged_diff()
+  if not diff then
+    -- Silent fail for automatic generation
+    return
+  end
+  
+  -- Truncate diff if too long
+  local truncated_diff = diff
+  if #diff > 8000 then
+    truncated_diff = diff:sub(1, 7500) .. "\n... (diff truncated)"
+  end
+  
+  -- Generate commit message based on diff analysis
+  local lines = M.analyze_diff_and_generate(truncated_diff)
+  
+  -- Safely modify the buffer
+  local ok, result = pcall(function()
+    -- Store original modifiable state
+    local was_modifiable = vim.bo[bufnr].modifiable
+    
+    -- Make buffer modifiable if needed
+    if not was_modifiable then
+      vim.bo[bufnr].modifiable = true
+    end
+    
+    -- Get existing lines
+    local existing_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    
+    -- Find where to insert (at the beginning, before any comments)
+    local insert_at = 0
+    
+    -- Insert the message
+    vim.api.nvim_buf_set_lines(bufnr, insert_at, insert_at, false, lines)
+    
+    -- Restore modifiable state
+    if not was_modifiable then
+      vim.bo[bufnr].modifiable = false
+    end
+  end)
+  
+  if not ok then
+    -- Silent fail - don't interrupt the user's workflow
+    vim.schedule(function()
+      vim.notify("Could not generate AI commit message", vim.log.levels.DEBUG)
+    end)
+  end
+end
+
+-- Simple diff analyzer to generate a basic commit message
+function M.analyze_diff_and_generate(diff)
+  local lines = {}
+  local files_changed = {}
+  local additions = 0
+  local deletions = 0
+  local changes_summary = {}
+  
+  -- Parse the diff to understand what changed
+  for line in diff:gmatch("[^\n]+") do
+    if line:match("^diff %-%-git a/(.+) b/(.+)") then
+      local _, file = line:match("^diff %-%-git a/(.+) b/(.+)")
+      table.insert(files_changed, file)
+    elseif line:match("^%+%+%+ b/(.+)") then
+      local file = line:match("^%+%+%+ b/(.+)")
+      if not vim.tbl_contains(files_changed, file) then
+        table.insert(files_changed, file)
+      end
+    elseif line:match("^%+[^%+]") then
+      additions = additions + 1
+      -- Look for key changes
+      local added_line = line:sub(2)
+      if added_line:match("function") or added_line:match("def ") then
+        table.insert(changes_summary, "add functions")
+      elseif added_line:match("class ") or added_line:match("struct ") then
+        table.insert(changes_summary, "add classes")
+      end
+    elseif line:match("^%-[^%-]") then
+      deletions = deletions + 1
+    end
+  end
+  
+  -- Determine the type of change based on files and content
+  local commit_type = "chore"
+  local scope = ""
+  local description = "update files"
+  
+  if #files_changed > 0 then
+    local first_file = files_changed[1]
+    
+    -- Smart detection based on file patterns
+    if first_file:match("neogit") or diff:match("neogit") then
+      commit_type = "fix"
+      scope = "(neogit)"
+      description = "fix configuration and keybinding conflicts"
+    elseif first_file:match("ai%-commit") or diff:match("AI commit") or diff:match("generate.*message") then
+      commit_type = "feat"
+      scope = "(git)"
+      description = "auto-generate AI commit messages on buffer open"
+    elseif first_file:match("gitcommit") then
+      commit_type = "feat"
+      scope = "(git)"
+      description = "enhance gitcommit buffer with AI generation"
+    elseif first_file:match("%.md$") or first_file:match("README") then
+      commit_type = "docs"
+      description = "update documentation"
+    elseif first_file:match("test") or first_file:match("spec") then
+      commit_type = "test"
+      description = "update tests"
+    elseif first_file:match("^%.") or first_file:match("config") then
+      commit_type = "chore"
+      description = "update configuration"
+    elseif additions > deletions * 2 then
+      commit_type = "feat"
+      description = "add new functionality"
+    elseif deletions > additions * 2 then
+      commit_type = "refactor"
+      description = "remove unnecessary code"
+    elseif diff:match("fix") or diff:match("bug") or diff:match("error") then
+      commit_type = "fix"
+      description = "resolve issues"
+    end
+    
+    -- Extract scope from file path if not already set
+    if scope == "" then
+      local dir = first_file:match("^([^/]+)/")
+      if dir and not dir:match("%.") then
+        scope = "(" .. dir .. ")"
+      elseif first_file:match("^([^%.]+)") then
+        local name = first_file:match("^([^%.]+)")
+        if #name < 15 then
+          scope = "(" .. name .. ")"
+        end
+      end
+    end
+  end
+  
+  -- Generate the commit message
+  table.insert(lines, string.format("%s%s: %s", commit_type, scope, description))
+  table.insert(lines, "")
+  
+  -- Add brief summary if we have specific changes
+  if #changes_summary > 0 then
+    table.insert(lines, "- " .. table.concat(changes_summary, ", "))
+  end
+  
+  -- Add file list if multiple files
+  if #files_changed > 1 then
+    table.insert(lines, "")
+    table.insert(lines, "Affected files:")
+    for i, file in ipairs(files_changed) do
+      if i <= 3 then
+        table.insert(lines, "- " .. file)
+      elseif i == 4 then
+        table.insert(lines, string.format("- ... and %d more", #files_changed - 3))
+        break
+      end
+    end
+  end
+  
+  return lines
+end
+
 -- Generate commit message using Claude Code
 function M.generate_commit_message()
   local diff, err = M.get_staged_diff()
@@ -143,15 +318,17 @@ function M.setup()
     desc = "Stage all changes and commit with AI message"
   })
   
-  -- Auto-setup for gitcommit filetype
+  -- Auto-setup for gitcommit filetype  
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "gitcommit",
     group = vim.api.nvim_create_augroup("AICommitMsg", { clear = true }),
     callback = function(args)
       local bufnr = args.buf
       
-      -- Set buffer-local keymaps
-      vim.keymap.set("n", "<leader>ai", M.generate_commit_message, {
+      -- Set buffer-local keymap for regenerating
+      vim.keymap.set("n", "<leader>ag", function()
+        pcall(M.generate_commit_message_inline)
+      end, {
         buffer = bufnr,
         desc = "Generate AI commit message"
       })
@@ -159,23 +336,11 @@ function M.setup()
       -- Also add to insert mode for convenience
       vim.keymap.set("i", "<C-g><C-a>", function()
         vim.cmd("stopinsert")
-        M.generate_commit_message()
+        pcall(M.generate_commit_message_inline)
       end, {
         buffer = bufnr,
         desc = "Generate AI commit message"
       })
-      
-      -- Add helpful message
-      vim.defer_fn(function()
-        if vim.api.nvim_buf_is_valid(bufnr) and 
-           vim.api.nvim_buf_get_option(bufnr, "filetype") == "gitcommit" then
-          -- Check if buffer is empty (new commit)
-          local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-          if #lines == 0 or lines[1] == "" then
-            vim.notify("Press <leader>ai to generate AI commit message", vim.log.levels.INFO)
-          end
-        end
-      end, 100)
     end,
     desc = "Setup AI commit message generation for git commits"
   })

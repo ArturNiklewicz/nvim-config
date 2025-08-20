@@ -99,15 +99,15 @@ return {
         ["<c-s>"] = "SplitOpen",
         ["<c-v>"] = "VSplitOpen",
         ["<c-t>"] = "TabOpen",
-        ["p"] = "PeekFile",
-        -- Git operations (these will open popups)
-        ["c"] = "Command",
-        ["d"] = "Command",
-        ["l"] = "Command",
-        ["f"] = "Command",
-        ["r"] = "Command",
-        ["z"] = "Command",
-        ["P"] = "Command",
+        -- Don't override 'p' as it's used for pull popup
+        -- Git command keys - leave unmapped to use Neogit's default popup behavior
+        -- c = commit popup (default)
+        -- d = diff popup (default)
+        -- l = log popup (default)
+        -- P = push popup (default)
+        -- p = pull popup (default)
+        -- r = rebase popup (default)
+        -- z = stash popup (default)
         -- Diff hunks
         ["]c"] = "GoToNextHunkHeader",
         ["[c"] = "GoToPreviousHunkHeader",
@@ -118,7 +118,7 @@ return {
         ["y"] = "YankSelected",
         ["q"] = "Close",
         ["<esc>"] = "Close",
-        ["g?"] = "Command", -- Help
+        -- Don't override 'g?' as it's used for help popup
         ["R"] = "RefreshBuffer",
         ["<F5>"] = "RefreshBuffer",
       },
