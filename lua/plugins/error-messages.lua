@@ -225,7 +225,14 @@ return {
       -- Function to show messages in a floating window
       function M.show_messages_window(messages)
         local buf = vim.api.nvim_create_buf(false, true)
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, messages)
+        -- Split messages that contain newlines into separate lines
+        local lines = {}
+        for _, msg in ipairs(messages) do
+          for line in msg:gmatch("[^\n]+") do
+            table.insert(lines, line)
+          end
+        end
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
         vim.bo[buf].filetype = "text"
         vim.bo[buf].bufhidden = "wipe"
         vim.bo[buf].modifiable = false

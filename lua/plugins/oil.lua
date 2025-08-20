@@ -18,8 +18,10 @@ return {
     { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
     { "<Leader>-", "<cmd>Oil .<cr>", desc = "Open current directory" },
     { "<Leader>E", function() 
-      require("oil").toggle_float() 
-    end, desc = "Toggle Oil float" },
+      -- Enhanced float toggle with dynamic sizing
+      local oil = require("oil")
+      oil.toggle_float()
+    end, desc = "Toggle Oil float (auto-sized)" },
     { "<Leader>o", function()
       -- Smart toggle Oil: opens in sidebar if not open, closes if open
       local oil_buffers = vim.tbl_filter(function(buf)
@@ -35,21 +37,31 @@ return {
           end
         end
       else
-        -- Open oil in vertical split
+        -- Open oil in vertical split with better sizing
         vim.cmd("vsplit")
         vim.cmd("Oil .")
-        vim.cmd("vertical resize 35")
+        vim.cmd("vertical resize 40")  -- Increased width for better visibility
+        
+        -- Set window options for better display
+        vim.wo.number = false
+        vim.wo.relativenumber = false
+        vim.wo.signcolumn = "no"
+        vim.wo.foldcolumn = "0"
+        vim.wo.wrap = false
       end
     end, desc = "Toggle Oil sidebar" },
   },
   opts = {
     default_file_explorer = true,
     columns = {
-      "icon",
+      { "icon", highlight = "Special", default_file = "", directory = "", add_padding = false },
       "permissions",
-      "size",
+      "size", 
       "mtime",
     },
+    -- Configure icons
+    experimental_watch_for_changes = true,
+    constrain_cursor = "editable",
     buf_options = {
       buflisted = false,
       bufhidden = "hide",
@@ -73,11 +85,11 @@ return {
       ["<CR>"] = "actions.select",
       ["<BS>"] = "actions.parent",
       ["<C-v>"] = "actions.select_vsplit",
-      ["<C-h>"] = "actions.select_split",
+      ["<C-s>"] = "actions.select_split", -- Changed from <C-h> to <C-s> for horizontal split
       ["<C-t>"] = "actions.select_tab",
       ["<C-p>"] = "actions.preview",
       ["<C-c>"] = "actions.close",
-      ["<C-l>"] = "actions.refresh",
+      ["<C-r>"] = "actions.refresh", -- Changed from <C-l> to <C-r> for refresh
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["`"] = "actions.cd",
@@ -86,6 +98,32 @@ return {
       ["gx"] = "actions.open_external",
       ["g."] = "actions.toggle_hidden",
       ["g\\"] = "actions.toggle_trash",
+      ["gd"] = {
+        desc = "Toggle detail view",
+        callback = function()
+          local oil = require("oil")
+          local config = require("oil.config")
+          if #config.columns == 1 then
+            -- Show all columns with inline icons
+            oil.set_columns({
+              { "icon", highlight = "Special", default_file = "", directory = "", add_padding = false },
+              "permissions",
+              "size",
+              "mtime",
+            })
+          else
+            -- Show only icons inline with names
+            oil.set_columns({ 
+              { "icon", highlight = "Special", default_file = "", directory = "", add_padding = false }
+            })
+          end
+        end,
+      },
+      -- Explicitly disable conflicting mappings to allow vim-tmux-navigator to work
+      ["<C-h>"] = false,
+      ["<C-j>"] = false,
+      ["<C-k>"] = false,
+      ["<C-l>"] = false,
     },
     use_default_keymaps = true,
     view_options = {
@@ -109,7 +147,28 @@ return {
       win_options = {
         winblend = 0,
       },
+      -- Calculate height to show all entries plus 3 extra rows
       override = function(conf)
+        -- Get the Oil buffer
+        local oil = require("oil")
+        local bufnr = vim.api.nvim_get_current_buf()
+        
+        -- Count lines in the buffer (all entries)
+        local line_count = vim.api.nvim_buf_line_count(bufnr)
+        
+        -- Calculate height: all entries + 3 extra rows + 2 for border
+        local desired_height = math.max(10, line_count + 3)
+        
+        -- Get terminal dimensions
+        local editor_height = vim.o.lines
+        
+        -- Ensure we don't exceed 90% of editor height
+        local max_allowed = math.floor(editor_height * 0.9)
+        conf.height = math.min(desired_height, max_allowed)
+        
+        -- Ensure minimum height of 10 rows
+        conf.height = math.max(10, conf.height)
+        
         return conf
       end,
     },
@@ -118,12 +177,28 @@ return {
       min_width = { 40, 0.4 },
       width = nil,
       max_height = 0.9,
-      min_height = { 5, 0.1 },
+      min_height = { 8, 0.1 },  -- Increased minimum to show more rows
       height = nil,
       border = "rounded",
       win_options = {
         winblend = 0,
       },
+      -- Dynamic height calculation for preview
+      update = function(conf, entry)
+        -- Calculate dynamic height based on content
+        local lines = vim.api.nvim_buf_get_lines(entry.bufnr or 0, 0, -1, false)
+        local line_count = #lines
+        
+        -- Show all lines plus 3 extra rows
+        local desired_height = line_count + 3
+        local editor_height = vim.o.lines
+        local max_allowed = math.floor(editor_height * 0.9)
+        
+        conf.height = math.min(desired_height, max_allowed)
+        conf.height = math.max(8, conf.height)  -- Minimum 8 rows
+        
+        return conf
+      end,
     },
     progress = {
       max_width = 0.9,

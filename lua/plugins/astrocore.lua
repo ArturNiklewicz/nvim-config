@@ -126,14 +126,84 @@ return {
           -- ================================
           -- GIT (<Leader>g)
           -- ================================
-          ["<Leader>gs"] = { function() require("telescope.builtin").git_status() end, desc = "Git status" },
-          ["<Leader>gb"] = { function() require("telescope.builtin").git_branches() end, desc = "Git branches" },
-          ["<Leader>gc"] = { function() require("telescope.builtin").git_commits() end, desc = "Git commits" },
-          ["<Leader>gC"] = { function() require("telescope.builtin").git_bcommits() end, desc = "Buffer commits" },
-          ["<Leader>gd"] = { "<cmd>DiffviewOpen<cr>", desc = "Git diff view" },
-          ["<Leader>gD"] = { "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
-          ["<Leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
-          ["<Leader>gH"] = { "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
+          ["<Leader>gs"] = { function()
+            local git_check = require("utils.git-check")
+            git_check.safe_git_command(function()
+              require("telescope.builtin").git_status()
+            end, "Git Status")()
+          end, desc = "Git status" },
+          ["<Leader>gb"] = { function()
+            local git_check = require("utils.git-check")
+            git_check.safe_git_command(function()
+              require("telescope.builtin").git_branches()
+            end, "Git Branches")()
+          end, desc = "Git branches" },
+          -- Neogit for comprehensive git workflow
+          ["<Leader>gN"] = { "<cmd>Neogit<cr>", desc = "Neogit status" },
+          ["<Leader>gM"] = { "<cmd>Neogit commit<cr>", desc = "Commit with Neogit" },
+          -- AI-powered quick commit
+          ["<Leader>gA"] = { "<cmd>AIQuickCommit<cr>", desc = "Quick commit with AI" },
+          -- Telescope git viewers
+          ["<Leader>gc"] = { function()
+            local git_check = require("utils.git-check")
+            git_check.safe_git_command(function()
+              require("telescope.builtin").git_commits()
+            end, "Git Commits")()
+          end, desc = "View git commits" },
+          ["<Leader>gC"] = { function()
+            local git_check = require("utils.git-check")
+            git_check.safe_git_command(function()
+              require("telescope.builtin").git_bcommits()
+            end, "Git Buffer Commits")()
+          end, desc = "Buffer commits" },
+          ["<Leader>gd"] = { function()
+            local git_check = require("utils.git-check")
+            if not git_check.is_git_repo() then
+              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "Git Diff" })
+              return
+            end
+            -- Check if diffview is installed
+            local ok = pcall(require, "diffview")
+            if ok then
+              vim.cmd("DiffviewOpen")
+            else
+              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
+            end
+          end, desc = "Git diff view" },
+          ["<Leader>gD"] = { function()
+            local ok = pcall(require, "diffview")
+            if ok then
+              vim.cmd("DiffviewClose")
+            else
+              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
+            end
+          end, desc = "Close diff view" },
+          ["<Leader>gh"] = { function()
+            local git_check = require("utils.git-check")
+            if not git_check.is_git_repo() then
+              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "File History" })
+              return
+            end
+            local ok = pcall(require, "diffview")
+            if ok then
+              vim.cmd("DiffviewFileHistory %")
+            else
+              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
+            end
+          end, desc = "File history" },
+          ["<Leader>gH"] = { function()
+            local git_check = require("utils.git-check")
+            if not git_check.is_git_repo() then
+              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "Branch History" })
+              return
+            end
+            local ok = pcall(require, "diffview")
+            if ok then
+              vim.cmd("DiffviewFileHistory")
+            else
+              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
+            end
+          end, desc = "Branch history" },
           
           -- Git signs toggles
           ["<Leader>gt"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },

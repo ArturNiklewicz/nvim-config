@@ -3,13 +3,20 @@
 
 local M = {}
 
--- Navigate to buffer by index
-function M.nav_to(index)
-  local buffers = vim.fn.getbufinfo({ buflisted = 1 })
-  if buffers[index] and vim.api.nvim_buf_is_valid(buffers[index].bufnr) then
-    vim.cmd("buffer " .. buffers[index].bufnr)
-  else
-    vim.notify("Buffer " .. index .. " does not exist", vim.log.levels.WARN)
+-- Navigate to buffer by position (using bufferline's visual ordering)
+function M.nav_to(position)
+  -- BufferLineGoToBuffer navigates to the Nth visible buffer position
+  -- This is exactly what we want - position-based navigation
+  local success = pcall(vim.cmd, "BufferLineGoToBuffer " .. position)
+  
+  if not success then
+    -- Fallback if bufferline is not available or position doesn't exist
+    local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+    if buffers[position] and vim.api.nvim_buf_is_valid(buffers[position].bufnr) then
+      vim.cmd("buffer " .. buffers[position].bufnr)
+    else
+      vim.notify("Buffer " .. position .. " does not exist", vim.log.levels.WARN)
+    end
   end
 end
 

@@ -99,6 +99,9 @@ return {
       -- Git operations
       { "<leader>g", group = "Git" },
       { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit (full UI)" },
+      { "<leader>gN", "<cmd>Neogit<cr>", desc = "Neogit status (s/u=stage/unstage, c=commit, q=quit)" },
+      { "<leader>gM", "<cmd>Neogit commit<cr>", desc = "Make commit with Neogit" },
+      { "<leader>gA", "<cmd>AIQuickCommit<cr>", desc = "AI quick commit" },
       { "<leader>gf", function() require("telescope.builtin").git_status() end, desc = "List changed files" },
       { "<leader>gs", function() require("telescope.builtin").git_status() end, desc = "Git status" },
       { "<leader>gb", function() require("telescope.builtin").git_branches() end, desc = "Git branches" },
@@ -106,6 +109,14 @@ return {
       { "<leader>gC", function() require("telescope.builtin").git_bcommits() end, desc = "Buffer commits" },
       { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Git diff view" },
       { "<leader>gD", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
+      { "<leader>gv", function() 
+        local ok, actions = pcall(require, "diffview.actions")
+        if ok then 
+          actions.cycle_layout() 
+        else
+          vim.notify("Diffview not loaded", vim.log.levels.WARN)
+        end
+      end, desc = "Cycle diff view layout" },
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
       { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
       { "<leader>gt", "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },

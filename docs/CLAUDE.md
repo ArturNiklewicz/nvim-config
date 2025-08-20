@@ -28,7 +28,6 @@ Personal AstroNvim v5+ configuration with enhanced productivity features and IDE
 - `claudecode.lua` - Claude Code AI integration
 - `error-messages.lua` - Error handling
 - `markdown-preview.lua` - Terminal markdown preview
-- `telescope.lua` - Fixed multi-select behavior (Tab to toggle)
 - `vscode-editing.lua` - VSCode-like features
 - `text-objects.lua` - Enhanced text objects
 - `user.lua` - User overrides
@@ -49,13 +48,6 @@ Leader: `<Space>` | Local Leader: `,`
 - `<Alt>1-8` - Focus window 1-8
 - `<Ctrl+I/O>` - Navigate back/forward
 - `]d/[d` - Next/previous diagnostic/diff
-
-### Telescope Multi-Select
-- `<Tab>` - Toggle selection and move down
-- `<S-Tab>` - Toggle selection and move up
-- `<C-q>` - Send to quickfix list
-- `<M-q>` - Send selected to quickfix list
-- Note: Tab now properly toggles selection instead of opening files
 
 ### Claude Code (`<Leader>a`)
 - `ac` - Toggle terminal (with resume)
@@ -87,12 +79,9 @@ Leader: `<Space>` | Local Leader: `,`
 - `cw` - Add cursor under word
 
 ### Git (`<Leader>g`)
-- `gN` - Neogit status (staging UI)
-- `gM` - Make commit with Neogit
-- `gA` - AI quick commit
-- `gs` - Git status (Telescope)
+- `gs` - Git status
 - `gb` - Git branches
-- `gc` - Git commits (view history)
+- `gc` - Git commits
 - `gC` - Buffer commits
 - `gd/gD` - Git diff view (open/close)
 - `gh/gH` - File/branch history
