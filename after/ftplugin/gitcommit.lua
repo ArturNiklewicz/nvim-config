@@ -156,16 +156,19 @@ vim.keymap.set("n", "<leader>cv", function()
   end
 end, { buffer = true, desc = "Validate commit message" })
 
--- Auto-validation on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  buffer = 0,
-  callback = function()
-    -- Run validation
-    vim.cmd("silent! lua vim.api.nvim_buf_get_var(0, 'commit_validated')")
-    if not vim.b.commit_validated then
-      vim.cmd("lua vim.keymap._get({buffer = true, lhs = '<leader>cv'}).callback()")
-      vim.b.commit_validated = true
-    end
-  end,
-  desc = "Validate commit message before save"
-})
+-- Auto-validation on save (commented out to avoid errors)
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   buffer = 0,
+--   callback = function()
+--     -- Simple validation without relying on keymaps
+--     local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
+--     if #lines > 0 and lines[1] ~= "" then
+--       local first_line = lines[1]
+--       -- Check line length
+--       if #first_line > 72 then
+--         vim.notify(string.format("First line is %d chars (recommended: ≤72)", #first_line), vim.log.levels.WARN)
+--       end
+--     end
+--   end,
+--   desc = "Validate commit message before save"
+-- })
