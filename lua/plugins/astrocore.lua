@@ -47,6 +47,18 @@ return {
       mappings = {
         n = {
           -- ================================
+          -- OVERRIDE DEFAULT KEYBINDINGS
+          -- ================================
+          ["<C-e>"] = { function() 
+            local ok, explain = pcall(function() return _G.ClaudeExplain end)
+            if ok and explain then
+              explain.explain_selection()
+            else
+              vim.notify("Claude Explain plugin not loaded", vim.log.levels.WARN)
+            end
+          end, desc = "Explain code with Claude" },
+          
+          -- ================================
           -- QUICK ACTIONS (Root Level)
           -- ================================
           ["<Leader>w"] = { function() buffer_nav.close_smart() end, desc = "Close buffer" },
@@ -471,6 +483,16 @@ return {
         -- VISUAL MODE MAPPINGS
         -- ================================
         v = {
+          -- Override default Ctrl+E scroll with Claude Explain
+          ["<C-e>"] = { function() 
+            local ok, explain = pcall(function() return _G.ClaudeExplain end)
+            if ok and explain then
+              explain.explain_selection()
+            else
+              vim.notify("Claude Explain plugin not loaded", vim.log.levels.WARN)
+            end
+          end, desc = "Explain selected code with Claude" },
+          
           ["<Leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment" },
           
           -- AI/Claude
@@ -568,6 +590,21 @@ return {
           desc = "Show multicursor help on start",
           callback = function()
             vim.notify("Multicursor active: <Leader>cc to clear, <Leader>cn for pattern", vim.log.levels.INFO)
+          end,
+        },
+      },
+      -- Claude explanation plugin integration
+      claude_explain_help = {
+        {
+          event = "VimEnter",
+          desc = "Show Claude explain keybindings help",
+          callback = function()
+            vim.defer_fn(function()
+              if vim.g.claude_explain_help_shown ~= true then
+                vim.notify("Claude Explain: Ctrl+E (selection), <Leader>exe (error), <Leader>exf (function)", vim.log.levels.INFO, { title = "Claude Explain Ready" })
+                vim.g.claude_explain_help_shown = true
+              end
+            end, 2000)
           end,
         },
       },
