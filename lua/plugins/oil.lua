@@ -228,31 +228,15 @@ return {
       -- Set up oil with devicon integration
       require("oil").setup(opts)
 
-      -- Auto-open oil.nvim on startup when opening a directory
+      -- Auto-open oil.nvim only when opening a directory
       vim.api.nvim_create_autocmd("VimEnter", {
         callback = function(data)
           local directory = vim.fn.isdirectory(data.file) == 1
 
           if directory then
             require("oil").open()
-          elseif data.file == "" then
-            -- No file argument, open oil in current directory as sidebar
-            -- First let the dashboard load
-            vim.defer_fn(function()
-              -- Open oil in a left sidebar
-              vim.cmd "vsplit"
-              require("oil").open(".")
-              vim.cmd "vertical resize 40"
-              -- Set window options for sidebar
-              vim.wo.number = false
-              vim.wo.relativenumber = false
-              vim.wo.signcolumn = "no"
-              vim.wo.foldcolumn = "0"
-              vim.wo.wrap = false
-              -- Move cursor back to the dashboard (right window)
-              vim.cmd "wincmd l"
-            end, 100) -- Small delay to let dashboard render first
           end
+          -- Removed auto-open for empty nvim startup - use <Leader>o for sidebar
         end,
       })
     end,
