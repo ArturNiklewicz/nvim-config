@@ -23,3 +23,6 @@ plugin/
 
 # Local configuration overrides
 local.lua
+
+# Environment variables
+.env

@@ -1,4 +1,3 @@
-
 -- AstroUI provides the basis for configuring the AstroNvim User Interface
 -- Configuration documentation can be found with `:h astroui`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -51,17 +50,16 @@ return {
       dashboard = {
         preset = {
           header = table.concat({
-            " █████  ███████ ████████ ██████   ██████ ",
-            "██   ██ ██         ██    ██   ██ ██    ██",
-            "███████ ███████    ██    ██████  ██    ██",
-            "██   ██      ██    ██    ██   ██ ██    ██",
-            "██   ██ ███████    ██    ██   ██  ██████ ",
-            "",
-            "███    ██ ██    ██ ██ ███    ███",
-            "████   ██ ██    ██ ██ ████  ████",
-            "██ ██  ██ ██    ██ ██ ██ ████ ██",
-            "██  ██ ██  ██  ██  ██ ██  ██  ██",
-            "██   ████   ████   ██ ██      ██",
+            "    ██ ████████ ████████ █████    ",
+            "   ██   ██  ██   ██   ██     █    ",
+            "   ███████  ██████    ██          ",
+            "   ██   ██  ██   ██    █          ",
+            "█ ███   ██ █ █    ██   ██       █ ",
+            " ██     ███ █    ██  ██ ██     ██ ",
+            " ███    ██  █    ██     ██   ███  ",
+            " ██ █   ██  █    ██ ██  █ ███ █   ",
+            " █   █  ██  ██  ██  ██  █  █  ██  ",
+            "██    ███    ██ █   ██ ██      ██ ",
           }, "\n"),
         },
       },
@@ -86,17 +84,14 @@ return {
       local npairs = require "nvim-autopairs"
       local Rule = require "nvim-autopairs.rule"
       local cond = require "nvim-autopairs.conds"
-      npairs.add_rules(
-        {
-          Rule("$", "$", { "tex", "latex" })
-            :with_pair(cond.not_after_regex "%%")
-            :with_pair(cond.not_before_regex("xxx", 3))
-            :with_move(cond.none())
-            :with_del(cond.not_after_regex "xx")
-            :with_cr(cond.none()),
-        },
-        Rule("a", "a", "-vim")
-      )
+      npairs.add_rules({
+        Rule("$", "$", { "tex", "latex" })
+          :with_pair(cond.not_after_regex "%%")
+          :with_pair(cond.not_before_regex("xxx", 3))
+          :with_move(cond.none())
+          :with_del(cond.not_after_regex "xx")
+          :with_cr(cond.none()),
+      }, Rule("a", "a", "-vim"))
     end,
   },
 }

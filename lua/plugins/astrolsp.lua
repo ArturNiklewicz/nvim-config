@@ -45,6 +45,52 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      tsserver = {
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      },
+      eslint = {
+        settings = {
+          workingDirectory = { mode = "auto" },
+        },
+      },
+      tailwindcss = {
+        settings = {
+          tailwindCSS = {
+            experimental = {
+              classRegex = {
+                { "tw`([^`]*)", "([^`]*)" },
+                { "tw=\"([^\"]*)", "([^\"]*)" },
+                { "tw={\"([^}]*)", "([^\"]*)" },
+                { "tw\\.\\w+`([^`]*)", "([^`]*)" },
+                { "tw\\(.*?\\)`([^`]*)", "([^`]*)" },
+              },
+            },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {

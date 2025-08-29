@@ -236,8 +236,22 @@ return {
           if directory then
             require("oil").open()
           elseif data.file == "" then
-            -- No file argument, open oil in current directory
-            require("oil").open()
+            -- No file argument, open oil in current directory as sidebar
+            -- First let the dashboard load
+            vim.defer_fn(function()
+              -- Open oil in a left sidebar
+              vim.cmd "vsplit"
+              require("oil").open(".")
+              vim.cmd "vertical resize 40"
+              -- Set window options for sidebar
+              vim.wo.number = false
+              vim.wo.relativenumber = false
+              vim.wo.signcolumn = "no"
+              vim.wo.foldcolumn = "0"
+              vim.wo.wrap = false
+              -- Move cursor back to the dashboard (right window)
+              vim.cmd "wincmd l"
+            end, 100) -- Small delay to let dashboard render first
           end
         end,
       })

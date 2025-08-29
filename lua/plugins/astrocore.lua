@@ -32,14 +32,28 @@ return {
       -- vim options
       options = {
         opt = {
+           guicursor = "n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr:hor20,o:hor50",
+            -- Breakdown:
+            -- n-v-c:block     = Normal/Visual/Command: block cursor
+            -- i-ci-ve:ver25   = Insert/Command-line Insert/Visual-exclusive: 25% vertical
+            -- r-cr:hor20      = Replace/Command-line Replace: 20% horizontal bar
+            -- o:hor50         = Operator-pending: 50% horizontal bar
+            -- Common configurations:
+            --
+            -- "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
+            -- "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+            -- "a:blinkwait700-blinkoff400-blinkon250" -- Add blinking
+
           relativenumber = true,
           number = true,
           spell = false,
           signcolumn = "yes",
-          wrap = false,
+          wrap = true,
           timeoutlen = 300, -- Reduced for which-key
           scrolloff = 8,    -- Keep cursor centered
           sidescrolloff = 8,
+          cursorline = true, -- Enable cursorline
+          cursorcolumn = true,
         },
         g = {},
       },
@@ -605,6 +619,93 @@ return {
                 vim.g.claude_explain_help_shown = true
               end
             end, 2000)
+          end,
+        },
+      },
+      -- Custom cursor colors with transparency
+      cursor_colors = {
+        {
+          event = "ColorScheme",
+          desc = "Set custom cursor colors with transparency",
+          callback = function()
+            -- Semi-transparent green cursor (#A6E3A1 at 50% opacity)
+            vim.cmd("hi Cursor guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+            vim.cmd("hi CursorIM guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+            vim.cmd("hi lCursor guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+          end,
+        },
+        {
+          event = "VimEnter",
+          desc = "Apply cursor colors on startup",
+          callback = function()
+            vim.defer_fn(function()
+              vim.cmd("hi Cursor guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+              vim.cmd("hi CursorIM guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+              vim.cmd("hi lCursor guifg=#1a1a2e guibg=#A6E3A1 blend=50")
+            end, 50)
+          end,
+        },
+      },
+      -- Dynamic cursorline/column behavior with green blink and cursor transformation
+      dynamic_cursorline = {
+        {
+          event = { "CursorMoved", "CursorMovedI" },
+          desc = "Blink cursorline/column green and transform cursor to underscore",
+          callback = function()
+            -- Reset timers
+            if vim.g.cursorline_timer then
+              vim.fn.timer_stop(vim.g.cursorline_timer)
+            end
+            if vim.g.cursor_transform_timer then
+              vim.fn.timer_stop(vim.g.cursor_transform_timer)
+            end
+            
+            -- Reset cursor to block immediately
+            vim.cmd("set guicursor=n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr:hor20,o:hor50")
+            
+            -- Flash cursorline and cursorcolumn green
+            vim.cmd("hi CursorLine guibg=#A6E3A140") -- Green at 40% opacity
+            vim.cmd("hi CursorColumn guibg=#A6E3A140") -- Green at 40% opacity
+            
+            -- Fade back to normal after 200ms
+            vim.defer_fn(function()
+              vim.cmd("hi CursorLine guibg=#2a2a3e")
+              vim.cmd("hi CursorColumn guibg=#2a2a3e")
+            end, 200)
+            
+            -- Transform cursor to underscore after 500ms of inactivity
+            vim.g.cursor_transform_timer = vim.fn.timer_start(500, function()
+              vim.cmd("set guicursor=n-v-c:hor20-Cursor,i-ci-ve:ver25-Cursor,r-cr:hor20,o:hor50")
+            end)
+            
+            -- Dim cursorline/column after 1 second
+            vim.g.cursorline_timer = vim.fn.timer_start(1000, function()
+              vim.cmd("hi CursorLine guibg=#1a1a2e")
+              vim.cmd("hi CursorColumn guibg=#1a1a2e")
+            end)
+          end,
+        },
+        {
+          event = { "InsertEnter" },
+          desc = "Flatten cursorline/column when typing",
+          callback = function()
+            vim.cmd("hi CursorLine guibg=#1a1a2e")
+            vim.cmd("hi CursorColumn guibg=#1a1a2e")
+            -- Keep cursor as vertical bar in insert
+            vim.cmd("set guicursor=n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr:hor20,o:hor50")
+          end,
+        },
+        {
+          event = { "InsertLeave" },
+          desc = "Flash green when leaving insert mode",
+          callback = function()
+            -- Flash green
+            vim.cmd("hi CursorLine guibg=#A6E3A140")
+            vim.cmd("hi CursorColumn guibg=#A6E3A140")
+            vim.defer_fn(function()
+              vim.cmd("hi CursorLine guibg=#2a2a3e")
+              vim.cmd("hi CursorColumn guibg=#2a2a3e")
+            end, 200)
           end,
         },
       },
