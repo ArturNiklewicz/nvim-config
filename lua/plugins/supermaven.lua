@@ -2,6 +2,11 @@
 return {
   "supermaven-inc/supermaven-nvim",
   config = function()
+    -- Initialize completion state if not set
+    if vim.g.completion_enabled == nil then
+      vim.g.completion_enabled = false -- Start disabled by default
+    end
+
     require("supermaven-nvim").setup {
       keymaps = {
         accept_suggestion = "<Tab>",
@@ -17,7 +22,7 @@ return {
         cterm = 244,
       },
       log_level = "info", -- set to "off" to disable logging completely
-      disable_inline_completion = false, -- keep inline completion enabled
+      disable_inline_completion = not vim.g.completion_enabled, -- Respect global toggle
       disable_keymaps = false, -- use built-in keymaps
       condition = function()
         -- Get current buffer path
@@ -43,5 +48,15 @@ return {
         return false -- enable by default
       end,
     }
+
+    -- Stop Supermaven on startup if completion is disabled
+    vim.defer_fn(function()
+      if not vim.g.completion_enabled then
+        local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
+        if supermaven_ok then
+          supermaven_api.stop()
+        end
+      end
+    end, 100)
   end,
 }
