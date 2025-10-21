@@ -225,10 +225,6 @@ return {
         email = "󰀓 ",
         -- Highlight for link text
         highlight = "RenderMarkdownLink",
-        -- Highlight for link and email icons
-        hyperlink = "RenderMarkdownLinkUrl",
-        -- Highlight for image icons
-        image_highlight = "RenderMarkdownImageUrl",
       },
       -- Window options to use that change between rendered and raw view
       win_options = {
