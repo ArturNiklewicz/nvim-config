@@ -242,13 +242,19 @@ function M.quick_commit()
     end
   end
   
-  -- Open commit editor
-  vim.cmd("Git commit")
+  -- Open commit editor with Neogit
+  local ok, neogit = pcall(require, "neogit")
+  if ok then
+    neogit.open({ "commit" })
+  else
+    -- Fallback to git command directly
+    vim.cmd("!git commit")
+  end
   
   -- Generate and insert message after buffer loads
   vim.defer_fn(function()
     M.generate_commit_message_inline()
-  end, 100)
+  end, 200)
 end
 
 -- Setup user commands
