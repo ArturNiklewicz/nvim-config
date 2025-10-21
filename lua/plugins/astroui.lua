@@ -62,6 +62,14 @@ return {
             "██    ███    ██ █   ██ ██      ██ ",
           }, "\n"),
         },
+        -- Disable line numbers and other UI elements on dashboard
+        wo = {
+          number = false,
+          relativenumber = false,
+          signcolumn = "no",
+          cursorline = false,
+          cursorcolumn = false,
+        },
       },
     },
   },
