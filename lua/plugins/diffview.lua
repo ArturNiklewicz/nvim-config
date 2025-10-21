@@ -10,6 +10,12 @@ return {
     "DiffviewRefresh",
     "DiffviewFileHistory",
   },
+  keys = {
+    { "<Leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Git diff view" },
+    { "<Leader>gD", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
+    { "<Leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
+    { "<Leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
+  },
   opts = {
     diff_binaries = false,
     enhanced_diff_hl = false,
