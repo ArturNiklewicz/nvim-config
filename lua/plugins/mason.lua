@@ -16,13 +16,16 @@ return {
         "typescript-language-server",
         "eslint-lsp",
         "tailwindcss-language-server",
+        "clangd", -- C/C++ language server
 
         -- install formatters
         "stylua",
         "prettier",
+        "clang-format", -- C/C++ formatter
 
         -- install debuggers
         "debugpy",
+        "codelldb", -- C/C++ debugger
 
         -- install any other package
         "tree-sitter-cli",
