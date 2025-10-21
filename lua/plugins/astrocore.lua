@@ -565,17 +565,17 @@ return {
         v = {
           -- Group names for visual mode
           ["<Leader>a"] = { name = "AI/Claude" },
+          ["<Leader>c"] = { name = "Code" },
+          ["<Leader>g"] = { name = "Git" },
+          ["<Leader>r"] = { name = "Replace" },
           ["<Leader>s"] = { name = "Search" },
+          ["<Leader>x"] = { name = "Diagnostics" },
 
           ["<Leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment" },
 
           -- AI/Claude
           ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude" },
-          
-          -- Jupyter
-          
-          -- Replace
-          
+
           -- Search
           ["<Leader>sw"] = { function() 
             require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) 
