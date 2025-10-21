@@ -44,7 +44,20 @@ return {
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
-      -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      -- C/C++ Language Server configuration
+      clangd = {
+        capabilities = {
+          offsetEncoding = { "utf-16" }, -- Fix for offsetEncoding issues
+        },
+        cmd = {
+          "clangd",
+          "--background-index", -- Index project in background
+          "--clang-tidy", -- Enable clang-tidy integration
+          "--completion-style=detailed", -- Detailed completion info
+          "--header-insertion=iwyu", -- Include what you use
+          "--fallback-style=llvm", -- Fallback formatting style
+        },
+      },
       tsserver = {
         settings = {
           typescript = {
