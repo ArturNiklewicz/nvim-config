@@ -89,19 +89,52 @@ Leader: `<Space>` | Local Leader: `,`
 ### Git (`<Leader>g`)
 - `gN` - Neogit status (staging UI)
 - `gM` - Make commit with Neogit
-- `gA` - AI quick commit
+- `gA` - AI quick commit (bash + Claude CLI, interactive mode)
+- `gp` - Git commit timeline (preview recent commits)
+- `gP` - Preview commits then commit with AI
 - `gs` - Git status (Telescope)
 - `gb` - Git branches
 - `gc` - Git commits (view history)
 - `gC` - Buffer commits
 - `gd/gD` - Git diff view (open/close)
 - `gh/gH` - File/branch history
+- `gj/gk` - **Enhanced**: Navigate next/previous changed file (seamless navigation)
+- `gf` - List all changed files
 - `gt` - Toggle git signs
 - `gn` - Toggle line number highlighting
 - `gl` - Toggle line highlighting
 - `gw` - Toggle word diff
 - `gT` - Toggle blame line
 - `gr` - Refresh git signs
+
+#### Git File Navigation Enhancements
+- `gj/gk` now works seamlessly with proper file path matching
+- Automatically jumps to first change in file using GitSigns
+- Saves cursor position before navigation
+- Shows file status and progress (staged/modified/untracked)
+- Handles file path edge cases and escaping
+
+#### Git Watchlist (`<Leader>gw`)
+- `gwa` - Add current file to watchlist
+- `gwr` - Remove current file from watchlist
+- `gwl` - Show watchlist with status
+- `gwj/gwk` - Navigate watchlist files
+- `gwm` - Check for changes manually
+- `gws` - Start auto-monitoring
+
+#### AI Commit Message Generation
+**Auto-triggers on**:
+- `gM` (Neogit commit) - Opens commit buffer with AI-generated message
+- `gN` → `c` (commit from Neogit) - Auto-generates message in commit buffer
+
+**Manual regeneration** (in commit buffer):
+- `<Leader>ag` - Regenerate commit message
+
+**Architecture**:
+- Bash handles: git stats, file detection, commit type/scope, conventional commits
+- Claude CLI handles: commit body (WHY, context, reasoning)
+- Performance: ~500ms (vs 2-3s Lua orchestration)
+- See: `docs/git-commit-ai.md` for details
 
 ### GitHub (`<Leader>G`)
 - `Gi/GI` - List/create GitHub issues
@@ -112,6 +145,11 @@ Leader: `<Space>` | Local Leader: `,`
 - `GR` - Start GitHub review
 - `Gd/Go/Gm` - PR diff/checkout/merge
 - `Gv/Gw` - View PR/repo in browser
+
+### File Copy (`<Leader>y`)
+- `yf` - Copy filename to clipboard
+- `yp` - Copy relative file path to clipboard
+- `yP` - Copy full file path to clipboard
 
 ### Terminal
 - `<Ctrl+Alt>T` - Toggle terminal
