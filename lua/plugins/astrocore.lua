@@ -248,8 +248,11 @@ return {
           -- Neogit for comprehensive git workflow
           ["<Leader>gN"] = { "<cmd>Neogit<cr>", desc = "Neogit status" },
           ["<Leader>gM"] = { "<cmd>Neogit commit<cr>", desc = "Commit with Neogit" },
-          -- AI-powered quick commit
-          ["<Leader>gA"] = { "<cmd>AIQuickCommit<cr>", desc = "Quick commit with AI" },
+          -- AI-powered quick commit (bash + Claude CLI)
+          ["<Leader>gA"] = { function()
+            local script_path = vim.fn.stdpath("config") .. "/scripts/git-commit-ai.sh"
+            vim.cmd("!" .. script_path)
+          end, desc = "Quick commit with AI" },
           -- Git commit timeline preview
           ["<Leader>gp"] = { "<cmd>GitTimeline<cr>", desc = "Git commit timeline" },
           ["<Leader>gP"] = { "<cmd>GitCommitPreview<cr>", desc = "Preview then commit" },
