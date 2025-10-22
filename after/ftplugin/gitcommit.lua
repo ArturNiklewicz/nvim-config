@@ -1,11 +1,6 @@
 -- Git commit message configuration
--- Sets up AI-powered commit message generation and conventional commit helpers
-
--- Setup AI commit utilities
-local ok, ai_commit = pcall(require, "utils.ai-commit")
-if ok then
-  ai_commit.setup()
-end
+-- Formatting, spell checking, and conventional commit helpers
+-- AI generation handled by git-commit-auto.lua (called from polish.lua)
 
 -- Set textwidth for proper commit message formatting (72 chars for body)
 vim.opt_local.textwidth = 72
@@ -14,39 +9,6 @@ vim.opt_local.colorcolumn = "50,72"
 -- Enable spell checking for commit messages
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en_us"
-
--- Automatically generate AI commit message when buffer opens (if empty)
-vim.defer_fn(function()
-  -- Check if we're in a valid gitcommit buffer
-  if vim.bo.filetype ~= "gitcommit" and vim.bo.filetype ~= "NeogitCommitMessage" then
-    return
-  end
-  
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local is_empty = true
-  for _, line in ipairs(lines) do
-    if line ~= "" and not line:match("^#") then
-      is_empty = false
-      break
-    end
-  end
-  
-  if is_empty then
-    -- Generate AI message automatically with error handling
-    if ok and ai_commit and ai_commit.generate_commit_message_inline then
-      pcall(function()
-        ai_commit.generate_commit_message_inline()
-      end)
-    end
-  end
-  
-  -- Start in insert mode after a short delay
-  vim.defer_fn(function()
-    if vim.api.nvim_get_mode().mode == 'n' then
-      vim.cmd("startinsert")
-    end
-  end, 300)
-end, 200)
 
 -- Set up abbreviations for conventional commit types
 local commit_types = {
@@ -68,9 +30,6 @@ for abbr, expansion in pairs(commit_types) do
   vim.cmd(string.format("iabbrev <buffer> %s %s", abbr, expansion))
 end
 
--- Additional keybindings for commit buffer
-local opts = { buffer = true, silent = true }
-
 -- Quick access to conventional commit types
 vim.keymap.set("n", "<leader>cf", "ifeat: ", { buffer = true, desc = "feat: New feature" })
 vim.keymap.set("n", "<leader>cx", "ifix: ", { buffer = true, desc = "fix: Bug fix" })
@@ -80,23 +39,6 @@ vim.keymap.set("n", "<leader>cr", "irefactor: ", { buffer = true, desc = "refact
 vim.keymap.set("n", "<leader>cp", "iperf: ", { buffer = true, desc = "perf: Performance" })
 vim.keymap.set("n", "<leader>ct", "itest: ", { buffer = true, desc = "test: Tests" })
 vim.keymap.set("n", "<leader>cc", "ichore: ", { buffer = true, desc = "chore: Maintenance" })
-
--- Regenerate AI message (in case user wants a different one)
-vim.keymap.set("n", "<leader>ag", function()
-  if ok and ai_commit then
-    -- Clear current content (except comments)
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    local new_lines = {}
-    for _, line in ipairs(lines) do
-      if line:match("^#") then
-        table.insert(new_lines, line)
-      end
-    end
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
-    -- Generate new message
-    ai_commit.generate_commit_message_inline()
-  end
-end, { buffer = true, desc = "Generate new AI commit message" })
 
 -- Show git diff in a split (if not already visible)
 vim.keymap.set("n", "<leader>gd", function()
@@ -110,7 +52,7 @@ vim.keymap.set("n", "<leader>gd", function()
       break
     end
   end
-  
+
   if not diff_win then
     -- Open a new split with the diff
     vim.cmd("vsplit")
@@ -138,7 +80,7 @@ vim.keymap.set("n", "<leader>cv", function()
     vim.notify("Commit message is empty", vim.log.levels.WARN)
     return
   end
-  
+
   local first_line = lines[1]
   -- Check conventional commit format
   local pattern = "^(%w+)(%(.*%))?: .+"
@@ -147,7 +89,7 @@ vim.keymap.set("n", "<leader>cv", function()
   else
     vim.notify("✗ Not a conventional commit format. Expected: type(scope): description", vim.log.levels.WARN)
   end
-  
+
   -- Check line length
   if #first_line > 72 then
     vim.notify(string.format("First line is %d chars (recommended: ≤72)", #first_line), vim.log.levels.WARN)
@@ -155,20 +97,3 @@ vim.keymap.set("n", "<leader>cv", function()
     vim.notify(string.format("First line is %d chars (recommended: ≤50)", #first_line), vim.log.levels.INFO)
   end
 end, { buffer = true, desc = "Validate commit message" })
-
--- Auto-validation on save (commented out to avoid errors)
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   buffer = 0,
---   callback = function()
---     -- Simple validation without relying on keymaps
---     local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
---     if #lines > 0 and lines[1] ~= "" then
---       local first_line = lines[1]
---       -- Check line length
---       if #first_line > 72 then
---         vim.notify(string.format("First line is %d chars (recommended: ≤72)", #first_line), vim.log.levels.WARN)
---       end
---     end
---   end,
---   desc = "Validate commit message before save"
--- })
