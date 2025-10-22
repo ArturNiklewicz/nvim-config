@@ -130,10 +130,13 @@ Leader: `<Space>` | Local Leader: `,`
 **Manual regeneration** (in commit buffer):
 - `<Leader>ag` - Regenerate commit message
 
-**Architecture**:
+**Architecture** (Bash-Only):
+- Single implementation: `scripts/git-commit-ai.sh` + `lua/utils/git-commit-auto.lua`
 - Bash handles: git stats, file detection, commit type/scope, conventional commits
-- Claude CLI handles: commit body (WHY, context, reasoning)
-- Performance: ~500ms (vs 2-3s Lua orchestration)
+- Claude CLI (Opus) handles: commit body generation (WHY, context, reasoning)
+- Performance: ~500ms | Timing: 150ms buffer delay
+- Auto-trigger via FileType autocmd in polish.lua
+- No Lua pattern matching - pure bash + AI workflow
 - See: `docs/git-commit-ai.md` for details
 
 ### GitHub (`<Leader>G`)
