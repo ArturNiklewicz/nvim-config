@@ -84,17 +84,11 @@ return {
       { "<leader>?", "<cmd>Keybindings<cr>", desc = " Show keybindings" },
       { "<leader>-", "<cmd>Oil .<cr>", desc = " Open current directory" },
       
-      -- Buffer navigation (1-9, 0)
-      { "<leader>1", function() require("astrocore.buffer").nav_to(1) end, desc = " Buffer 1" },
-      { "<leader>2", function() require("astrocore.buffer").nav_to(2) end, desc = " Buffer 2" },
-      { "<leader>3", function() require("astrocore.buffer").nav_to(3) end, desc = " Buffer 3" },
-      { "<leader>4", function() require("astrocore.buffer").nav_to(4) end, desc = " Buffer 4" },
-      { "<leader>5", function() require("astrocore.buffer").nav_to(5) end, desc = " Buffer 5" },
-      { "<leader>6", function() require("astrocore.buffer").nav_to(6) end, desc = " Buffer 6" },
-      { "<leader>7", function() require("astrocore.buffer").nav_to(7) end, desc = " Buffer 7" },
-      { "<leader>8", function() require("astrocore.buffer").nav_to(8) end, desc = " Buffer 8" },
-      { "<leader>9", function() require("astrocore.buffer").nav_to(9) end, desc = " Buffer 9" },
-      { "<leader>0", function() require("astrocore.buffer").nav_to(10) end, desc = " Buffer 10" },
+      -- NOTE: Buffer 1-9 navigation removed - defined in astrocore.lua to avoid duplicates
+
+      -- Git hunk navigation (ultra-fast home row access)
+      { "<leader>j", function() require("utils.git-hunk-nav").navigate_hunk("next") end, desc = "⬇ Next git hunk" },
+      { "<leader>k", function() require("utils.git-hunk-nav").navigate_hunk("prev") end, desc = "⬆ Previous git hunk" },
 
       -- Git operations
       { "<leader>g", group = " Git" },
@@ -161,16 +155,24 @@ return {
       { "<leader>Gv", function() vim.fn.system("gh pr view --web") vim.notify("Opening PR in browser...") end, desc = "View GitHub PR in browser" },
       { "<leader>Gw", function() vim.fn.system("gh repo view --web") vim.notify("Opening repo in browser...") end, desc = "View GitHub repo in browser" },
 
-      -- AI/Claude
-      { "<leader>a", group = " AI/Claude" },
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+      -- AI (Supermaven only)
+      { "<leader>a", group = " AI" },
+      { "<leader>at", function()
+        -- Toggle Supermaven AI inline completion
+        vim.g.supermaven_enabled = not vim.g.supermaven_enabled
+        local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
+        if not supermaven_ok then
+          vim.notify("⚠️  Supermaven not available", vim.log.levels.WARN)
+          return
+        end
+        if vim.g.supermaven_enabled then
+          supermaven_api.start()
+          vim.notify("✅ Supermaven AI enabled (inline suggestions)", vim.log.levels.INFO)
+        else
+          supermaven_api.stop()
+          vim.notify("🚫 Supermaven AI disabled", vim.log.levels.INFO)
+        end
+      end, desc = "Toggle Supermaven AI" },
 
       -- Code/LSP
       { "<leader>c", group = " Code" },
@@ -184,6 +186,30 @@ return {
       { "<leader>ch", function() vim.lsp.buf.hover() end, desc = "Code hover" },
       { "<leader>cs", function() vim.lsp.buf.signature_help() end, desc = "Code signature" },
       { "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, desc = "Code format" },
+      { "<leader>cc", function()
+        -- Toggle blink.cmp completion
+        vim.g.completion_enabled = not vim.g.completion_enabled
+        if vim.g.completion_enabled then
+          local blink_ok, blink = pcall(require, "blink.cmp")
+          if blink_ok then
+            blink.show()
+            vim.g.blink_cmp_enabled = true
+          end
+          vim.notify("✅ Completion enabled (blink.cmp)", vim.log.levels.INFO)
+        else
+          local blink_ok, blink = pcall(require, "blink.cmp")
+          if blink_ok then
+            blink.hide()
+            vim.g.blink_cmp_enabled = false
+          end
+          vim.notify("🚫 Completion disabled", vim.log.levels.INFO)
+        end
+      end, desc = "Toggle completion" },
+      -- Completion keybindings (insert mode)
+      { "<C-n>", desc = "↓ Next completion", mode = "i" },
+      { "<C-p>", desc = "↑ Previous completion", mode = "i" },
+      { "<C-space>", desc = "⚡ Trigger completion", mode = "i" },
+      { "<C-e>", desc = "✕ Close completion menu", mode = "i" },
 
       -- Find/Search
       { "<leader>f", group = " Find" },
@@ -207,8 +233,8 @@ return {
       { "<leader>fcw", "<cmd>ClaudeToggleWatcher<cr>", desc = "Toggle file watcher" },
       { "<leader>fct", "<cmd>ClaudeTest<cr>", desc = "Test completion system" },
 
-      -- Jupyter/Molten
-      { "<leader>j", group = " Jupyter" },
+      -- Jupyter/Molten (matches CLAUDE.md convention)
+      { "<leader>m", group = " Molten/Jupyter" },
 
 
       -- Messages/Errors
@@ -228,21 +254,55 @@ return {
       { "<leader>bo", function() require("astrocore.buffer").close_others() end, desc = "Delete other buffers" },
       { "<leader>bs", "<cmd>w<cr>", desc = "Save buffer" },
       { "<leader>bS", "<cmd>wa<cr>", desc = "Save all buffers" },
-      { "<leader>b1", function() require("astrocore.buffer").nav_to(1) end, desc = "Buffer 1" },
-      { "<leader>b2", function() require("astrocore.buffer").nav_to(2) end, desc = "Buffer 2" },
-      { "<leader>b3", function() require("astrocore.buffer").nav_to(3) end, desc = "Buffer 3" },
-      { "<leader>b4", function() require("astrocore.buffer").nav_to(4) end, desc = "Buffer 4" },
-      { "<leader>b5", function() require("astrocore.buffer").nav_to(5) end, desc = "Buffer 5" },
-      { "<leader>b6", function() require("astrocore.buffer").nav_to(6) end, desc = "Buffer 6" },
-      { "<leader>b7", function() require("astrocore.buffer").nav_to(7) end, desc = "Buffer 7" },
-      { "<leader>b8", function() require("astrocore.buffer").nav_to(8) end, desc = "Buffer 8" },
-      { "<leader>b9", function() require("astrocore.buffer").nav_to(9) end, desc = "Buffer 9" },
+      -- NOTE: <Leader>b1-9 navigation removed - defined in astrocore.lua to avoid duplicates
       { "<leader>bc", function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf()) end, desc = "Buffer count" },
 
-      -- Replace/Refactor
-      { "<leader>r", group = " Replace" },
-      { "<leader>rc", ":%s/<C-r><C-w>//g<Left><Left>", desc = "Replace word (native)" },
-      { "<leader>rn", function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
+      -- Refactoring operations
+      { "<leader>r", group = " Refactor" },
+
+      -- Interactive refactor selector (Telescope)
+      { "<leader>rr", function()
+        require("telescope").extensions.refactoring.refactors()
+      end, desc = "Select refactor (Telescope)", mode = {"n", "x"} },
+
+      -- Extract operations
+      { "<leader>re", function()
+        return require('refactoring').refactor('Extract Function')
+      end, desc = "Extract function", mode = {"n", "x"}, expr = true },
+      { "<leader>ref", function()
+        return require('refactoring').refactor('Extract Function To File')
+      end, desc = "Extract function to file", mode = {"n", "x"}, expr = true },
+      { "<leader>rv", function()
+        return require('refactoring').refactor('Extract Variable')
+      end, desc = "Extract variable", mode = {"n", "x"}, expr = true },
+      { "<leader>rb", function()
+        return require('refactoring').refactor('Extract Block')
+      end, desc = "Extract block", mode = {"n", "x"}, expr = true },
+      { "<leader>rbf", function()
+        return require('refactoring').refactor('Extract Block To File')
+      end, desc = "Extract block to file", mode = {"n", "x"}, expr = true },
+
+      -- Inline operations
+      { "<leader>ri", function()
+        return require('refactoring').refactor('Inline Variable')
+      end, desc = "Inline variable", mode = {"n", "x"}, expr = true },
+      { "<leader>rI", function()
+        return require('refactoring').refactor('Inline Function')
+      end, desc = "Inline function", mode = {"n", "x"}, expr = true },
+
+      -- Rename (LSP-based refactoring)
+      { "<leader>rn", function() vim.lsp.buf.rename() end, desc = "Rename symbol", mode = "n" },
+
+      -- Debug helpers
+      { "<leader>rdp", function()
+        require('refactoring').debug.printf({below = false})
+      end, desc = "Debug printf", mode = "n" },
+      { "<leader>rdv", function()
+        require('refactoring').debug.print_var()
+      end, desc = "Debug print var", mode = {"n", "x"} },
+      { "<leader>rdc", function()
+        require('refactoring').debug.cleanup({})
+      end, desc = "Cleanup debug statements", mode = "n" },
 
       -- Search
       { "<leader>s", group = " Search" },
@@ -253,13 +313,11 @@ return {
       { "<leader>sh", function() require("telescope.builtin").search_history() end, desc = "Search history" },
       { "<leader>sc", function() require("telescope.builtin").command_history() end, desc = "Command history" },
       { "<leader>sn", "<cmd>nohlsearch<cr>", desc = "Clear search highlight" },
-      { "<leader>sr", function() require("telescope.builtin").resume() end, desc = "Resume last search" },
+      { "<leader>sr", ":%s/<C-r><C-w>//g<Left><Left>", desc = "Search and replace word (native)" },
+      { "<leader>sR", function() require("telescope.builtin").resume() end, desc = "Resume last search" },
 
-      -- Test
+      -- Test (keybindings defined in vim-test.lua)
       { "<leader>t", group = " Test" },
-      { "<leader>tt", function() local file = vim.fn.expand("%:p") if file:match("_spec%.lua$") then vim.notify("Running tests in " .. vim.fn.expand("%:t")) vim.cmd("PlenaryBustedFile " .. file) else vim.notify("Not a test file (*_spec.lua)") end end, desc = "Run current test file" },
-      { "<leader>ta", function() vim.notify("Running all tests...") vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}") end, desc = "Run all tests" },
-      { "<leader>tn", function() local line = vim.api.nvim_win_get_cursor(0)[1] vim.notify("Running nearest test at line " .. line) vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}") end, desc = "Run nearest test" },
 
       -- Terminal
       { "<leader>T", group = " Terminal" },
@@ -325,7 +383,6 @@ return {
 
       -- Visual mode mappings
       { "<leader>/", ":<C-u>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", desc = "Toggle comment", mode = "v" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude", mode = "v" },
       { "<leader>sw", function() require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) end, desc = "Search selection", mode = "v" },
     }
     
