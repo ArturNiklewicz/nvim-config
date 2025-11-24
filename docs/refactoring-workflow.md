@@ -301,20 +301,24 @@ vim.fn.setreg('e', '/function\n/{<CR>otry {<Esc>')
 
 ---
 
-## Part 6: Refactoring.nvim Operations Reference
+## Part 6: Refactoring.nvim Keybindings Reference
 
-| Operation | Mode | Description |
-|-----------|------|-------------|
-| Extract Function | Visual | Pull selection into new function |
-| Extract Function To File | Visual | Extract to separate file (`<Leader>rf`) |
-| Extract Variable | Visual | Assign selection to variable |
-| Extract Block | Normal | Extract code block (`<Leader>rb`) |
-| Extract Block To File | Normal | Extract block to file (`<Leader>rB`) |
-| Inline Variable | Both | Replace variable with its value |
-| Inline Function | Normal | Replace call with function body |
-| Printf Debug | Normal | Insert debug print statement |
-| Print Variable | Visual | Print selected variable |
-| Cleanup | Normal | Remove all debug statements |
+| Key | Operation | Mode | Description |
+|-----|-----------|------|-------------|
+| `<Leader>rr` | Telescope Menu | n, x | Interactive refactor selector |
+| `<Leader>re` | Extract Function | x | Pull selection into new function |
+| `<Leader>rf` | Extract Function To File | x | Extract selection to separate file |
+| `<Leader>rv` | Extract Variable | x | Assign selection to variable |
+| `<Leader>rb` | Extract Block | n | Extract block under cursor |
+| `<Leader>rB` | Extract Block To File | n | Extract block to separate file |
+| `<Leader>ri` | Inline Variable | n, x | Replace variable with its value |
+| `<Leader>rI` | Inline Function | n | Replace call with function body |
+| `<Leader>rn` | Rename Symbol | n | LSP-based symbol rename |
+| `<Leader>rdp` | Printf Debug | n | Insert debug print statement |
+| `<Leader>rdv` | Print Variable | n, x | Print variable value |
+| `<Leader>rdc` | Cleanup Debug | n | Remove all debug statements |
+
+**Mode Key**: `n` = normal, `x` = visual (select code first)
 
 ---
 
@@ -371,12 +375,16 @@ newText<Esc>                 " Type replacement
 │  <Leader>h1-9          Jump to Harpoon slot                  │
 │  <Leader>g[/g]         Cycle Grapple tags                    │
 ├──────────────────────────────────────────────────────────────┤
-│  REFACTORING (visual select first for extract)               │
+│  REFACTORING                                                  │
 ├──────────────────────────────────────────────────────────────┤
-│  <Leader>rr            Telescope refactor menu               │
-│  <Leader>re            Extract Function                      │
-│  <Leader>rv            Extract Variable                      │
-│  <Leader>ri            Inline Variable                       │
+│  <Leader>rr            Telescope refactor menu (n/x)         │
+│  <Leader>re            Extract Function (visual)             │
+│  <Leader>rf            Extract Function to File (visual)     │
+│  <Leader>rv            Extract Variable (visual)             │
+│  <Leader>rb            Extract Block (normal)                │
+│  <Leader>rB            Extract Block to File (normal)        │
+│  <Leader>ri            Inline Variable (n/x)                 │
+│  <Leader>rI            Inline Function (normal)              │
 │  <Leader>rn            Rename Symbol (LSP)                   │
 ├──────────────────────────────────────────────────────────────┤
 │  MACROS                                                       │
