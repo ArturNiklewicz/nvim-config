@@ -23,12 +23,12 @@ function M.check_leader_keys()
   end
 
   print("\n=== Checking buffer_nav module ===")
-  local ok, buffer_nav = pcall(require, "utils.buffer-nav-trace")
+  local ok, buffer_nav = pcall(require, "utils.buffer-nav")
   if ok then
-    print("✓ buffer-nav-trace loaded successfully")
+    print("✓ buffer-nav loaded successfully")
     print("✓ nav_to function exists:", type(buffer_nav.nav_to) == "function")
   else
-    print("✗ Failed to load buffer-nav-trace:", buffer_nav)
+    print("✗ Failed to load buffer-nav:", buffer_nav)
   end
 
   print("\n=== Checking BufferLineGoToBuffer command ===")

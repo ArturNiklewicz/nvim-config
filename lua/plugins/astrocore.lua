@@ -8,16 +8,16 @@ return {
   priority = 1000,
   ---@type AstroCoreOpts
   opts = function(_, opts)
-    -- Load buffer navigation utilities safely (with tracing for debugging)
-    local ok, buffer_nav = pcall(require, "utils.buffer-nav-trace")
+    -- Load buffer navigation utilities
+    local ok, buffer_nav = pcall(require, "utils.buffer-nav")
     if not ok then
-      print("ERROR: Failed to load buffer-nav-trace:", buffer_nav)
+      print("ERROR: Failed to load buffer-nav:", buffer_nav)
       buffer_nav = {
         nav_to = function(pos) vim.notify("buffer-nav module failed to load", vim.log.levels.ERROR) end,
-        close_smart = function() vim.cmd("bd") end
+        close_smart = function() vim.cmd("bd") end,
+        close_others = function() vim.cmd("bufdo bd") end,
+        count = function() return 0 end
       }
-    else
-      print("SUCCESS: buffer-nav-trace loaded")
     end
     
     return vim.tbl_deep_extend("force", opts, {
