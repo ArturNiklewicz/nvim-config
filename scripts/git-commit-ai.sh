@@ -102,9 +102,11 @@ get_git_stats() {
     echo -e "$stats_output"
 }
 
-# Generate commit type and scope using fast LLM (Haiku)
-generate_type_and_scope() {
+# Generate complete subject line using LLM semantic reasoning
+generate_subject_line() {
     local file_status="$1"
+    local diff_content="$2"
+    local file_count="$3"
 
     # Check if claude CLI is available
     if ! command -v claude &> /dev/null; then
@@ -132,83 +134,80 @@ generate_type_and_scope() {
             scope="config"
         fi
 
-        echo "${type}(${scope})"
+        # Fallback subject
+        local verb="update"
+        [ "$new_count" -gt 0 ] && [ "$modified_count" -eq 0 ] && [ "$deleted_count" -eq 0 ] && verb="add"
+        [ "$deleted_count" -gt 0 ] && [ "$new_count" -eq 0 ] && [ "$modified_count" -eq 0 ] && verb="remove"
+
+        local subject="${type}"
+        [ -n "$scope" ] && subject="${type}(${scope})"
+        subject="${subject}: ${verb} ${file_count} file"
+        [ "$file_count" -gt 1 ] && subject="${subject}s"
+
+        echo "$subject"
         return
     fi
 
-    # LLM-based detection using Sonnet (fast, default model)
-    local prompt="Determine conventional commit type and scope. Output ONLY: type(scope) or type
+    # LLM-based semantic reasoning using Sonnet
+    local prompt="Generate a conventional commit subject line. Analyze the changes semantically and determine the PRIMARY intent.
 
 File changes:
 \`\`\`
 ${file_status}
 \`\`\`
 
-Types: feat, fix, refactor, docs, style, test, chore, perf, build, ci
-Scope: 1-2 words (plugins, utils, config, api, etc.) or empty
+Diff content (first 3000 chars):
+\`\`\`
+${diff_content:0:3000}
+\`\`\`
 
-Rules:
-- A (new) → feat
-- M (modified) → fix or refactor
-- D (deleted) → refactor or chore
-- .md files → docs
-- test files → test
+TASK: Output ONLY the subject line in format: type(scope): description
 
-Examples: feat(auth), fix(api), refactor, docs(readme)
+SEMANTIC TYPE REASONING:
+- feat: New functionality, features, capabilities (not just new files - what do they DO?)
+- fix: Bug fixes, error corrections, issue resolutions (fixing broken behavior)
+- refactor: Code restructuring without behavior change (cleanup, reorganization)
+- chore: Maintenance, dependency updates, tooling, config (no user-facing change)
+- test: Test additions, test improvements (primary focus on testing)
+- docs: Documentation-only changes
+- perf: Performance improvements (measurable speed/resource improvements)
+- style: Formatting, whitespace (no logic change)
+- ci: CI/CD pipeline changes
+- build: Build system, dependencies
 
-Output ONLY the type(scope) or type, nothing else:"
+SCOPE: 1-2 words from file paths (plugins, utils, config, api, auth, etc.) or omit if broad
+
+DESCRIPTION: Specific and descriptive (NOT generic like 'update 3 files')
+- Name what was actually done: 'add translation module', 'fix auth crash', 'refactor git workflow'
+- Be specific: what feature/fix/change specifically?
+- Keep under 50 chars if possible
+
+EXAMPLES:
+✅ feat(auth): add JWT token refresh mechanism
+✅ fix(api): resolve null pointer in user validation
+✅ refactor(git): replace Lua orchestration with bash workflow
+✅ chore(deps): update Claude Code to v1.2.3
+✅ test(translation): add unit tests for batch processing
+❌ feat: update 3 files
+❌ fix: changes
+❌ chore: stuff
+
+Output ONLY the subject line, nothing else:"
 
     local result
-    result=$(timeout 10s claude <<< "$prompt" 2>/dev/null | head -1 | tr -d '\n')
+    result=$(timeout 10s claude <<< "$prompt" 2>/dev/null | head -1 | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-    if [ -z "$result" ]; then
-        # Fallback
-        echo "chore"
+    if [ -z "$result" ] || [ ${#result} -gt 100 ]; then
+        # Fallback to simple subject
+        echo "chore: update ${file_count} file$( [ "$file_count" -gt 1 ] && echo "s" || echo "")"
     else
-        echo "$result"
+        # Truncate if still too long
+        if [ ${#result} -gt "$MAX_SUBJECT_LENGTH" ]; then
+            echo "${result:0:$((MAX_SUBJECT_LENGTH-3))}..."
+        else
+            echo "$result"
+        fi
     fi
-}
-
-# Generate subject line using LLM type/scope with dynamic verb
-generate_subject() {
-    local type_and_scope="$1"
-    local file_count="$2"
-    local file_status="$3"
-
-    # type_and_scope is already "type(scope)" or "type" from LLM
-    local subject="${type_and_scope}: "
-
-    # Determine action verb based on file status
-    local new_count modified_count deleted_count
-    new_count=$(echo "$file_status" | grep -c "^A" || true)
-    modified_count=$(echo "$file_status" | grep -c "^M" || true)
-    deleted_count=$(echo "$file_status" | grep -c "^D" || true)
-
-    local verb="update"
-    if [ "$deleted_count" -gt 0 ] && [ "$new_count" -eq 0 ] && [ "$modified_count" -eq 0 ]; then
-        verb="delete"
-    elif [ "$new_count" -gt 0 ] && [ "$deleted_count" -eq 0 ] && [ "$modified_count" -eq 0 ]; then
-        verb="add"
-    elif [ "$modified_count" -gt 0 ] && [ "$new_count" -eq 0 ] && [ "$deleted_count" -eq 0 ]; then
-        verb="update"
-    else
-        # Mixed operations - use update
-        verb="update"
-    fi
-
-    # Build subject with proper pluralization
-    if [ "$file_count" -eq 1 ]; then
-        subject+="${verb} 1 file"
-    else
-        subject+="${verb} ${file_count} files"
-    fi
-
-    # Truncate if needed
-    if [ ${#subject} -gt "$MAX_SUBJECT_LENGTH" ]; then
-        subject="${subject:0:$((MAX_SUBJECT_LENGTH-3))}..."
-    fi
-
-    echo "$subject"
 }
 
 # Generate AI description using Claude Opus

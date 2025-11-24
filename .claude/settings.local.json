@@ -20,7 +20,10 @@
       "Bash(./test-manager.sh:*)",
       "Bash(git checkout:*)",
       "Bash(gh:*)",
-      "Bash(git worktree:*)"
+      "Bash(git worktree:*)",
+      "Read(//Users/arturniklewicz/.local/share/nvim/lazy/snacks.nvim/**)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebSearch"
     ],
     "deny": []
   }

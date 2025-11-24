@@ -10,16 +10,17 @@
 |------|------|--------|
 | Get staged files | `git diff --cached --name-status` | Instant, accurate, built-in |
 | Count changes | `git diff --cached --numstat` | Native git, no parsing |
-| Detect commit type | bash patterns | Fast, deterministic |
-| Generate subject | bash + git stats | Formulaic conventional commits |
+| Detect scope | bash patterns | Fast path-based detection |
+| **Detect commit type** | **Claude CLI** | **Semantic analysis of change intent** |
+| **Generate subject** | **Claude CLI + git stats** | **Intelligent conventional commits** |
 | **Generate body** | **Claude CLI** | **AI for nuance: WHY, context, trade-offs** |
 | Preview | fzf + git show | Interactive, visual |
 
 ## Performance
 
-- **Bash parsing**: <10ms
-- **Claude API call**: ~500ms (body only)
-- **Total**: ~510ms
+- **Bash parsing**: <10ms (file stats, scope detection)
+- **Claude API call**: ~500-700ms (semantic type analysis, subject + body generation)
+- **Total**: ~510-710ms
 
 **Previous Lua orchestration**: 2-3s (multi-agent, diff parsing, message building)
 
@@ -49,17 +50,40 @@
 git diff --cached --name-status
 ```
 
-### 2. Generate Subject (Bash)
-```bash
-# Detects type: feat, fix, refactor
-# Detects scope: plugins, utils, config, scripts, docs
-# Output: "feat(plugins): update 3 files"
-```
+### 2. Generate Subject & Type (Claude CLI with Semantic Reasoning)
+
+**Semantic Type Detection:**
+Claude analyzes the git diff and change context to determine type based on semantic intent:
 
 **Conventional commit types**:
-- `feat`: New files > modifications (feature addition)
-- `fix`: Modifications > deletions (bug fix)
-- `refactor`: Has deletions (code cleanup)
+- `feat`: New functionality, features, capabilities
+- `fix`: Bug fixes, error corrections, issue resolutions
+- `refactor`: Code restructuring without behavior change
+- `chore`: Maintenance, dependency updates, tooling, config
+- `test`: Test additions, test improvements
+- `docs`: Documentation-only changes
+- `perf`: Performance improvements
+- `style`: Formatting, whitespace (no logic change)
+- `ci`: CI/CD pipeline changes
+- `build`: Build system, dependencies
+
+**Reasoning Process:**
+1. **Analyze semantic intent**: What is the primary purpose of these changes?
+2. **Consider code context**: New functionality vs fixes vs cleanup
+3. **Evaluate change scope**: Isolated feature vs system-wide refactor
+4. **Determine user impact**: Breaking changes, new features, internal improvements
+
+**Type Selection Examples:**
+- New translation module with tests → `feat` (primary: new capability)
+- Fixed authentication crash → `fix` (primary: error correction)
+- Updated ESLint config and deps → `chore` (maintenance work)
+- Added unit tests for existing code → `test` (test focus)
+- Renamed variables, removed dead code → `refactor` (restructure)
+- Optimized query performance → `perf` (performance focus)
+
+**Scope Detection** (bash):
+- Detects from file paths: plugins, utils, config, scripts, docs
+- Example: `feat(plugins): add translation module`
 
 ### 3. Generate Body (Claude CLI)
 ```bash

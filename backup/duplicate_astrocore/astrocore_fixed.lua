@@ -296,8 +296,8 @@ return {
         ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
         
         -- Git hunks navigation
-        ["]h"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
-        ["[h"] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
+        ["g]"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
+        ["g["] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
         
         -- Jupyter cells navigation
         ["]c"] = { "<cmd>MoltenNext<cr>", desc = "Next Jupyter cell" },

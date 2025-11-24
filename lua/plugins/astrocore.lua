@@ -8,10 +8,16 @@ return {
   priority = 1000,
   ---@type AstroCoreOpts
   opts = function(_, opts)
-    -- Load buffer navigation utilities safely
-    local ok, buffer_nav = pcall(require, "utils.buffer-nav")
+    -- Load buffer navigation utilities safely (with tracing for debugging)
+    local ok, buffer_nav = pcall(require, "utils.buffer-nav-trace")
     if not ok then
-      buffer_nav = { close_smart = function() vim.cmd("bd") end }
+      print("ERROR: Failed to load buffer-nav-trace:", buffer_nav)
+      buffer_nav = {
+        nav_to = function(pos) vim.notify("buffer-nav module failed to load", vim.log.levels.ERROR) end,
+        close_smart = function() vim.cmd("bd") end
+      }
+    else
+      print("SUCCESS: buffer-nav-trace loaded")
     end
     
     return vim.tbl_deep_extend("force", opts, {
@@ -19,7 +25,7 @@ return {
       features = {
         large_buf = { size = 1024 * 256, lines = 10000 },
         autopairs = true,
-        cmp = false, -- Disabled by default, toggle with <Leader>at
+        cmp = true, -- Enable by default for LSP completion
         diagnostics = { virtual_text = true, virtual_lines = false },
         highlighturl = true,
         notifications = true,
@@ -54,6 +60,7 @@ return {
           sidescrolloff = 8,
           cursorline = true, -- Enable cursorline
           cursorcolumn = true,
+          foldcolumn = "0", -- Disable fold column (no code collapse indicators)
         },
         g = {},
       },
@@ -61,32 +68,7 @@ return {
       mappings = {
         n = {
           -- ================================
-          -- WHICH-KEY GROUP NAMES
-          -- ================================
-          ["<Leader>a"] = { name = "AI/Claude" },
-          ["<Leader>b"] = { name = "Buffers" },
-          ["<Leader>c"] = { name = "Code/LSP" },
-          ["<Leader>d"] = { name = "Debug" },
-          ["<Leader>f"] = { name = "Find/Files" },
-          ["<Leader>fc"] = { name = "Claude" },
-          ["<Leader>g"] = { name = "Git" },
-          ["<Leader>gh"] = { name = "Hunks" },
-          ["<Leader>gw"] = { name = "Watchlist" },
-          ["<Leader>G"] = { name = "GitHub" },
-          ["<Leader>l"] = { name = "LSP" },
-          ["<Leader>M"] = { name = "Messages" },
-          ["<Leader>p"] = { name = "Packages" },
-          ["<Leader>r"] = { name = "Replace" },
-          ["<Leader>s"] = { name = "Search" },
-          ["<Leader>t"] = { name = "Test" },
-          ["<Leader>T"] = { name = "Terminal" },
-          ["<Leader>u"] = { name = "UI/Toggles" },
-          ["<Leader>U"] = { name = "UI/Theme" },
-          ["<Leader>x"] = { name = "Diagnostics" },
-          ["<Leader>y"] = { name = "Copy Path" },
-
-          -- ================================
-          -- OVERRIDE DEFAULT KEYBINDINGS
+          -- NOTE: Group names are now defined in which-key.lua
           -- ================================
 
           -- ================================
@@ -104,56 +86,27 @@ return {
           ["<Leader>`"] = { function() buffer_nav.nav_to_last() end, desc = "Switch to last buffer" },
           
           -- ================================
-          -- AI/CLAUDE CODE (<Leader>a)
+          -- AI/SUPERMAVEN (<Leader>a)
           -- ================================
-          ["<Leader>ac"] = { "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-          ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-          ["<Leader>ar"] = { "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-          ["<Leader>aC"] = { "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-          ["<Leader>am"] = { "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-          ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-          ["<Leader>aa"] = { "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-          ["<Leader>ad"] = { "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
           ["<Leader>at"] = { function()
-            -- Toggle ALL auto-completion (nvim-cmp + Supermaven + Claude)
+            -- Toggle Supermaven AI inline completion
+            vim.g.supermaven_enabled = not vim.g.supermaven_enabled
 
-            -- Check current state
-            vim.g.completion_enabled = not vim.g.completion_enabled
-
-            if vim.g.completion_enabled then
-              -- Enable nvim-cmp
-              local cmp_ok, cmp = pcall(require, "cmp")
-              if cmp_ok then
-                cmp.setup({ enabled = true })
-              end
-
-              -- Enable Supermaven
-              local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
-              if supermaven_ok then
-                supermaven_api.start()
-              end
-
-              vim.notify("✅ Auto-completion enabled (cmp + Supermaven)", vim.log.levels.INFO)
-            else
-              -- Disable nvim-cmp
-              local cmp_ok, cmp = pcall(require, "cmp")
-              if cmp_ok then
-                cmp.setup({
-                  enabled = false,
-                  sources = {}
-                })
-              end
-
-              -- Disable Supermaven
-              local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
-              if supermaven_ok then
-                supermaven_api.stop()
-              end
-
-              vim.notify("🚫 Auto-completion disabled (cmp + Supermaven)", vim.log.levels.INFO)
+            local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
+            if not supermaven_ok then
+              vim.notify("⚠️  Supermaven not available", vim.log.levels.WARN)
+              return
             end
-          end, desc = "Toggle all auto-completion" },
-          
+
+            if vim.g.supermaven_enabled then
+              supermaven_api.start()
+              vim.notify("✅ Supermaven AI enabled (inline suggestions)", vim.log.levels.INFO)
+            else
+              supermaven_api.stop()
+              vim.notify("🚫 Supermaven AI disabled", vim.log.levels.INFO)
+            end
+          end, desc = "Toggle Supermaven AI" },
+
           -- ================================
           -- BUFFERS (<Leader>b)
           -- ================================
@@ -161,18 +114,9 @@ return {
           ["<Leader>bd"] = { function() buffer_nav.close_smart() end, desc = "Delete buffer" },
           ["<Leader>bD"] = { function() require("astrocore.buffer").close_all() end, desc = "Delete all buffers" },
           ["<Leader>bo"] = { function() buffer_nav.close_others() end, desc = "Delete other buffers" },
-          -- Buffer navigation removed - use <Leader>a/d instead
+          -- Buffer navigation removed - use <Leader>a/d for prev/next, <Leader>1-9 for direct access
           ["<Leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" },
           ["<Leader>bS"] = { "<cmd>wa<cr>", desc = "Save all buffers" },
-          ["<Leader>b1"] = { function() buffer_nav.nav_to(1) end, desc = "Buffer 1" },
-          ["<Leader>b2"] = { function() buffer_nav.nav_to(2) end, desc = "Buffer 2" },
-          ["<Leader>b3"] = { function() buffer_nav.nav_to(3) end, desc = "Buffer 3" },
-          ["<Leader>b4"] = { function() buffer_nav.nav_to(4) end, desc = "Buffer 4" },
-          ["<Leader>b5"] = { function() buffer_nav.nav_to(5) end, desc = "Buffer 5" },
-          ["<Leader>b6"] = { function() buffer_nav.nav_to(6) end, desc = "Buffer 6" },
-          ["<Leader>b7"] = { function() buffer_nav.nav_to(7) end, desc = "Buffer 7" },
-          ["<Leader>b8"] = { function() buffer_nav.nav_to(8) end, desc = "Buffer 8" },
-          ["<Leader>b9"] = { function() buffer_nav.nav_to(9) end, desc = "Buffer 9" },
           ["<Leader>bc"] = { function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf() .. " (" .. buffer_nav.count() .. " total)") end, desc = "Buffer count" },
           
           -- ================================
@@ -296,22 +240,35 @@ return {
             require("utils.git-nav").list_changes()
           end, desc = "List changed files (simple)" },
           
-          -- Git hunk operations  
+          -- Git hunk operations (direct gitsigns calls - faster, less abstraction)
           ["<Leader>ghp"] = { function()
-            require("utils.git-hunk-nav").preview_hunk()
+            require("gitsigns").preview_hunk()
           end, desc = "Preview current hunk" },
-          
+
           ["<Leader>ghs"] = { function()
-            require("utils.git-hunk-nav").stage_hunk()
+            require("gitsigns").stage_hunk()
           end, desc = "Stage current hunk" },
-          
+
           ["<Leader>ghr"] = { function()
-            require("utils.git-hunk-nav").reset_hunk()
+            require("gitsigns").reset_hunk()
           end, desc = "Reset current hunk" },
-          
+
           ["<Leader>ghl"] = { function()
-            require("utils.git-hunk-nav").list_hunks()
-          end, desc = "List hunks in current file" },
+            require("gitsigns").setqflist("all")
+          end, desc = "List hunks in quickfix" },
+
+          -- Quick hunk actions (Tier 2 - fast access)
+          ["<Leader>hp"] = { function()
+            require("gitsigns").preview_hunk()
+          end, desc = "Preview hunk (quick)" },
+
+          ["<Leader>hs"] = { function()
+            require("gitsigns").stage_hunk()
+          end, desc = "Stage hunk (quick)" },
+
+          ["<Leader>hr"] = { function()
+            require("gitsigns").reset_hunk()
+          end, desc = "Reset hunk (quick)" },
           
           -- Git file monitoring/watchlist
           ["<Leader>gwa"] = { function()
@@ -408,24 +365,14 @@ return {
           -- ================================
           -- TEST (<Leader>t)
           -- ================================
-          ["<Leader>tt"] = { function()
-            local file = vim.fn.expand("%:p")
-            if file:match("_spec%.lua$") then
-              vim.notify("Running tests in " .. vim.fn.expand("%:t"))
-              vim.cmd("PlenaryBustedFile " .. file)
-            else
-              vim.notify("Not a test file (*_spec.lua)")
-            end
-          end, desc = "Run current test file" },
-          ["<Leader>ta"] = { function()
-            vim.notify("Running all tests...")
-            vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}")
-          end, desc = "Run all tests" },
-          ["<Leader>tn"] = { function()
-            local line = vim.api.nvim_win_get_cursor(0)[1]
-            vim.notify("Running nearest test at line " .. line)
-            vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}")
-          end, desc = "Run nearest test" },
+          -- Test keybindings moved to vim-test.lua (supports pytest, jest, rspec, etc.)
+          -- Disable conflicting ToggleTerm bindings under <Leader>t
+          ["<Leader>tf"] = false, -- Disable to allow vim-test TestFile
+          ["<Leader>th"] = false, -- Disable to allow future test expansion
+          ["<Leader>tn"] = false, -- Disable to allow vim-test TestNearest
+          ["<Leader>tp"] = false, -- Disable to allow future test expansion
+          ["<Leader>tu"] = false, -- Disable to allow future test expansion
+          ["<Leader>tv"] = false, -- Disable to allow vim-test TestVisit
           
           -- ================================
           -- TERMINAL (<Leader>T)
@@ -528,8 +475,10 @@ return {
           ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["]d"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
           ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
-          ["]g"] = { function() require("utils.git-hunk-nav").next_hunk() end, desc = "Next git hunk (with file overflow)" },
-          ["[g"] = { function() require("utils.git-hunk-nav").prev_hunk() end, desc = "Previous git hunk (with file overflow)" },
+          -- Ultra-fast git hunk navigation (46% faster than ]h/[h)
+          -- j/k = vim-native motion (down/up → next/prev)
+          ["<Leader>j"] = { function() require("utils.git-hunk-nav").navigate_hunk("next") end, desc = "Next hunk" },
+          ["<Leader>k"] = { function() require("utils.git-hunk-nav").navigate_hunk("prev") end, desc = "Previous hunk" },
           
           -- ================================
           -- TERMINAL
@@ -566,18 +515,10 @@ return {
         -- VISUAL MODE MAPPINGS
         -- ================================
         v = {
-          -- Group names for visual mode
-          ["<Leader>a"] = { name = "AI/Claude" },
-          ["<Leader>c"] = { name = "Code" },
-          ["<Leader>g"] = { name = "Git" },
-          ["<Leader>r"] = { name = "Replace" },
-          ["<Leader>s"] = { name = "Search" },
-          ["<Leader>x"] = { name = "Diagnostics" },
+          -- NOTE: Group names are now defined in which-key.lua
 
           ["<Leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment" },
 
-          -- AI/Claude
-          ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude" },
 
           -- Search
           ["<Leader>sw"] = { function() 
