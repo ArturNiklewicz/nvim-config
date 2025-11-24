@@ -74,30 +74,64 @@ function M.jump_file(direction)
     return
   end
   
-  local current_file = vim.fn.expand("%:t")
+  -- Get current file path relative to git root
+  local current_file = vim.fn.expand("%:.")
   local current_index = 0
   
-  -- Find current file index
+  -- Find current file index (exact match or partial match)
   for i, file in ipairs(files) do
-    if file.name == current_file or file.name:match(".*/" .. current_file .. "$") then
+    -- Try exact match first
+    if file.name == current_file then
+      current_index = i
+      break
+    end
+    -- Try matching just the filename if full path doesn't match
+    local current_basename = vim.fn.fnamemodify(current_file, ":t")
+    local file_basename = vim.fn.fnamemodify(file.name, ":t")
+    if current_basename == file_basename then
       current_index = i
       break
     end
   end
   
-  -- Calculate next index
+  -- If we're not on a git file, start from the beginning
   local next_index
-  if direction == "next" then
-    next_index = current_index % #files + 1
+  if current_index == 0 then
+    if direction == "next" then
+      next_index = 1
+    else
+      next_index = #files
+    end
   else
-    next_index = current_index - 1
-    if next_index < 1 then next_index = #files end
+    -- Calculate next index with proper wrapping
+    if direction == "next" then
+      next_index = current_index % #files + 1
+    else
+      next_index = current_index - 1
+      if next_index < 1 then next_index = #files end
+    end
   end
   
   local target_file = files[next_index]
   
+  -- Save current position before jumping
+  vim.cmd("normal! m'")
+  
   -- Open file and show status
-  vim.cmd("edit " .. target_file.name)
+  local ok, err = pcall(vim.cmd, "edit " .. vim.fn.fnameescape(target_file.name))
+  if not ok then
+    vim.notify("Failed to open file: " .. target_file.name, vim.log.levels.ERROR)
+    return
+  end
+  
+  -- Jump to first change in the file if gitsigns is available
+  vim.defer_fn(function()
+    local has_gitsigns, gitsigns = pcall(require, "gitsigns")
+    if has_gitsigns then
+      -- Try to jump to first hunk
+      pcall(gitsigns.next_hunk, {wrap = false, navigation_message = false})
+    end
+  end, 50)
   
   local status_icon = target_file.info.staged and "●" or "○"
   local status_text = target_file.info.status == "untracked" and "untracked" or 

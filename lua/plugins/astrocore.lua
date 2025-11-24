@@ -8,10 +8,16 @@ return {
   priority = 1000,
   ---@type AstroCoreOpts
   opts = function(_, opts)
-    -- Load buffer navigation utilities safely
+    -- Load buffer navigation utilities
     local ok, buffer_nav = pcall(require, "utils.buffer-nav")
     if not ok then
-      buffer_nav = { close_smart = function() vim.cmd("bd") end }
+      print("ERROR: Failed to load buffer-nav:", buffer_nav)
+      buffer_nav = {
+        nav_to = function(pos) vim.notify("buffer-nav module failed to load", vim.log.levels.ERROR) end,
+        close_smart = function() vim.cmd("bd") end,
+        close_others = function() vim.cmd("bufdo bd") end,
+        count = function() return 0 end
+      }
     end
     
     return vim.tbl_deep_extend("force", opts, {
@@ -19,7 +25,7 @@ return {
       features = {
         large_buf = { size = 1024 * 256, lines = 10000 },
         autopairs = true,
-        cmp = true,
+        cmp = true, -- Enable by default for LSP completion
         diagnostics = { virtual_text = true, virtual_lines = false },
         highlighturl = true,
         notifications = true,
@@ -54,6 +60,7 @@ return {
           sidescrolloff = 8,
           cursorline = true, -- Enable cursorline
           cursorcolumn = true,
+          foldcolumn = "0", -- Disable fold column (no code collapse indicators)
         },
         g = {},
       },
@@ -61,17 +68,9 @@ return {
       mappings = {
         n = {
           -- ================================
-          -- OVERRIDE DEFAULT KEYBINDINGS
+          -- NOTE: Group names are now defined in which-key.lua
           -- ================================
-          ["<C-e>"] = { function() 
-            local ok, explain = pcall(function() return _G.ClaudeExplain end)
-            if ok and explain then
-              explain.explain_selection()
-            else
-              vim.notify("Claude Explain plugin not loaded", vim.log.levels.WARN)
-            end
-          end, desc = "Explain code with Claude" },
-          
+
           -- ================================
           -- QUICK ACTIONS (Root Level)
           -- ================================
@@ -87,17 +86,27 @@ return {
           ["<Leader>`"] = { function() buffer_nav.nav_to_last() end, desc = "Switch to last buffer" },
           
           -- ================================
-          -- AI/CLAUDE CODE (<Leader>a)
+          -- AI/SUPERMAVEN (<Leader>a)
           -- ================================
-          ["<Leader>ac"] = { "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-          ["<Leader>af"] = { "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-          ["<Leader>ar"] = { "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-          ["<Leader>aC"] = { "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-          ["<Leader>am"] = { "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-          ["<Leader>ab"] = { "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-          ["<Leader>aa"] = { "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-          ["<Leader>ad"] = { "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
-          
+          ["<Leader>at"] = { function()
+            -- Toggle Supermaven AI inline completion
+            vim.g.supermaven_enabled = not vim.g.supermaven_enabled
+
+            local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
+            if not supermaven_ok then
+              vim.notify("⚠️  Supermaven not available", vim.log.levels.WARN)
+              return
+            end
+
+            if vim.g.supermaven_enabled then
+              supermaven_api.start()
+              vim.notify("✅ Supermaven AI enabled (inline suggestions)", vim.log.levels.INFO)
+            else
+              supermaven_api.stop()
+              vim.notify("🚫 Supermaven AI disabled", vim.log.levels.INFO)
+            end
+          end, desc = "Toggle Supermaven AI" },
+
           -- ================================
           -- BUFFERS (<Leader>b)
           -- ================================
@@ -105,18 +114,9 @@ return {
           ["<Leader>bd"] = { function() buffer_nav.close_smart() end, desc = "Delete buffer" },
           ["<Leader>bD"] = { function() require("astrocore.buffer").close_all() end, desc = "Delete all buffers" },
           ["<Leader>bo"] = { function() buffer_nav.close_others() end, desc = "Delete other buffers" },
-          -- Buffer navigation removed - use <Leader>a/d instead
+          -- Buffer navigation removed - use <Leader>a/d for prev/next, <Leader>1-9 for direct access
           ["<Leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" },
           ["<Leader>bS"] = { "<cmd>wa<cr>", desc = "Save all buffers" },
-          ["<Leader>b1"] = { function() buffer_nav.nav_to(1) end, desc = "Buffer 1" },
-          ["<Leader>b2"] = { function() buffer_nav.nav_to(2) end, desc = "Buffer 2" },
-          ["<Leader>b3"] = { function() buffer_nav.nav_to(3) end, desc = "Buffer 3" },
-          ["<Leader>b4"] = { function() buffer_nav.nav_to(4) end, desc = "Buffer 4" },
-          ["<Leader>b5"] = { function() buffer_nav.nav_to(5) end, desc = "Buffer 5" },
-          ["<Leader>b6"] = { function() buffer_nav.nav_to(6) end, desc = "Buffer 6" },
-          ["<Leader>b7"] = { function() buffer_nav.nav_to(7) end, desc = "Buffer 7" },
-          ["<Leader>b8"] = { function() buffer_nav.nav_to(8) end, desc = "Buffer 8" },
-          ["<Leader>b9"] = { function() buffer_nav.nav_to(9) end, desc = "Buffer 9" },
           ["<Leader>bc"] = { function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf() .. " (" .. buffer_nav.count() .. " total)") end, desc = "Buffer count" },
           
           -- ================================
@@ -132,7 +132,28 @@ return {
           ["<Leader>ch"] = { function() vim.lsp.buf.hover() end, desc = "Code hover" },
           ["<Leader>cs"] = { function() vim.lsp.buf.signature_help() end, desc = "Code signature" },
           ["<Leader>cf"] = { function() vim.lsp.buf.format({ async = true }) end, desc = "Code format" },
-          
+
+          -- ================================
+          -- LSP (<Leader>l)
+          -- ================================
+          ["<Leader>lh"] = { "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch C/C++ source/header" },
+
+          -- ================================
+          -- DEBUG (<Leader>d)
+          -- ================================
+          ["<Leader>db"] = { function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
+          ["<Leader>dB"] = { function()
+            vim.ui.input({ prompt = "Breakpoint condition: " }, function(condition)
+              if condition then require("dap").set_breakpoint(condition) end
+            end)
+          end, desc = "Conditional breakpoint" },
+          ["<Leader>dc"] = { function() require("dap").continue() end, desc = "Continue" },
+          ["<Leader>di"] = { function() require("dap").step_into() end, desc = "Step into" },
+          ["<Leader>do"] = { function() require("dap").step_over() end, desc = "Step over" },
+          ["<Leader>dO"] = { function() require("dap").step_out() end, desc = "Step out" },
+          ["<Leader>dq"] = { function() require("dap").terminate() end, desc = "Terminate" },
+          ["<Leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle debug UI" },
+
           -- ================================
           -- FIND/FILES (<Leader>f)
           -- ================================
@@ -148,6 +169,10 @@ return {
           ["<Leader>fS"] = { function() require("telescope.builtin").lsp_workspace_symbols() end, desc = "Workspace symbols" },
           ["<Leader>fo"] = { function() require("telescope.builtin").vim_options() end, desc = "Vim options" },
           ["<Leader>fR"] = { function() require("telescope.builtin").registers() end, desc = "Registers" },
+          ["<Leader>fcl"] = { "<cmd>ClaudeCommands<cr>", desc = "🤖 Claude commands" },
+          ["<Leader>fcr"] = { "<cmd>ClaudeRefresh<cr>", desc = "🔄 Refresh Claude" },
+          ["<Leader>fcw"] = { "<cmd>ClaudeToggleWatcher<cr>", desc = "👁️ Toggle watcher" },
+          ["<Leader>fct"] = { "<cmd>ClaudeTest<cr>", desc = "🧪 Test Claude completion" },
           
           -- ================================
           -- GIT (<Leader>g)
@@ -167,8 +192,14 @@ return {
           -- Neogit for comprehensive git workflow
           ["<Leader>gN"] = { "<cmd>Neogit<cr>", desc = "Neogit status" },
           ["<Leader>gM"] = { "<cmd>Neogit commit<cr>", desc = "Commit with Neogit" },
-          -- AI-powered quick commit
-          ["<Leader>gA"] = { "<cmd>AIQuickCommit<cr>", desc = "Quick commit with AI" },
+          -- AI-powered quick commit (bash + Claude CLI)
+          ["<Leader>gA"] = { function()
+            local script_path = vim.fn.stdpath("config") .. "/scripts/git-commit-ai.sh"
+            vim.cmd("!" .. script_path)
+          end, desc = "Quick commit with AI" },
+          -- Git commit timeline preview
+          ["<Leader>gp"] = { "<cmd>GitTimeline<cr>", desc = "Git commit timeline" },
+          ["<Leader>gP"] = { "<cmd>GitCommitPreview<cr>", desc = "Preview then commit" },
           -- Telescope git viewers
           ["<Leader>gc"] = { function()
             local git_check = require("utils.git-check")
@@ -182,55 +213,7 @@ return {
               require("telescope.builtin").git_bcommits()
             end, "Git Buffer Commits")()
           end, desc = "Buffer commits" },
-          ["<Leader>gd"] = { function()
-            local git_check = require("utils.git-check")
-            if not git_check.is_git_repo() then
-              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "Git Diff" })
-              return
-            end
-            -- Check if diffview is installed
-            local ok = pcall(require, "diffview")
-            if ok then
-              vim.cmd("DiffviewOpen")
-            else
-              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
-            end
-          end, desc = "Git diff view" },
-          ["<Leader>gD"] = { function()
-            local ok = pcall(require, "diffview")
-            if ok then
-              vim.cmd("DiffviewClose")
-            else
-              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
-            end
-          end, desc = "Close diff view" },
-          ["<Leader>gh"] = { function()
-            local git_check = require("utils.git-check")
-            if not git_check.is_git_repo() then
-              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "File History" })
-              return
-            end
-            local ok = pcall(require, "diffview")
-            if ok then
-              vim.cmd("DiffviewFileHistory %")
-            else
-              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
-            end
-          end, desc = "File history" },
-          ["<Leader>gH"] = { function()
-            local git_check = require("utils.git-check")
-            if not git_check.is_git_repo() then
-              vim.notify("Not in a git repository", vim.log.levels.WARN, { title = "Branch History" })
-              return
-            end
-            local ok = pcall(require, "diffview")
-            if ok then
-              vim.cmd("DiffviewFileHistory")
-            else
-              vim.notify("Diffview plugin not installed", vim.log.levels.WARN)
-            end
-          end, desc = "Branch history" },
-          
+
           -- Git signs toggles
           ["<Leader>gt"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
           ["<Leader>gn"] = { "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle line number highlighting" },
@@ -239,19 +222,53 @@ return {
           ["<Leader>gT"] = { "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
           ["<Leader>gr"] = { "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
           
-          -- Git file navigation (enhanced with monitoring)
+          -- Git file navigation (enhanced)
           ["<Leader>gj"] = { function()
-            require("utils.git-monitor").jump_file("next")
+            require("utils.git-nav").navigate("next")
           end, desc = "Next changed file" },
           
           ["<Leader>gk"] = { function()
-            require("utils.git-monitor").jump_file("prev")
+            require("utils.git-nav").navigate("prev")
           end, desc = "Previous changed file" },
           
           ["<Leader>gf"] = { function()
             -- List all files with git changes
             require("telescope.builtin").git_status()
-          end, desc = "List changed files" },
+          end, desc = "List changed files (telescope)" },
+          
+          ["<Leader>gL"] = { function()
+            require("utils.git-nav").list_changes()
+          end, desc = "List changed files (simple)" },
+          
+          -- Git hunk operations (direct gitsigns calls - faster, less abstraction)
+          ["<Leader>ghp"] = { function()
+            require("gitsigns").preview_hunk()
+          end, desc = "Preview current hunk" },
+
+          ["<Leader>ghs"] = { function()
+            require("gitsigns").stage_hunk()
+          end, desc = "Stage current hunk" },
+
+          ["<Leader>ghr"] = { function()
+            require("gitsigns").reset_hunk()
+          end, desc = "Reset current hunk" },
+
+          ["<Leader>ghl"] = { function()
+            require("gitsigns").setqflist("all")
+          end, desc = "List hunks in quickfix" },
+
+          -- Quick hunk actions (Tier 2 - fast access)
+          ["<Leader>hp"] = { function()
+            require("gitsigns").preview_hunk()
+          end, desc = "Preview hunk (quick)" },
+
+          ["<Leader>hs"] = { function()
+            require("gitsigns").stage_hunk()
+          end, desc = "Stage hunk (quick)" },
+
+          ["<Leader>hr"] = { function()
+            require("gitsigns").reset_hunk()
+          end, desc = "Reset hunk (quick)" },
           
           -- Git file monitoring/watchlist
           ["<Leader>gwa"] = { function()
@@ -282,11 +299,6 @@ return {
             require("utils.git-monitor").setup_auto_monitor()
             vim.notify("Auto-monitoring enabled for watchlist", vim.log.levels.INFO)
           end, desc = "Start auto-monitoring" },
-          
-          -- ================================
-          -- JUPYTER/MOLTEN (<Leader>j)
-          -- ================================
-          
           
           -- ================================
           -- MESSAGES/ERRORS (<Leader>M)
@@ -353,24 +365,14 @@ return {
           -- ================================
           -- TEST (<Leader>t)
           -- ================================
-          ["<Leader>tt"] = { function()
-            local file = vim.fn.expand("%:p")
-            if file:match("_spec%.lua$") then
-              vim.notify("Running tests in " .. vim.fn.expand("%:t"))
-              vim.cmd("PlenaryBustedFile " .. file)
-            else
-              vim.notify("Not a test file (*_spec.lua)")
-            end
-          end, desc = "Run current test file" },
-          ["<Leader>ta"] = { function()
-            vim.notify("Running all tests...")
-            vim.cmd("PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}")
-          end, desc = "Run all tests" },
-          ["<Leader>tn"] = { function()
-            local line = vim.api.nvim_win_get_cursor(0)[1]
-            vim.notify("Running nearest test at line " .. line)
-            vim.cmd("PlenaryBustedFile % {minimal_init = 'tests/minimal_init.lua', sequential = true}")
-          end, desc = "Run nearest test" },
+          -- Test keybindings moved to vim-test.lua (supports pytest, jest, rspec, etc.)
+          -- Disable conflicting ToggleTerm bindings under <Leader>t
+          ["<Leader>tf"] = false, -- Disable to allow vim-test TestFile
+          ["<Leader>th"] = false, -- Disable to allow future test expansion
+          ["<Leader>tn"] = false, -- Disable to allow vim-test TestNearest
+          ["<Leader>tp"] = false, -- Disable to allow future test expansion
+          ["<Leader>tu"] = false, -- Disable to allow future test expansion
+          ["<Leader>tv"] = false, -- Disable to allow vim-test TestVisit
           
           -- ================================
           -- TERMINAL (<Leader>T)
@@ -387,7 +389,6 @@ return {
           -- ================================
           -- UI/TOGGLES (<Leader>u)
           -- ================================
-          ["<Leader>uz"] = { function() require("zen-mode").toggle() end, desc = "Toggle zen mode" },
           ["<Leader>un"] = { "<cmd>set number!<cr>", desc = "Toggle line numbers" },
           ["<Leader>ur"] = { "<cmd>set relativenumber!<cr>", desc = "Toggle relative numbers" },
           ["<Leader>uw"] = { "<cmd>set wrap!<cr>", desc = "Toggle word wrap" },
@@ -424,10 +425,6 @@ return {
           ["<Leader>pc"] = { "<cmd>Lazy clean<cr>", desc = "Clean" },
           ["<Leader>pm"] = { "<cmd>Mason<cr>", desc = "Mason" },
           ["<Leader>pM"] = { "<cmd>MasonUpdate<cr>", desc = "Mason Update" },
-          
-          -- ================================
-          -- VSCODE FEATURES (<Leader>v)
-          -- ================================
           
           -- ================================
           -- DIAGNOSTICS (<Leader>x)
@@ -478,8 +475,10 @@ return {
           ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["]d"] = { function() vim.diagnostic.goto_next() end, desc = "Next diagnostic" },
           ["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" },
-          ["]g"] = { function() require("gitsigns").next_hunk() end, desc = "Next git hunk" },
-          ["[g"] = { function() require("gitsigns").prev_hunk() end, desc = "Previous git hunk" },
+          -- Ultra-fast git hunk navigation (46% faster than ]h/[h)
+          -- j/k = vim-native motion (down/up → next/prev)
+          ["<Leader>j"] = { function() require("utils.git-hunk-nav").navigate_hunk("next") end, desc = "Next hunk" },
+          ["<Leader>k"] = { function() require("utils.git-hunk-nav").navigate_hunk("prev") end, desc = "Previous hunk" },
           
           -- ================================
           -- TERMINAL
@@ -491,31 +490,36 @@ return {
           -- ================================
           ["<S-A-d>"] = { "dd", desc = "Delete line" },
           ["<C-a>"] = { "ggVG", desc = "Select all" },
+          
+          -- ================================
+          -- COPY FILE INFO (<Leader>y)
+          -- ================================
+          ["<Leader>yf"] = { function()
+            local filename = vim.fn.expand("%:t")
+            vim.fn.setreg("+", filename)
+            vim.notify("Copied filename: " .. filename, vim.log.levels.INFO)
+          end, desc = "Copy filename" },
+          ["<Leader>yp"] = { function()
+            local filepath = vim.fn.expand("%:.")
+            vim.fn.setreg("+", filepath)
+            vim.notify("Copied relative path: " .. filepath, vim.log.levels.INFO)
+          end, desc = "Copy relative path" },
+          ["<Leader>yP"] = { function()
+            local fullpath = vim.fn.expand("%:p")
+            vim.fn.setreg("+", fullpath)
+            vim.notify("Copied full path: " .. fullpath, vim.log.levels.INFO)
+          end, desc = "Copy full path" },
         },
         
         -- ================================
         -- VISUAL MODE MAPPINGS
         -- ================================
         v = {
-          -- Override default Ctrl+E scroll with Claude Explain
-          ["<C-e>"] = { function() 
-            local ok, explain = pcall(function() return _G.ClaudeExplain end)
-            if ok and explain then
-              explain.explain_selection()
-            else
-              vim.notify("Claude Explain plugin not loaded", vim.log.levels.WARN)
-            end
-          end, desc = "Explain selected code with Claude" },
-          
+          -- NOTE: Group names are now defined in which-key.lua
+
           ["<Leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment" },
-          
-          -- AI/Claude
-          ["<Leader>as"] = { "<cmd>ClaudeCodeSend<cr>", desc = "Send to Claude" },
-          
-          -- Jupyter
-          
-          -- Replace
-          
+
+
           -- Search
           ["<Leader>sw"] = { function() 
             require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") }) 
@@ -604,21 +608,6 @@ return {
           desc = "Show multicursor help on start",
           callback = function()
             vim.notify("Multicursor active: <Leader>cc to clear, <Leader>cn for pattern", vim.log.levels.INFO)
-          end,
-        },
-      },
-      -- Claude explanation plugin integration
-      claude_explain_help = {
-        {
-          event = "VimEnter",
-          desc = "Show Claude explain keybindings help",
-          callback = function()
-            vim.defer_fn(function()
-              if vim.g.claude_explain_help_shown ~= true then
-                vim.notify("Claude Explain: Ctrl+E (selection), <Leader>exe (error), <Leader>exf (function)", vim.log.levels.INFO, { title = "Claude Explain Ready" })
-                vim.g.claude_explain_help_shown = true
-              end
-            end, 2000)
           end,
         },
       },

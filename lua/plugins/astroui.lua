@@ -14,7 +14,8 @@ return {
       -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
       highlights = {
         init = { -- this table overrides highlights in all themes
-          -- Normal = { bg = "#000000" },
+          Normal = { bg = "#1A1C25" },
+          NormalNC = { bg = "#1A1C25" },
         },
         astrodark = { -- a table of overrides/changes when applying the astrotheme theme
           -- Normal = { bg = "#000000" },
@@ -61,6 +62,18 @@ return {
             " █   █  ██  ██  ██  ██  █  █  ██  ",
             "██    ███    ██ █   ██ ██      ██ ",
           }, "\n"),
+        },
+        -- Disable all menu sections - only show header
+        sections = {
+          { section = "header" },
+        },
+        -- Disable line numbers and other UI elements on dashboard
+        wo = {
+          number = false,
+          relativenumber = false,
+          signcolumn = "no",
+          cursorline = false,
+          cursorcolumn = false,
         },
       },
     },

@@ -1,28 +1,87 @@
-# Neovim runtime files
-lazy-lock.json
-.luarc.json
+# ===================================
+# Neovim Configuration .gitignore
+# ===================================
 
-# LSP logs
+# Runtime/Plugin Data
+lazy-lock.json           # Lazy.nvim lock file (regenerated)
+.luarc.json             # LSP workspace config
+plugin/                 # Generated plugin files
+
+# LSP/Language Server
 lsp.log
+*.log
+.lsp/
 
-# Temporary files
+# Mason (LSP installer)
+mason/                  # Downloaded LSP servers
+
+# Neovim state files
+.netrwhist             # Netrw history
+.nvimlog               # Neovim log
+
+# Temporary/Swap files
 *.tmp
 *.swp
 *.swo
+*.swn
 *~
+.*.sw[a-z]
+Session.vim
+tags
 
 # OS files
-.DS_Store
-Thumbs.db
-
-# Plugin data
-plugin/
+.DS_Store              # macOS
+._*                    # macOS resource forks
+Thumbs.db              # Windows
+desktop.ini            # Windows
 
 # Compiled bytecode
 *.luac
+*.o
+*.so
+*.dylib
 
-# Local configuration overrides
-local.lua
-
-# Environment variables
+# Environment/Local config
 .env
+.env.*
+local.lua              # Local config overrides
+secrets.lua            # Secret keys/tokens
+
+# Test/Debug files
+test_*
+debug_*
+*.test.lua
+coverage/
+
+# Temporary documentation (working drafts)
+# Uncomment to ignore markdown drafts:
+# *.draft.md
+# TODO.md
+# NOTES.md
+
+# Build artifacts
+build/
+dist/
+*.dSYM/
+
+# IDE/Editor specific
+.vscode/
+.idea/
+
+# Node modules (if using npm packages)
+node_modules/
+
+# Python (if using Python plugins)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# C/C++ compilation artifacts
+*.out
+*.exe
+*.app
+*.i*86
+*.x86_64
+*.hex

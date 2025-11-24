@@ -127,6 +127,80 @@ return {
     -- Add Ctrl+D for diff action
     opts.defaults.mappings.i["<C-d>"] = diff_selected_files
     opts.defaults.mappings.n["<C-d>"] = diff_selected_files
+
+    -- Add selected files to Harpoon (Ctrl+H)
+    -- Uses multi-selection if available, otherwise current entry
+    local function add_to_harpoon(prompt_bufnr)
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local multi_selections = picker:get_multi_selection()
+      local harpoon = require("harpoon")
+
+      if vim.tbl_isempty(multi_selections) then
+        -- No selections, add current entry
+        local entry = action_state.get_selected_entry()
+        if entry and (entry.path or entry.filename) then
+          local filepath = entry.path or entry.filename
+          local item = { value = filepath, context = { row = 1, col = 0 } }
+          harpoon:list():add(item)
+          vim.notify("Harpoon: " .. vim.fn.fnamemodify(filepath, ":t"), vim.log.levels.INFO)
+        end
+      else
+        -- Add all selected files
+        local added = {}
+        for _, entry in ipairs(multi_selections) do
+          if entry.path or entry.filename then
+            local filepath = entry.path or entry.filename
+            local item = { value = filepath, context = { row = 1, col = 0 } }
+            harpoon:list():add(item)
+            table.insert(added, vim.fn.fnamemodify(filepath, ":t"))
+          end
+        end
+        vim.notify("Harpoon +" .. #added .. ": " .. table.concat(added, ", "), vim.log.levels.INFO)
+        -- Clear selections after adding
+        for _, entry in ipairs(multi_selections) do
+          picker:remove_selection(picker:get_row(entry.index))
+        end
+      end
+    end
+
+    -- Add selected files to Grapple (Ctrl+G)
+    -- Uses multi-selection if available, otherwise current entry
+    local function add_to_grapple(prompt_bufnr)
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local multi_selections = picker:get_multi_selection()
+      local grapple = require("grapple")
+
+      if vim.tbl_isempty(multi_selections) then
+        -- No selections, tag current entry
+        local entry = action_state.get_selected_entry()
+        if entry and (entry.path or entry.filename) then
+          local filepath = entry.path or entry.filename
+          grapple.tag({ path = filepath })
+          vim.notify("Grapple: " .. vim.fn.fnamemodify(filepath, ":t"), vim.log.levels.INFO)
+        end
+      else
+        -- Tag all selected files
+        local tagged = {}
+        for _, entry in ipairs(multi_selections) do
+          if entry.path or entry.filename then
+            local filepath = entry.path or entry.filename
+            grapple.tag({ path = filepath })
+            table.insert(tagged, vim.fn.fnamemodify(filepath, ":t"))
+          end
+        end
+        vim.notify("Grapple +" .. #tagged .. ": " .. table.concat(tagged, ", "), vim.log.levels.INFO)
+        -- Clear selections after tagging
+        for _, entry in ipairs(multi_selections) do
+          picker:remove_selection(picker:get_row(entry.index))
+        end
+      end
+    end
+
+    -- Harpoon and Grapple mappings
+    opts.defaults.mappings.i["<C-h>"] = add_to_harpoon
+    opts.defaults.mappings.n["<C-h>"] = add_to_harpoon
+    opts.defaults.mappings.i["<C-g>"] = add_to_grapple
+    opts.defaults.mappings.n["<C-g>"] = add_to_grapple
     
     -- Normal mode mappings
     opts.defaults.mappings.n["<Tab>"] = actions.toggle_selection + actions.move_selection_worse

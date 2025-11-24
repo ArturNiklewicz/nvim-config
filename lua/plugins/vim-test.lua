@@ -1,33 +1,33 @@
 return {
   "vim-test/vim-test",
   dependencies = {
-    "preservim/vimux",
+    "akinsho/toggleterm.nvim",
   },
   keys = {
-    { "<leader>tn", "<cmd>TestNearest<cr>", desc = "Test Nearest" },
-    { "<leader>tf", "<cmd>TestFile<cr>", desc = "Test File" },
-    { "<leader>ts", "<cmd>TestSuite<cr>", desc = "Test Suite" },
-    { "<leader>tl", "<cmd>TestLast<cr>", desc = "Test Last" },
+    { "<leader>tn", function() require("utils.smart-test").run_test("nearest") end, desc = "Test Nearest" },
+    { "<leader>tf", function() require("utils.smart-test").run_test("file") end, desc = "Test File" },
+    { "<leader>ts", function() require("utils.smart-test").run_test("suite") end, desc = "Test Suite" },
+    { "<leader>tl", function() require("utils.smart-test").run_test("last") end, desc = "Test Last" },
     { "<leader>tv", "<cmd>TestVisit<cr>", desc = "Test Visit" },
   },
   config = function()
-    -- Configure vim-test to use vimux strategy
-    vim.g["test#strategy"] = "vimux"
-    
-    -- Configure vimux settings
-    vim.g.VimuxHeight = "30"
-    vim.g.VimuxOrientation = "v"
-    vim.g.VimuxUseNearest = 1
-    
-    -- Optional: Configure test runners for specific languages
+    -- Use neovim strategy - opens terminal in current window (replaces buffer)
+    vim.g["test#strategy"] = "neovim"
+
+    -- IMPORTANT: Set term_position to empty string to open terminal in current window
+    -- Empty string = no split, just replace current buffer with terminal
+    vim.g["test#neovim#term_position"] = ""
+
+    -- Configure test runners for specific languages
     vim.g["test#python#runner"] = "pytest"
     vim.g["test#javascript#runner"] = "jest"
     vim.g["test#ruby#runner"] = "rspec"
-    
-    -- Optional: Configure custom mappings
-    vim.cmd([[
-      let test#python#pytest#options = '-vv'
-      let test#javascript#jest#options = '--no-coverage'
-    ]])
+
+    -- Pytest configuration with verbose output
+    vim.g["test#python#pytest#options"] = "-vv"
+    vim.g["test#javascript#jest#options"] = "--no-coverage"
+
+    -- Custom transformation to ensure proper Python execution
+    vim.g["test#python#pytest#executable"] = "python3 -m pytest"
   end,
 }
