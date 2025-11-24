@@ -137,6 +137,12 @@ return {
       { "<leader>gwm", function() require("utils.git-monitor").monitor_changes() end, desc = "Check for changes" },
       { "<leader>gws", function() require("utils.git-monitor").setup_auto_monitor() vim.notify("Auto-monitoring enabled for watchlist", vim.log.levels.INFO) end, desc = "Start auto-monitoring" },
 
+      -- Grapple (Scoped file tagging - integrates with git)
+      { "<leader>ga", function() require("grapple").toggle() end, desc = " Toggle grapple tag" },
+      { "<leader>gm", function() require("grapple").toggle_tags() end, desc = " Toggle grapple menu" },
+      { "<leader>g[", function() require("grapple").cycle_tags("prev") end, desc = "◀ Previous grapple tag" },
+      { "<leader>g]", function() require("grapple").cycle_tags("next") end, desc = "▶ Next grapple tag" },
+
       -- GitHub operations
       { "<leader>G", group = " GitHub" },
       { "<leader>Gi", "<cmd>Octo issue list<cr>", desc = "List GitHub issues" },
@@ -255,6 +261,7 @@ return {
         end
         toggle_telescope(harpoon:list())
       end, desc = "Find harpoon marks" },
+      { "<leader>ft", function() require("grapple").open_tags() end, desc = "Find grapple tags (Telescope)" },
       { "<leader>fc", function() require("telescope.builtin").commands() end, desc = "Commands" },
       { "<leader>fk", function() require("telescope.builtin").keymaps() end, desc = "Keymaps" },
       { "<leader>fs", function() require("telescope.builtin").lsp_document_symbols() end, desc = "Document symbols" },
