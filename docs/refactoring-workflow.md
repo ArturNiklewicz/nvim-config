@@ -18,16 +18,20 @@ Complete guide for efficient code refactoring using Telescope, Harpoon, Grapple,
 
 ## Part 1: File Navigation & Tagging
 
-### Telescope Tagging (Tag Without Closing Picker)
+### Telescope Tagging (Multi-Select Support)
 
 ```
 <Leader>ff          Open find_files
-<C-h>               Add highlighted file to Harpoon
-<C-g>               Tag highlighted file with Grapple
-<Tab>               Toggle selection (multi-select)
-<CR>                Open selected file(s)
+<Tab>               Toggle selection on current file
+<S-Tab>             Toggle selection (move up)
+<C-h>               Add to Harpoon (selected files OR current)
+<C-g>               Tag with Grapple (selected files OR current)
+<CR>                Open file(s)
 <Esc>               Close picker
 ```
+
+**Workflow**: Use `<Tab>` to select multiple files, then `<C-h>` or `<C-g>` to batch add.
+Selections are cleared after adding, so you can continue selecting more files.
 
 ### Harpoon: Permanent Project Files
 
@@ -360,8 +364,10 @@ newText<Esc>                 " Type replacement
 ┌──────────────────────────────────────────────────────────────┐
 │  NAVIGATION                                                   │
 ├──────────────────────────────────────────────────────────────┤
-│  <Leader>ff + <C-h>    Find file → Add to Harpoon            │
-│  <Leader>ff + <C-g>    Find file → Tag with Grapple          │
+│  <Leader>ff            Open file finder                      │
+│  <Tab>                 Toggle selection on file              │
+│  <C-h>                 Add selected/current to Harpoon       │
+│  <C-g>                 Tag selected/current with Grapple     │
 │  <Leader>h1-9          Jump to Harpoon slot                  │
 │  <Leader>g[/g]         Cycle Grapple tags                    │
 ├──────────────────────────────────────────────────────────────┤
@@ -385,7 +391,7 @@ newText<Esc>                 " Type replacement
 ├──────────────────────────────────────────────────────────────┤
 │  WORKFLOW                                                     │
 ├──────────────────────────────────────────────────────────────┤
-│  1. Tag files:    <Leader>ff → <C-h> on targets              │
+│  1. Tag files:    <Leader>ff → <Tab> to select → <C-h>       │
 │  2. Record:       qq → edits → j → q                         │
 │  3. Apply:        <Leader>h1 → :%normal @q → repeat          │
 └──────────────────────────────────────────────────────────────┘
