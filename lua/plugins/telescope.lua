@@ -127,6 +127,36 @@ return {
     -- Add Ctrl+D for diff action
     opts.defaults.mappings.i["<C-d>"] = diff_selected_files
     opts.defaults.mappings.n["<C-d>"] = diff_selected_files
+
+    -- Add to Harpoon from Telescope (Ctrl+H)
+    local function add_to_harpoon(prompt_bufnr)
+      local entry = action_state.get_selected_entry()
+      if entry and (entry.path or entry.filename) then
+        local filepath = entry.path or entry.filename
+        -- Add file to harpoon without closing telescope
+        local harpoon = require("harpoon")
+        local item = { value = filepath, context = { row = 1, col = 0 } }
+        harpoon:list():add(item)
+        vim.notify("Added to Harpoon: " .. vim.fn.fnamemodify(filepath, ":t"), vim.log.levels.INFO)
+      end
+    end
+
+    -- Add to Grapple from Telescope (Ctrl+G)
+    local function add_to_grapple(prompt_bufnr)
+      local entry = action_state.get_selected_entry()
+      if entry and (entry.path or entry.filename) then
+        local filepath = entry.path or entry.filename
+        -- Add file to grapple without closing telescope
+        require("grapple").tag({ path = filepath })
+        vim.notify("Tagged with Grapple: " .. vim.fn.fnamemodify(filepath, ":t"), vim.log.levels.INFO)
+      end
+    end
+
+    -- Harpoon and Grapple mappings
+    opts.defaults.mappings.i["<C-h>"] = add_to_harpoon
+    opts.defaults.mappings.n["<C-h>"] = add_to_harpoon
+    opts.defaults.mappings.i["<C-g>"] = add_to_grapple
+    opts.defaults.mappings.n["<C-g>"] = add_to_grapple
     
     -- Normal mode mappings
     opts.defaults.mappings.n["<Tab>"] = actions.toggle_selection + actions.move_selection_worse
