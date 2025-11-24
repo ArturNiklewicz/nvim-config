@@ -155,6 +155,22 @@ return {
       { "<leader>Gv", function() vim.fn.system("gh pr view --web") vim.notify("Opening PR in browser...") end, desc = "View GitHub PR in browser" },
       { "<leader>Gw", function() vim.fn.system("gh repo view --web") vim.notify("Opening repo in browser...") end, desc = "View GitHub repo in browser" },
 
+      -- Harpoon (Quick file marking)
+      { "<leader>h", group = "🎯 Harpoon" },
+      { "<leader>ha", function() require("harpoon"):list():add() end, desc = "Add file to harpoon" },
+      { "<leader>hh", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Toggle harpoon menu" },
+      { "<leader>hp", function() require("harpoon"):list():prev() end, desc = "Previous harpoon file" },
+      { "<leader>hn", function() require("harpoon"):list():next() end, desc = "Next harpoon file" },
+      { "<leader>h1", function() require("harpoon"):list():select(1) end, desc = "Harpoon file 1" },
+      { "<leader>h2", function() require("harpoon"):list():select(2) end, desc = "Harpoon file 2" },
+      { "<leader>h3", function() require("harpoon"):list():select(3) end, desc = "Harpoon file 3" },
+      { "<leader>h4", function() require("harpoon"):list():select(4) end, desc = "Harpoon file 4" },
+      { "<leader>h5", function() require("harpoon"):list():select(5) end, desc = "Harpoon file 5" },
+      { "<leader>h6", function() require("harpoon"):list():select(6) end, desc = "Harpoon file 6" },
+      { "<leader>h7", function() require("harpoon"):list():select(7) end, desc = "Harpoon file 7" },
+      { "<leader>h8", function() require("harpoon"):list():select(8) end, desc = "Harpoon file 8" },
+      { "<leader>h9", function() require("harpoon"):list():select(9) end, desc = "Harpoon file 9" },
+
       -- AI (Supermaven only)
       { "<leader>a", group = " AI" },
       { "<leader>at", function()
@@ -218,7 +234,27 @@ return {
       { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
       { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
       { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
-      { "<leader>fm", function() require("telescope.builtin").marks() end, desc = "Find marks" },
+      { "<leader>fm", function()
+        -- Telescope extension for harpoon marks
+        local harpoon = require("harpoon")
+        local conf = require("telescope.config").values
+        local function toggle_telescope(harpoon_files)
+          local file_paths = {}
+          for _, item in ipairs(harpoon_files.items) do
+            table.insert(file_paths, item.value)
+          end
+
+          require("telescope.pickers").new({}, {
+            prompt_title = "Harpoon Marks",
+            finder = require("telescope.finders").new_table({
+              results = file_paths,
+            }),
+            previewer = conf.file_previewer({}),
+            sorter = conf.generic_sorter({}),
+          }):find()
+        end
+        toggle_telescope(harpoon:list())
+      end, desc = "Find harpoon marks" },
       { "<leader>fc", function() require("telescope.builtin").commands() end, desc = "Commands" },
       { "<leader>fk", function() require("telescope.builtin").keymaps() end, desc = "Keymaps" },
       { "<leader>fs", function() require("telescope.builtin").lsp_document_symbols() end, desc = "Document symbols" },
