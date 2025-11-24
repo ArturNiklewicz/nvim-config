@@ -58,6 +58,23 @@ Leader: `<Space>` | Local Leader: `,`
 - `<M-q>` - Send selected to quickfix list
 - Note: Tab now properly toggles selection instead of opening files
 
+### Harpoon (`<Leader>h`)
+Quick file marking for 4-5 most frequently accessed files per project
+- `ha` - Add current file to harpoon
+- `hh` - Toggle harpoon quick menu
+- `hp/hn` - Previous/next harpoon file
+- `h1-9` - Jump directly to harpoon mark 1-9
+- `<Leader>fm` - Find harpoon marks (Telescope)
+
+### Grapple (`<Leader>g`)
+Scoped file tagging with cursor position memory (git branch-aware)
+- `ga` - Toggle grapple tag on current file
+- `gm` - Toggle grapple tags menu
+- `g[/g]` - Navigate to previous/next grapple tag
+- `<Leader>ft` - Find grapple tags (Telescope)
+
+**Workflow**: Use Harpoon for frequent project files, Grapple for branch-specific contextual tags
+
 ### AI/Supermaven (`<Leader>a`)
 - `at` - Toggle Supermaven AI (inline code suggestions)
   - Keybindings when enabled:
