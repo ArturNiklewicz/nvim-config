@@ -156,10 +156,8 @@ return {
           end
         end
         vim.notify("Harpoon +" .. #added .. ": " .. table.concat(added, ", "), vim.log.levels.INFO)
-        -- Clear selections after adding
-        for _, entry in ipairs(multi_selections) do
-          picker:remove_selection(picker:get_row(entry.index))
-        end
+        -- Clear selections by dropping all
+        actions.drop_all(prompt_bufnr)
       end
     end
 
@@ -189,10 +187,8 @@ return {
           end
         end
         vim.notify("Grapple +" .. #tagged .. ": " .. table.concat(tagged, ", "), vim.log.levels.INFO)
-        -- Clear selections after tagging
-        for _, entry in ipairs(multi_selections) do
-          picker:remove_selection(picker:get_row(entry.index))
-        end
+        -- Clear selections by dropping all
+        actions.drop_all(prompt_bufnr)
       end
     end
 

@@ -311,27 +311,27 @@ return {
       -- Extract operations
       { "<leader>re", function()
         return require('refactoring').refactor('Extract Function')
-      end, desc = "Extract function", mode = {"n", "x"}, expr = true },
-      { "<leader>ref", function()
+      end, desc = "Extract function", mode = "x", expr = true },
+      { "<leader>rf", function()
         return require('refactoring').refactor('Extract Function To File')
-      end, desc = "Extract function to file", mode = {"n", "x"}, expr = true },
+      end, desc = "Extract function to file", mode = "x", expr = true },
       { "<leader>rv", function()
         return require('refactoring').refactor('Extract Variable')
-      end, desc = "Extract variable", mode = {"n", "x"}, expr = true },
+      end, desc = "Extract variable", mode = "x", expr = true },
       { "<leader>rb", function()
         return require('refactoring').refactor('Extract Block')
-      end, desc = "Extract block", mode = {"n", "x"}, expr = true },
-      { "<leader>rbf", function()
+      end, desc = "Extract block", mode = "n", expr = true },
+      { "<leader>rB", function()
         return require('refactoring').refactor('Extract Block To File')
-      end, desc = "Extract block to file", mode = {"n", "x"}, expr = true },
+      end, desc = "Extract block to file", mode = "n", expr = true },
 
       -- Inline operations
       { "<leader>ri", function()
         return require('refactoring').refactor('Inline Variable')
-      end, desc = "Inline variable", mode = {"n", "x"}, expr = true },
+      end, desc = "Inline variable", mode = { "n", "x" }, expr = true },
       { "<leader>rI", function()
         return require('refactoring').refactor('Inline Function')
-      end, desc = "Inline function", mode = {"n", "x"}, expr = true },
+      end, desc = "Inline function", mode = "n", expr = true },
 
       -- Rename (LSP-based refactoring)
       { "<leader>rn", function() vim.lsp.buf.rename() end, desc = "Rename symbol", mode = "n" },

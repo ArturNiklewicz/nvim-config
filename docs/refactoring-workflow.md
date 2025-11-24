@@ -70,14 +70,14 @@ Select code first with `v`, `V`, or `<C-v>`, then:
 
 ```
 <Leader>re          Extract Function
-<Leader>rF          Extract Function To File
+<Leader>rf          Extract Function To File
 <Leader>rv          Extract Variable
 ```
 
 ### Extract Operations (Normal Mode)
 
 ```
-<Leader>rb          Extract Block
+<Leader>rb          Extract Block (under cursor)
 <Leader>rB          Extract Block To File
 ```
 
@@ -306,10 +306,10 @@ vim.fn.setreg('e', '/function\n/{<CR>otry {<Esc>')
 | Operation | Mode | Description |
 |-----------|------|-------------|
 | Extract Function | Visual | Pull selection into new function |
-| Extract Function To File | Visual | Extract to separate file |
+| Extract Function To File | Visual | Extract to separate file (`<Leader>rf`) |
 | Extract Variable | Visual | Assign selection to variable |
-| Extract Block | Normal | Extract code block |
-| Extract Block To File | Normal | Extract block to file |
+| Extract Block | Normal | Extract code block (`<Leader>rb`) |
+| Extract Block To File | Normal | Extract block to file (`<Leader>rB`) |
 | Inline Variable | Both | Replace variable with its value |
 | Inline Function | Normal | Replace call with function body |
 | Printf Debug | Normal | Insert debug print statement |
