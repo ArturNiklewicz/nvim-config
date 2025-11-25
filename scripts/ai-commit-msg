@@ -1,0 +1,54 @@
+#!/bin/bash
+# Generate AI commit message from staged changes
+# Uses Claude CLI for semantic analysis
+
+set -euo pipefail
+
+# Get staged diff
+diff=$(git diff --staged 2>/dev/null)
+
+if [ -z "$diff" ]; then
+    echo "chore: update files"
+    exit 0
+fi
+
+# Get context
+branch=$(git branch --show-current 2>/dev/null || echo "main")
+recent=$(git log --oneline -3 2>/dev/null || echo "")
+files=$(git diff --staged --name-status 2>/dev/null)
+
+# Truncate diff if too large
+if [ ${#diff} -gt 10000 ]; then
+    diff="${diff:0:9500}
+
+... (truncated)"
+fi
+
+# Generate with Claude
+claude -p "Generate a conventional commit message for these changes.
+
+BRANCH: $branch
+RECENT COMMITS: $recent
+FILES: $files
+
+DIFF:
+$diff
+
+FORMAT:
+type(scope): subject (imperative, max 72 chars)
+
+    Body explaining WHAT and WHY.
+    - Key changes per file
+    - Rationale/context
+
+TYPES: feat|fix|refactor|docs|test|chore|perf|style|ci|build
+
+Output ONLY the commit message, starting with the type:" 2>/dev/null | \
+    awk '
+        BEGIN { in_msg = 0 }
+        /^(feat|fix|refactor|docs|test|chore|perf|style|ci|build)(\([^)]+\))?: / { in_msg = 1 }
+        in_msg {
+            if (/^```/ || /^\*\*/ || /^---/) exit
+            print
+        }
+    '
