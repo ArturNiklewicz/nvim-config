@@ -33,6 +33,7 @@ Personal AstroNvim v5+ configuration with enhanced productivity features and IDE
 - `text-objects.lua` - Enhanced text objects
 - `vim-test.lua` - Test runner with pytest/jest/rspec (uses neovim strategy for Claude Code compatibility)
 - `toggleterm.lua` - Override AstroNvim defaults to prevent test keybinding conflicts
+- `nvim-recorder.lua` - Enhanced macro recording, editing, and persistence
 
 ## Keybindings
 
@@ -50,6 +51,20 @@ Leader: `<Space>` | Local Leader: `,`
 - `<Alt>1-8` - Focus window 1-8
 - `<Ctrl+I/O>` - Navigate back/forward
 - `]d/[d` - Next/previous diagnostic/diff
+
+### Macros (nvim-recorder)
+Enhanced macro system with simplified controls and visual feedback
+- `q` - Start/stop recording (no register needed)
+- `Q` - Play macro from current slot
+- `<C-q>` - Switch macro slot (cycles a→b→c→d)
+- `cq` - Edit macro in current slot (encoded keystrokes)
+- `yq` - Yank macro (decoded, ready for mapping)
+- `dq` - Delete all macros
+- `##` - Add breakpoint during recording (for debugging)
+
+**Breakpoints**: Use `##` during recording to set debug points. Press `Q` to play until next breakpoint. Use `1Q` to ignore breakpoints.
+
+**Statusline**: Shows recording status (red) and available slots (magenta) in feline.
 
 ### Telescope Multi-Select
 - `<Tab>` - Toggle selection and move down
