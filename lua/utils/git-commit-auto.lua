@@ -16,16 +16,12 @@ function M.setup()
       -- Skip if already has content (non-comment lines)
       local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 5, false)
       for _, line in ipairs(lines) do
-        if line ~= "" and not line:match("^#") then
-          return
-        end
+        if line ~= "" and not line:match "^#" then return end
       end
 
       -- Get script path
-      local script = vim.fn.stdpath("config") .. "/scripts/ai-commit-msg"
-      if vim.fn.executable(script) ~= 1 then
-        return
-      end
+      local script = vim.fn.stdpath "config" .. "/scripts/ai-commit-msg"
+      if vim.fn.executable(script) ~= 1 then return end
 
       vim.notify("Generating commit message...", vim.log.levels.INFO)
 
@@ -38,13 +34,12 @@ function M.setup()
           end
 
           local msg = res.stdout
-          if not msg or msg == "" then
-            return
-          end
+          if not msg or msg == "" then return end
 
           -- Insert at top of buffer
           if vim.api.nvim_buf_is_valid(bufnr) then
             vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, vim.split(msg, "\n"))
+            vim.cmd "normal! gg"
             vim.notify("✓ Commit message generated", vim.log.levels.INFO)
           end
         end)
@@ -59,7 +54,7 @@ function M.setup()
     pattern = { "gitcommit", "NeogitCommitMessage" },
     callback = function(args)
       vim.keymap.set("n", "<Leader>ag", function()
-        local script = vim.fn.stdpath("config") .. "/scripts/ai-commit-msg"
+        local script = vim.fn.stdpath "config" .. "/scripts/ai-commit-msg"
         vim.notify("Regenerating commit message...", vim.log.levels.INFO)
 
         vim.system({ script }, {}, function(res)
