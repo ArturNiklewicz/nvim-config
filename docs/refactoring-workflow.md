@@ -11,7 +11,8 @@ Complete guide for efficient code refactoring using Telescope, Harpoon, Grapple,
 | **Harpoon** | Permanent hot files (4-5 per project) | `<Leader>h` |
 | **Grapple** | Branch-scoped context files | `<Leader>g` |
 | **Telescope** | Fuzzy find + preview + tag | `<Leader>f` |
-| **refactoring.nvim** | Semantic refactors | `<Leader>r` |
+| **refactoring.nvim** | Structural refactors (extract, inline) | `<Leader>r` |
+| **LSP** | Project-wide rename | `<Leader>rn` |
 | **Macros** | Record & replay edits | `q{reg}` |
 
 ---
@@ -56,7 +57,10 @@ Selections are cleared after adding, so you can continue selecting more files.
 
 ---
 
-## Part 2: Semantic Refactoring (refactoring.nvim)
+## Part 2: Structural Refactoring (refactoring.nvim)
+
+> **Note**: refactoring.nvim provides **structural** refactors (extract, inline) via Treesitter.
+> For **project-wide symbol rename**, use LSP: `<Leader>rn` → `vim.lsp.buf.rename()`
 
 ### Interactive Refactor Menu
 
@@ -96,12 +100,19 @@ Select code first with `v`, `V`, or `<C-v>`, then:
 <Leader>rc          Cleanup all debug statements
 ```
 
-### LSP Refactoring
+---
+
+## Part 2b: LSP Refactoring (Project-Wide)
+
+These use your language server (basedpyright, tsserver, etc.) for **semantic, project-wide** operations:
 
 ```
-<Leader>rn          Rename symbol (LSP)
-<Leader>ca          Code actions menu
+<Leader>rn          Rename symbol across project (LSP)
+<Leader>ca          Code actions (auto-import, organize imports, quick fixes)
+<Leader>cR          Rename symbol (alternative binding)
 ```
+
+> **Tip**: LSP rename understands code semantically - it won't rename unrelated variables with the same name.
 
 ---
 
@@ -301,7 +312,9 @@ vim.fn.setreg('e', '/function\n/{<CR>otry {<Esc>')
 
 ---
 
-## Part 6: Refactoring.nvim Keybindings Reference
+## Part 6: Keybindings Reference
+
+### refactoring.nvim (Structural)
 
 | Key | Operation | Mode | Description |
 |-----|-----------|------|-------------|
@@ -313,12 +326,19 @@ vim.fn.setreg('e', '/function\n/{<CR>otry {<Esc>')
 | `<Leader>rB` | Extract Block To File | n | Extract block to separate file |
 | `<Leader>ri` | Inline Variable | n, x | Replace variable with its value |
 | `<Leader>rI` | Inline Function | n | Replace call with function body |
-| `<Leader>rn` | Rename Symbol | n | LSP-based symbol rename |
 | `<Leader>rdp` | Printf Debug | n | Insert debug print statement |
 | `<Leader>rdv` | Print Variable | n, x | Print variable value |
 | `<Leader>rdc` | Cleanup Debug | n | Remove all debug statements |
 
 **Mode Key**: `n` = normal, `x` = visual (select code first)
+
+### LSP (Project-Wide)
+
+| Key | Operation | Mode | Description |
+|-----|-----------|------|-------------|
+| `<Leader>rn` | Rename Symbol | n | Project-wide semantic rename |
+| `<Leader>cR` | Rename Symbol | n | Alternative rename binding |
+| `<Leader>ca` | Code Actions | n, x | Auto-import, organize imports, quick fixes |
 
 ---
 
@@ -375,7 +395,7 @@ newText<Esc>                 " Type replacement
 │  <Leader>h1-9          Jump to Harpoon slot                  │
 │  <Leader>g[/g]         Cycle Grapple tags                    │
 ├──────────────────────────────────────────────────────────────┤
-│  REFACTORING                                                  │
+│  STRUCTURAL REFACTORING (refactoring.nvim)                   │
 ├──────────────────────────────────────────────────────────────┤
 │  <Leader>rr            Telescope refactor menu (n/x)         │
 │  <Leader>re            Extract Function (visual)             │
@@ -385,7 +405,11 @@ newText<Esc>                 " Type replacement
 │  <Leader>rB            Extract Block to File (normal)        │
 │  <Leader>ri            Inline Variable (n/x)                 │
 │  <Leader>rI            Inline Function (normal)              │
-│  <Leader>rn            Rename Symbol (LSP)                   │
+├──────────────────────────────────────────────────────────────┤
+│  PROJECT-WIDE REFACTORING (LSP)                              │
+├──────────────────────────────────────────────────────────────┤
+│  <Leader>rn            Rename symbol across project          │
+│  <Leader>ca            Code actions (auto-import, etc.)      │
 ├──────────────────────────────────────────────────────────────┤
 │  MACROS                                                       │
 ├──────────────────────────────────────────────────────────────┤
