@@ -37,7 +37,7 @@ return {
       ["<C-t>"] = "actions.select_tab",
       ["<C-p>"] = "actions.preview",
       ["<C-c>"] = "actions.close",
-      ["<C-l>"] = "actions.refresh",
+      ["<M-l>"] = "actions.refresh",
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["`"] = "actions.cd",
@@ -46,6 +46,11 @@ return {
       ["gx"] = "actions.open_external",
       ["g."] = "actions.toggle_hidden",
       ["g\\"] = "actions.toggle_trash",
+      -- Disable default C-h/C-j/C-k/C-l to allow tmux navigation
+      ["<C-h>"] = false,
+      ["<C-j>"] = false,
+      ["<C-k>"] = false,
+      ["<C-l>"] = false,
     },
     use_default_keymaps = true,
     view_options = {

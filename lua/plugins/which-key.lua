@@ -95,10 +95,7 @@ return {
       { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit (full UI)" },
       { "<leader>gN", "<cmd>Neogit<cr>", desc = "Neogit status (s/u=stage/unstage, c=commit, q=quit)" },
       { "<leader>gM", "<cmd>Neogit commit<cr>", desc = "Make commit with Neogit" },
-      { "<leader>gA", function()
-        local script_path = vim.fn.stdpath("config") .. "/scripts/git-commit-ai.sh"
-        vim.cmd("!" .. script_path)
-      end, desc = "AI quick commit (bash)" },
+      { "<leader>gA", "<cmd>tab Git commit -v<cr>", desc = "Git commit with AI" },
       { "<leader>gp", "<cmd>GitTimeline<cr>", desc = "Git commit timeline" },
       { "<leader>gP", "<cmd>GitCommitPreview<cr>", desc = "Preview then commit" },
       { "<leader>gf", function() require("telescope.builtin").git_status() end, desc = "List changed files" },
