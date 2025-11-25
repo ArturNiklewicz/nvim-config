@@ -11,7 +11,7 @@ return {
       keymaps = {
         accept_suggestion = "<C-Tab>",
         clear_suggestion = "<C-]>",
-        accept_word = "<C-j>",
+        accept_word = "<M-j>",
       },
       ignore_filetypes = {
         -- Add filetypes to ignore if needed
