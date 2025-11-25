@@ -1,34 +1,49 @@
 -- Auto-generate commit messages for Neogit and git commit buffers
 -- Calls bash script and inserts result into buffer
+-- Single Claude call for speed, conventional commit format
 
 local M = {}
 
+-- Track buffers we've already generated for (prevents duplicates)
+local generated_buffers = {}
+
 -- Generate commit message and insert into buffer
-function M.generate_for_buffer(bufnr)
+function M.generate_for_buffer(bufnr, force)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
-  -- Check if buffer is valid and is a commit buffer
+  -- Check if buffer is valid
   if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
+  -- Check filetype
   local ft = vim.bo[bufnr].filetype
   if ft ~= "gitcommit" and ft ~= "NeogitCommitMessage" then
     return
   end
 
-  -- Check if buffer is already populated (has non-comment lines)
+  -- Prevent duplicate generation (unless forced)
+  if not force and generated_buffers[bufnr] then
+    return
+  end
+
+  -- Check if buffer already has content (non-comment, non-empty lines)
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local has_content = false
   for _, line in ipairs(lines) do
+    -- Skip empty lines and git comment lines
     if line ~= "" and not line:match("^#") then
       has_content = true
       break
     end
   end
 
-  if has_content then
-    -- Buffer already has content, don't auto-generate
+  if has_content and not force then
+    -- Buffer already has content, mark as generated and skip
+    generated_buffers[bufnr] = true
     return
   end
+
+  -- Mark buffer as being processed
+  generated_buffers[bufnr] = true
 
   -- Get script path
   local script_path = vim.fn.stdpath("config") .. "/scripts/git-commit-ai.sh"
@@ -39,25 +54,25 @@ function M.generate_for_buffer(bufnr)
     return
   end
 
-  -- Call script in non-interactive mode (generate message only)
+  -- Call script in non-interactive mode
   local cmd = string.format("SKIP_PREVIEW=1 NONINTERACTIVE=1 %s 2>&1", script_path)
 
-  vim.notify("Generating commit message with AI...", vim.log.levels.INFO)
+  vim.notify("Generating commit message...", vim.log.levels.INFO)
 
-  -- Run async to not block UI
+  -- Run async
   vim.fn.jobstart(cmd, {
     stdout_buffered = true,
     on_stdout = function(_, data)
       if not data or #data == 0 then return end
 
-      -- Filter out empty lines at the end
+      -- Filter trailing empty lines
       while #data > 0 and (data[#data] == "" or data[#data] == nil) do
         table.remove(data)
       end
 
       if #data == 0 then return end
 
-      -- Schedule buffer update on main thread
+      -- Update buffer on main thread
       vim.schedule(function()
         if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
@@ -83,8 +98,8 @@ function M.generate_for_buffer(bufnr)
 
       vim.schedule(function()
         local msg = table.concat(data, "\n")
-        if msg ~= "" then
-          vim.notify("Error generating commit: " .. msg, vim.log.levels.ERROR)
+        if msg ~= "" and not msg:match("^%s*$") then
+          vim.notify("Commit error: " .. msg, vim.log.levels.ERROR)
         end
       end)
     end,
@@ -102,32 +117,42 @@ end
 function M.setup()
   local group = vim.api.nvim_create_augroup("GitCommitAuto", { clear = true })
 
-  -- Auto-generate for gitcommit filetype
+  -- Auto-generate for commit buffers
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "gitcommit", "NeogitCommitMessage" },
     group = group,
     callback = function(args)
-      -- Delay slightly to let buffer settle (150ms for faster response)
+      -- Delay to let buffer settle
       vim.defer_fn(function()
         M.generate_for_buffer(args.buf)
       end, 150)
     end,
-    desc = "Auto-generate commit message with bash script",
+    desc = "Auto-generate commit message",
   })
 
-  -- Also provide manual trigger keymap in commit buffers
+  -- Manual regenerate keymap
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "gitcommit", "NeogitCommitMessage" },
     group = group,
     callback = function(args)
       vim.keymap.set("n", "<Leader>ag", function()
-        M.generate_for_buffer(args.buf)
+        -- Force regeneration
+        M.generate_for_buffer(args.buf, true)
       end, {
         buffer = args.buf,
         desc = "Regenerate commit message",
       })
     end,
-    desc = "Add regenerate keymap to commit buffers",
+    desc = "Add regenerate keymap",
+  })
+
+  -- Clean up tracking when buffer is deleted
+  vim.api.nvim_create_autocmd("BufDelete", {
+    group = group,
+    callback = function(args)
+      generated_buffers[args.buf] = nil
+    end,
+    desc = "Clean up buffer tracking",
   })
 end
 
