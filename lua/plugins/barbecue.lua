@@ -4,7 +4,17 @@ return {
   name = "barbecue",
   version = "*",
   dependencies = {
-    "SmiteshP/nvim-navic",
+    {
+      "SmiteshP/nvim-navic",
+      opts = {
+        -- Silence warnings when multiple LSPs are attached
+        lsp = {
+          auto_attach = true,
+          preference = { "basedpyright", "vtsls", "lua_ls" }, -- Prefer these over pylsp
+        },
+        safe_output = true, -- Don't error on invalid data
+      },
+    },
     "nvim-tree/nvim-web-devicons",
   },
   lazy = false,
