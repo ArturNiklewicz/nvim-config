@@ -4,6 +4,7 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "lewis6991/gitsigns.nvim",
+    "chrisgrieser/nvim-recorder", -- for statusline integration
   },
   config = function()
     local feline = require "feline"
@@ -104,7 +105,26 @@ return {
       right_sep = " ",
     }
 
+    -- Macro recording status (nvim-recorder)
     components.active[2][1] = {
+      provider = function()
+        local ok, recorder = pcall(require, "recorder")
+        if ok then
+          local status = recorder.recordingStatus()
+          if status and status ~= "" then
+            return "  " .. status .. " "
+          end
+        end
+        return ""
+      end,
+      hl = {
+        fg = colors.red,
+        bg = colors.bg,
+        style = "bold",
+      },
+    }
+
+    components.active[2][2] = {
       provider = {
         name = "file_info",
         opts = {
@@ -120,7 +140,25 @@ return {
       },
     }
 
+    -- Macro slots display (nvim-recorder) - shows available slots when not recording
     components.active[3][1] = {
+      provider = function()
+        local ok, recorder = pcall(require, "recorder")
+        if ok then
+          local slots = recorder.displaySlots()
+          if slots and slots ~= "" then
+            return "  " .. slots .. " "
+          end
+        end
+        return ""
+      end,
+      hl = {
+        fg = colors.magenta,
+        bg = colors.bg,
+      },
+    }
+
+    components.active[3][2] = {
       provider = function()
         local filename = vim.fn.expand "%:t"
         local extension = vim.fn.expand "%:e"
@@ -140,7 +178,7 @@ return {
       },
     }
 
-    components.active[3][2] = {
+    components.active[3][3] = {
       provider = function()
         local clients = vim.lsp.get_clients { bufnr = 0 }
         if next(clients) == nil then
@@ -167,7 +205,7 @@ return {
       left_sep = " ",
     }
 
-    components.active[3][3] = {
+    components.active[3][4] = {
       provider = function()
         if rawget(vim, "lsp") then
           for _, client in ipairs(vim.lsp.get_clients()) do
@@ -185,7 +223,7 @@ return {
       },
     }
 
-    components.active[3][4] = {
+    components.active[3][5] = {
       provider = "diagnostic_errors",
       icon = " ",
       hl = {
@@ -194,7 +232,7 @@ return {
       },
     }
 
-    components.active[3][5] = {
+    components.active[3][6] = {
       provider = "diagnostic_warnings",
       icon = " ",
       hl = {
@@ -203,7 +241,7 @@ return {
       },
     }
 
-    components.active[3][6] = {
+    components.active[3][7] = {
       provider = "diagnostic_info",
       icon = " ",
       hl = {
@@ -212,7 +250,7 @@ return {
       },
     }
 
-    components.active[3][7] = {
+    components.active[3][8] = {
       provider = "diagnostic_hints",
       icon = " ",
       hl = {
@@ -221,7 +259,7 @@ return {
       },
     }
 
-    components.active[3][8] = {
+    components.active[3][9] = {
       provider = function()
         local enc = vim.bo.fileencoding ~= "" and vim.bo.fileencoding or vim.o.encoding
         return " " .. enc:upper() .. " "
@@ -234,7 +272,7 @@ return {
       left_sep = " ",
     }
 
-    components.active[3][9] = {
+    components.active[3][10] = {
       provider = "position",
       hl = {
         fg = colors.fg,
@@ -244,7 +282,7 @@ return {
       left_sep = " ",
     }
 
-    components.active[3][10] = {
+    components.active[3][11] = {
       provider = function()
         local current_line = vim.fn.line "."
         local total_lines = vim.fn.line "$"
