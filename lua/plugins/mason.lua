@@ -17,6 +17,7 @@ return {
         "eslint-lsp",
         "tailwindcss-language-server",
         "clangd", -- C/C++ language server
+        "basedpyright", -- Python language server (enhanced pyright)
 
         -- install formatters
         "stylua",

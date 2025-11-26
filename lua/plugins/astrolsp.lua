@@ -39,11 +39,46 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      -- "pyright"
+      "basedpyright",
+      "pylsp", -- for rope refactoring (rename/move with import updates)
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
     config = {
+      -- Python Language Server configuration
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoSearchPaths = true,
+              autoImportCompletions = true,
+              diagnosticMode = "workspace",
+              useLibraryCodeForTypes = true,
+              typeCheckingMode = "standard", -- "off", "basic", "standard", "strict", "all"
+            },
+          },
+        },
+      },
+      -- Python LSP for rope refactoring (disable overlapping features with basedpyright)
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              -- Disable features handled by basedpyright
+              pycodestyle = { enabled = false },
+              pyflakes = { enabled = false },
+              pylint = { enabled = false },
+              mccabe = { enabled = false },
+              autopep8 = { enabled = false },
+              yapf = { enabled = false },
+              -- Enable rope for refactoring
+              rope = { enabled = true },
+              rope_rename = { enabled = true },
+              rope_completion = { enabled = false }, -- basedpyright handles this
+            },
+          },
+        },
+      },
       -- C/C++ Language Server configuration
       clangd = {
         capabilities = {
@@ -58,32 +93,7 @@ return {
           "--fallback-style=llvm", -- Fallback formatting style
         },
       },
-      tsserver = {
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-        },
-      },
+      -- tsserver removed: using vtsls from astrocommunity.pack.typescript instead
       eslint = {
         settings = {
           workingDirectory = { mode = "auto" },
