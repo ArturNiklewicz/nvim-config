@@ -194,9 +194,9 @@ return {
           ["<Leader>gM"] = { "<cmd>Neogit commit<cr>", desc = "Commit with Neogit" },
           -- AI-powered quick commit (interactive mode)
           ["<Leader>gA"] = { "<cmd>tab Git commit -v<cr>", desc = "Git commit with AI" },
-          -- Git commit timeline preview
-          ["<Leader>gp"] = { "<cmd>GitTimeline<cr>", desc = "Git commit timeline" },
-          ["<Leader>gP"] = { "<cmd>GitCommitPreview<cr>", desc = "Preview then commit" },
+          -- Git history/timeline
+          ["<Leader>gp"] = { "<cmd>DiffviewFileHistory<cr>", desc = "Git commit timeline" },
+          ["<Leader>gP"] = { "<cmd>DiffviewFileHistory %<cr>", desc = "Current file history" },
           -- Telescope git viewers
           ["<Leader>gc"] = { function()
             local git_check = require("utils.git-check")
