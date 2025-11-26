@@ -96,8 +96,8 @@ return {
       { "<leader>gN", "<cmd>Neogit<cr>", desc = "Neogit status (s/u=stage/unstage, c=commit, q=quit)" },
       { "<leader>gM", "<cmd>Neogit commit<cr>", desc = "Make commit with Neogit" },
       { "<leader>gA", "<cmd>tab Git commit -v<cr>", desc = "Git commit with AI" },
-      { "<leader>gp", "<cmd>GitTimeline<cr>", desc = "Git commit timeline" },
-      { "<leader>gP", "<cmd>GitCommitPreview<cr>", desc = "Preview then commit" },
+      { "<leader>gp", "<cmd>DiffviewFileHistory<cr>", desc = "Git commit timeline" },
+      { "<leader>gP", "<cmd>DiffviewFileHistory %<cr>", desc = "Current file history" },
       { "<leader>gf", function() require("telescope.builtin").git_status() end, desc = "List changed files" },
       { "<leader>gs", function() require("telescope.builtin").git_status() end, desc = "Git status" },
       { "<leader>gb", function() require("telescope.builtin").git_branches() end, desc = "Git branches" },
@@ -200,7 +200,16 @@ return {
       { "<leader>cD", function() vim.lsp.buf.declaration() end, desc = "Code declaration" },
       { "<leader>ci", function() vim.lsp.buf.implementation() end, desc = "Code implementation" },
       { "<leader>cr", function() vim.lsp.buf.references() end, desc = "Code references" },
-      { "<leader>cR", function() vim.lsp.buf.rename() end, desc = "Code rename" },
+      { "<leader>cR", function()
+        -- For Python: use pylsp (rope) for project-wide rename
+        -- For other languages: use default
+        local ft = vim.bo.filetype
+        if ft == "python" then
+          vim.lsp.buf.rename(nil, { filter = function(client) return client.name == "pylsp" end })
+        else
+          vim.lsp.buf.rename()
+        end
+      end, desc = "Code rename (project-wide)" },
       { "<leader>ct", function() vim.lsp.buf.type_definition() end, desc = "Code type definition" },
       { "<leader>ch", function() vim.lsp.buf.hover() end, desc = "Code hover" },
       { "<leader>cs", function() vim.lsp.buf.signature_help() end, desc = "Code signature" },
