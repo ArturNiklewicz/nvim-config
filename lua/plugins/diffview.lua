@@ -83,82 +83,16 @@ return {
     hooks = {},
     keymaps = {
       disable_defaults = false,
+      -- Use diffview's built-in defaults, they work correctly
+      -- Only add custom bindings using the actions API
       view = {
-        ["<tab>"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>e"] = "<cmd>DiffviewFocusFiles<cr>",
-        ["<leader>b"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>gv"] = {
-          function()
-            local actions = require("diffview.actions")
-            actions.cycle_layout()
-          end,
-          desc = "Cycle diff view layout",
-        },
+        { "n", "<leader>gv", function() require("diffview.actions").cycle_layout() end, { desc = "Cycle layout" } },
       },
       file_panel = {
-        ["j"] = "<cmd>DiffviewNextEntry<cr>",
-        ["<down>"] = "<cmd>DiffviewNextEntry<cr>",
-        ["k"] = "<cmd>DiffviewPrevEntry<cr>",
-        ["<up>"] = "<cmd>DiffviewPrevEntry<cr>",
-        ["<cr>"] = "<cmd>DiffviewSelect<cr>",
-        ["o"] = "<cmd>DiffviewOpenFile<cr>",
-        ["<2-LeftMouse>"] = "<cmd>DiffviewSelect<cr>",
-        ["-"] = "<cmd>DiffviewToggleStage<cr>",
-        ["S"] = "<cmd>DiffviewStageAll<cr>",
-        ["U"] = "<cmd>DiffviewUnstageAll<cr>",
-        ["X"] = "<cmd>DiffviewRestoreEntry<cr>",
-        ["L"] = "<cmd>DiffviewOpenCommitLog<cr>",
-        ["<c-b>"] = "<cmd>DiffviewScrollDown<cr>",
-        ["<c-f>"] = "<cmd>DiffviewScrollUp<cr>",
-        ["<tab>"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>e"] = "<cmd>DiffviewFocusFiles<cr>",
-        ["<leader>b"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>gv"] = {
-          function()
-            local actions = require("diffview.actions")
-            actions.cycle_layout()
-          end,
-          desc = "Cycle diff view layout",
-        },
-        ["gf"] = "<cmd>DiffviewGotoFile<cr>",
-        ["<C-w><C-f>"] = "<cmd>DiffviewGotoFileTab<cr>",
-        ["<C-w>gf"] = "<cmd>DiffviewGotoFileTab<cr>",
-        ["i"] = "<cmd>DiffviewToggleFlattenDirs<cr>",
-        ["R"] = "<cmd>DiffviewRefresh<cr>",
+        { "n", "<leader>gv", function() require("diffview.actions").cycle_layout() end, { desc = "Cycle layout" } },
       },
       file_history_panel = {
-        ["g!"] = "<cmd>DiffviewOptions<cr>",
-        ["<C-A-d>"] = "<cmd>DiffviewOpenDiff<cr>",
-        ["y"] = "<cmd>DiffviewYankEntry<cr>",
-        ["L"] = "<cmd>DiffviewOpenCommitLog<cr>",
-        ["zR"] = "<cmd>DiffviewOpenAllFolds<cr>",
-        ["zM"] = "<cmd>DiffviewCloseAllFolds<cr>",
-        ["j"] = "<cmd>DiffviewNextEntry<cr>",
-        ["<down>"] = "<cmd>DiffviewNextEntry<cr>",
-        ["k"] = "<cmd>DiffviewPrevEntry<cr>",
-        ["<up>"] = "<cmd>DiffviewPrevEntry<cr>",
-        ["<cr>"] = "<cmd>DiffviewSelect<cr>",
-        ["o"] = "<cmd>DiffviewOpenFile<cr>",
-        ["<2-LeftMouse>"] = "<cmd>DiffviewSelect<cr>",
-        ["<c-b>"] = "<cmd>DiffviewScrollDown<cr>",
-        ["<c-f>"] = "<cmd>DiffviewScrollUp<cr>",
-        ["<tab>"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>e"] = "<cmd>DiffviewFocusFiles<cr>",
-        ["<leader>b"] = "<cmd>DiffviewToggleFiles<cr>",
-        ["<leader>gv"] = {
-          function()
-            local actions = require("diffview.actions")
-            actions.cycle_layout()
-          end,
-          desc = "Cycle diff view layout",
-        },
-        ["gf"] = "<cmd>DiffviewGotoFile<cr>",
-        ["<C-w><C-f>"] = "<cmd>DiffviewGotoFileTab<cr>",
-        ["<C-w>gf"] = "<cmd>DiffviewGotoFileTab<cr>",
-      },
-      option_panel = {
-        ["<tab>"] = "<cmd>DiffviewSelectEntry<cr>",
-        ["q"] = "<cmd>DiffviewClose<cr>",
+        { "n", "<leader>gv", function() require("diffview.actions").cycle_layout() end, { desc = "Cycle layout" } },
       },
     },
   },
