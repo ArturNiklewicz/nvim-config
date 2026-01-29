@@ -3,14 +3,17 @@
 
 local M = {}
 
--- Navigate to buffer by position (using bufferline's visual ordering)
+-- Navigate to buffer by absolute position (ordinal number in bufferline)
 function M.nav_to(position)
-  -- BufferLineGoToBuffer navigates to the Nth visible buffer position
-  -- This is exactly what we want - position-based navigation
-  local success = pcall(vim.cmd, "BufferLineGoToBuffer " .. position)
-  
-  if not success then
-    -- Fallback if bufferline is not available or position doesn't exist
+  -- Use bufferline's go_to with absolute=true to navigate to the Nth buffer
+  -- regardless of which buffers are currently visible in the tabline
+  local ok, bufferline = pcall(require, "bufferline")
+  if ok then
+    -- absolute=true ensures we navigate to the actual ordinal position
+    -- not just among visible buffers (fixes issue with many buffers)
+    bufferline.go_to(position, true)
+  else
+    -- Fallback if bufferline is not available
     local buffers = vim.fn.getbufinfo({ buflisted = 1 })
     if buffers[position] and vim.api.nvim_buf_is_valid(buffers[position].bufnr) then
       vim.cmd("buffer " .. buffers[position].bufnr)
