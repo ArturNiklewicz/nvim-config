@@ -25,7 +25,7 @@ return {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
+          "java", -- Prettier breaks Java syntax - use jdtls or google-java-format only
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -47,6 +47,14 @@ return {
     config = {
       -- Python Language Server configuration
       basedpyright = {
+        before_init = function(_, config)
+          -- Dynamically detect venv for UV workspaces
+          local venv_path = vim.fn.getcwd() .. "/.venv"
+          if vim.fn.isdirectory(venv_path) == 1 then
+            config.settings.python = config.settings.python or {}
+            config.settings.python.pythonPath = venv_path .. "/bin/python"
+          end
+        end,
         settings = {
           basedpyright = {
             analysis = {
@@ -55,12 +63,23 @@ return {
               diagnosticMode = "workspace",
               useLibraryCodeForTypes = true,
               typeCheckingMode = "standard", -- "off", "basic", "standard", "strict", "all"
+              -- UV workspace: add src/ to import resolution
+              extraPaths = { "src" },
             },
+          },
+          python = {
+            -- These get overridden by before_init if .venv exists
+            venvPath = ".",
+            venv = ".venv",
           },
         },
       },
       -- Python LSP for rope refactoring (disable overlapping features with basedpyright)
       pylsp = {
+        on_attach = function(client, bufnr)
+          -- Disable documentSymbol to prevent nvim-navic conflict with basedpyright
+          client.server_capabilities.documentSymbolProvider = false
+        end,
         settings = {
           pylsp = {
             plugins = {
@@ -93,7 +112,36 @@ return {
           "--fallback-style=llvm", -- Fallback formatting style
         },
       },
-      -- tsserver removed: using vtsls from astrocommunity.pack.typescript instead
+      -- Disable ts_ls to prevent duplicate diagnostics (vtsls from astrocommunity.pack.typescript handles TypeScript)
+      ts_ls = { enabled = false },
+      -- vtsls configuration (from astrocommunity.pack.typescript)
+      vtsls = {
+        settings = {
+          typescript = {
+            inlayHints = {
+              parameterNames = { enabled = "all" },
+              parameterTypes = { enabled = true },
+              variableTypes = { enabled = true },
+              propertyDeclarationTypes = { enabled = true },
+              functionLikeReturnTypes = { enabled = true },
+              enumMemberValues = { enabled = true },
+            },
+            preferences = {
+              importModuleSpecifier = "relative",
+            },
+          },
+          javascript = {
+            inlayHints = {
+              parameterNames = { enabled = "all" },
+              parameterTypes = { enabled = true },
+              variableTypes = { enabled = true },
+              propertyDeclarationTypes = { enabled = true },
+              functionLikeReturnTypes = { enabled = true },
+              enumMemberValues = { enabled = true },
+            },
+          },
+        },
+      },
       eslint = {
         settings = {
           workingDirectory = { mode = "auto" },
@@ -117,12 +165,8 @@ return {
     },
     -- customize how language servers are attached
     handlers = {
-      -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
-      -- function(server, opts) require("lspconfig")[server].setup(opts) end
-
-      -- the key is the server that is being setup with `lspconfig`
-      -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
-      -- pyright = function(_, opts) require("lspconfig").pyright.setup(opts) end -- or a custom handler function can be passed
+      -- Disable ts_ls completely - we use vtsls from astrocommunity.pack.typescript
+      ts_ls = false,
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
@@ -150,6 +194,12 @@ return {
     mappings = {
       n = {
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
+        -- Direct jump to definition (no picker/pane)
+        gd = {
+          function() vim.lsp.buf.definition({ reuse_win = true }) end,
+          desc = "Go to definition",
+          cond = "textDocument/definition",
+        },
         gD = {
           function() vim.lsp.buf.declaration() end,
           desc = "Declaration of current symbol",
