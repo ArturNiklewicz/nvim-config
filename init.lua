@@ -1,5 +1,28 @@
 -- This file simply bootstraps the installation of Lazy.nvim and then calls other files for execution
 -- This file doesn't necessarily need to be touched, BE CAUTIOUS editing this file and proceed at your own risk.
+
+-- Load .env file from config directory (must run before anything else)
+local env_file = vim.fn.stdpath("config") .. "/.env"
+local f = io.open(env_file, "r")
+if f then
+  for line in f:lines() do
+    -- Skip empty lines and comments
+    if line ~= "" and not line:match("^#") then
+      -- Handle: KEY=value, export KEY=value, KEY="value", KEY='value'
+      local key, value = line:match("^export%s+([%w_]+)=(.+)$")
+      if not key then
+        key, value = line:match("^([%w_]+)=(.+)$")
+      end
+      if key and value then
+        -- Strip quotes and inline comments
+        value = value:gsub("^[\"']", ""):gsub("[\"']%s*$", ""):gsub("%s+#.*$", "")
+        vim.fn.setenv(key, value)
+      end
+    end
+  end
+  f:close()
+end
+
 local lazypath = vim.env.LAZY or vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
 if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
