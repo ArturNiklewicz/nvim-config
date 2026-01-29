@@ -1,21 +1,18 @@
 -- Auto-generate commit messages using AI
--- Uses OpenAI API with gpt-4o-mini for speed (~300-600ms)
--- Triggers on COMMIT_EDITMSG (works with git commit -v, Neogit, fugitive)
+-- Uses OpenAI API with gpt-4o-mini + streaming
+-- Parallel git commands + real-time token streaming via jobstart
 
 local M = {}
 
--- Config
 local CONFIG = {
   model = "gpt-4o-mini",
   max_tokens = 300,
   api_url = "https://api.openai.com/v1/chat/completions",
   max_diff_size = 6000,
-  timeout_ms = 10000,
 }
 
--- Build the prompt for commit message generation
 local function build_prompt(branch, files, diff)
-  return string.format([[Generate a conventional commit message for these changes.
+  return string.format([[Generate a conventional commit message.
 
 BRANCH: %s
 FILES:
@@ -24,208 +21,229 @@ FILES:
 DIFF:
 %s
 
-FORMAT:
-type(scope): subject (imperative, max 72 chars)
+FORMAT: type(scope): subject
 
-    Body explaining WHAT and WHY.
-    - Key changes per file
-    - Rationale/context
+Body with WHAT and WHY.
 
 TYPES: feat|fix|refactor|docs|test|chore|perf|style|ci|build
 
-Output ONLY the commit message, starting with the type:]], branch, files, diff)
+Output ONLY the commit message:]], branch, files, diff)
 end
 
--- Extract commit message from AI response (filter markdown artifacts)
-local function extract_commit_message(text)
-  if not text or text == "" then return nil end
+-- Parallel git context fetch
+local function get_git_context(callback)
+  local results = { branch = "main", files = "", diff = "" }
+  local pending = 3
 
-  local lines = {}
-  local in_msg = false
-
-  for line in text:gmatch("[^\r\n]+") do
-    if not in_msg and line:match("^[a-z]+%(?[^)]*%)?:%s") then
-      in_msg = true
-    end
-    if in_msg then
-      if line:match("^```") or line:match("^%*%*") or line:match("^%-%-%-") then
-        break
-      end
-      table.insert(lines, line)
-    end
+  local function done()
+    pending = pending - 1
+    if pending == 0 then callback(results) end
   end
 
-  return #lines > 0 and table.concat(lines, "\n") or nil
-end
-
--- Generate commit message using OpenAI API
-local function generate_commit_message(callback)
-  local api_key = os.getenv("OPENAI_API_KEY")
-  if not api_key then
-    callback(nil, "OPENAI_API_KEY not set")
-    return
-  end
-
-  -- Get git context
-  local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("%s+$", "")
-  if branch == "" then branch = "main" end
-
-  local files = vim.fn.system("git diff --staged --name-status 2>/dev/null")
-  local diff = vim.fn.system("git diff --staged 2>/dev/null")
-
-  if not diff or diff == "" then
-    callback(nil, "No staged changes")
-    return
-  end
-
-  -- Truncate diff if too large
-  if #diff > CONFIG.max_diff_size then
-    diff = diff:sub(1, CONFIG.max_diff_size - 500) .. "\n\n... (truncated)"
-  end
-
-  -- Build request payload (OpenAI format)
-  local prompt = build_prompt(branch, files, diff)
-  local payload = vim.fn.json_encode({
-    model = CONFIG.model,
-    max_tokens = CONFIG.max_tokens,
-    messages = { { role = "user", content = prompt } },
-  })
-
-  -- Call OpenAI API using curl (async via vim.system)
-  local curl_args = {
-    "curl", "-s", "--max-time", tostring(CONFIG.timeout_ms / 1000),
-    CONFIG.api_url,
-    "-H", "Authorization: Bearer " .. api_key,
-    "-H", "Content-Type: application/json",
-    "-d", payload,
-  }
-
-  vim.system(curl_args, { text = true }, function(res)
+  vim.system({ "git", "branch", "--show-current" }, { text = true }, function(r)
     vim.schedule(function()
-      if res.code ~= 0 then
-        callback(nil, "curl failed: " .. (res.stderr or ""))
-        return
-      end
+      if r.code == 0 and r.stdout then results.branch = r.stdout:gsub("%s+$", "") end
+      done()
+    end)
+  end)
 
-      local ok, response = pcall(vim.fn.json_decode, res.stdout)
-      if not ok or not response then
-        callback(nil, "Failed to parse API response")
-        return
-      end
+  vim.system({ "git", "diff", "--staged", "--name-status" }, { text = true }, function(r)
+    vim.schedule(function()
+      if r.code == 0 then results.files = r.stdout or "" end
+      done()
+    end)
+  end)
 
-      -- Check for API errors
-      if response.error then
-        callback(nil, response.error.message or "API error")
-        return
+  vim.system({ "git", "diff", "--staged" }, { text = true }, function(r)
+    vim.schedule(function()
+      if r.code == 0 then
+        local diff = r.stdout or ""
+        if #diff > CONFIG.max_diff_size then
+          diff = diff:sub(1, CONFIG.max_diff_size - 100) .. "\n...(truncated)"
+        end
+        results.diff = diff
       end
-
-      -- Extract message text (OpenAI format: choices[0].message.content)
-      local text = response.choices and response.choices[1] and response.choices[1].message and response.choices[1].message.content
-      local message = extract_commit_message(text)
-
-      if message then
-        callback(message, nil)
-      else
-        callback(nil, "No valid commit message in response")
-      end
+      done()
     end)
   end)
 end
 
--- Insert commit message into buffer
-local function insert_message(bufnr, message, replace)
-  if not vim.api.nvim_buf_is_valid(bufnr) then return end
+-- Stream commit message into buffer
+local function stream_commit_message(bufnr, on_done)
+  local api_key = os.getenv("OPENAI_API_KEY")
+  if not api_key then
+    on_done("OPENAI_API_KEY not set")
+    return
+  end
 
-  local lines = vim.split(message, "\n")
+  get_git_context(function(ctx)
+    if ctx.diff == "" then
+      on_done("No staged changes")
+      return
+    end
 
-  if replace then
-    -- Find where comments start (lines beginning with #)
+    local payload = vim.fn.json_encode({
+      model = CONFIG.model,
+      max_tokens = CONFIG.max_tokens,
+      stream = true,
+      messages = { { role = "user", content = build_prompt(ctx.branch, ctx.files, ctx.diff) } },
+    })
+
+    -- Write payload to temp file (avoids shell escaping issues)
+    local tmpfile = vim.fn.tempname()
+    local f = io.open(tmpfile, "w")
+    if not f then
+      on_done("Failed to create temp file")
+      return
+    end
+    f:write(payload)
+    f:close()
+
+    local content = ""
+    local comment_start = nil
+
+    -- Find where git comments start (cache this)
     local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-    local comment_start = #buf_lines
     for i, line in ipairs(buf_lines) do
       if line:match("^#") then
         comment_start = i - 1
         break
       end
     end
-    -- Replace content before comments
-    vim.api.nvim_buf_set_lines(bufnr, 0, comment_start, false, lines)
-  else
-    -- Insert at top
-    vim.api.nvim_buf_set_lines(bufnr, 0, 0, false, lines)
-  end
+    comment_start = comment_start or #buf_lines
 
-  vim.cmd("normal! gg")
+    -- Clear content area
+    if comment_start > 0 then
+      vim.api.nvim_buf_set_lines(bufnr, 0, comment_start, false, {})
+    end
+
+    local job_id = vim.fn.jobstart({
+      "curl", "-sN", CONFIG.api_url,
+      "-H", "Authorization: Bearer " .. api_key,
+      "-H", "Content-Type: application/json",
+      "-d", "@" .. tmpfile,
+    }, {
+      on_stdout = function(_, data, _)
+        for _, line in ipairs(data) do
+          -- Parse SSE: "data: {...}"
+          local json_str = line:match("^data: (.+)$")
+          if json_str and json_str ~= "[DONE]" then
+            local ok, parsed = pcall(vim.fn.json_decode, json_str)
+            if ok and parsed.choices and parsed.choices[1] then
+              local delta = parsed.choices[1].delta
+              if delta and delta.content then
+                content = content .. delta.content
+
+                -- Update buffer with current content
+                vim.schedule(function()
+                  if not vim.api.nvim_buf_is_valid(bufnr) then return end
+
+                  -- Extract commit message (skip preamble if any)
+                  local msg = content
+                  local start_idx = msg:find("[a-z]+%(?[^)]*%)?:%s")
+                  if start_idx and start_idx > 1 then
+                    msg = msg:sub(start_idx)
+                  end
+
+                  -- Remove markdown artifacts
+                  msg = msg:gsub("```[^\n]*\n?", ""):gsub("^%*%*.*%*%*\n?", "")
+
+                  local lines = vim.split(msg, "\n", { plain = true })
+
+                  -- Find current comment position
+                  local current_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+                  local cur_comment = #current_lines
+                  for i, l in ipairs(current_lines) do
+                    if l:match("^#") then
+                      cur_comment = i - 1
+                      break
+                    end
+                  end
+
+                  vim.api.nvim_buf_set_lines(bufnr, 0, cur_comment, false, lines)
+                end)
+              end
+            end
+          end
+        end
+      end,
+
+      on_exit = function(_, code, _)
+        vim.schedule(function()
+          os.remove(tmpfile)
+          if code == 0 and content ~= "" then
+            on_done(nil)
+          else
+            on_done(code ~= 0 and "curl failed" or "Empty response")
+          end
+        end)
+      end,
+
+      stdout_buffered = false,
+    })
+
+    if job_id <= 0 then
+      os.remove(tmpfile)
+      on_done("Failed to start curl")
+    end
+  end)
 end
 
 function M.setup()
   local group = vim.api.nvim_create_augroup("AICommitMessage", { clear = true })
+  local processed = {}
 
-  -- Track buffers we've already processed to avoid double-triggering
-  local processed_buffers = {}
-
-  -- Generate commit message when entering commit buffer
-  -- Use FileType event which fires reliably for both git commit and Neogit
   vim.api.nvim_create_autocmd("FileType", {
     group = group,
     pattern = "gitcommit",
     callback = function(args)
       local bufnr = args.buf
+      if processed[bufnr] then return end
+      processed[bufnr] = true
 
-      -- Skip if already processed this buffer
-      if processed_buffers[bufnr] then return end
-      processed_buffers[bufnr] = true
-
-      -- Clean up tracking when buffer is deleted
       vim.api.nvim_create_autocmd("BufDelete", {
         buffer = bufnr,
         once = true,
-        callback = function()
-          processed_buffers[bufnr] = nil
-        end,
+        callback = function() processed[bufnr] = nil end,
       })
 
-      -- Defer to let buffer content load first
       vim.defer_fn(function()
         if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
-        -- Skip if already has content (non-comment lines)
+        -- Skip if already has content
         local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 5, false)
         for _, line in ipairs(lines) do
           if line ~= "" and not line:match("^#") then return end
         end
 
-        vim.notify("Generating commit message...", vim.log.levels.INFO)
+        vim.notify("Generating...", vim.log.levels.INFO)
 
-        generate_commit_message(function(message, err)
+        stream_commit_message(bufnr, function(err)
           if err then
-            vim.notify("Commit msg failed: " .. err, vim.log.levels.WARN)
-            return
-          end
-          if message then
-            insert_message(bufnr, message, false)
-            vim.notify("✓ Commit message generated", vim.log.levels.INFO)
+            vim.notify("Failed: " .. err, vim.log.levels.WARN)
+          else
+            vim.notify("✓ Done", vim.log.levels.INFO)
+            vim.schedule(function()
+              if vim.api.nvim_buf_is_valid(bufnr) then
+                vim.api.nvim_win_set_cursor(0, { 1, 0 })
+              end
+            end)
           end
         end)
-      end, 50) -- Small delay for buffer to be ready
+      end, 50)
 
-      -- Also set up the regenerate keymap
+      -- Regenerate keymap
       vim.keymap.set("n", "<Leader>ag", function()
-        vim.notify("Regenerating commit message...", vim.log.levels.INFO)
-
-        generate_commit_message(function(message, err)
+        vim.notify("Regenerating...", vim.log.levels.INFO)
+        stream_commit_message(bufnr, function(err)
           if err then
-            vim.notify("Regenerate failed: " .. err, vim.log.levels.WARN)
-            return
-          end
-          if message then
-            insert_message(bufnr, message, true)
-            vim.notify("✓ Commit message regenerated", vim.log.levels.INFO)
+            vim.notify("Failed: " .. err, vim.log.levels.WARN)
+          else
+            vim.notify("✓ Done", vim.log.levels.INFO)
           end
         end)
       end, { buffer = bufnr, desc = "Regenerate commit message" })
     end,
-    desc = "Auto-generate AI commit message",
   })
 end
 
