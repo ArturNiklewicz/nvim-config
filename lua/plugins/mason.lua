@@ -13,9 +13,9 @@ return {
       ensure_installed = {
         -- install language servers
         "lua-language-server",
-        "typescript-language-server",
+        -- typescript-language-server removed: using vtsls from astrocommunity.pack.typescript
         "eslint-lsp",
-        "tailwindcss-language-server",
+        -- tailwindcss-language-server removed: using astrocommunity.pack.tailwindcss
         "clangd", -- C/C++ language server
         "basedpyright", -- Python language server (enhanced pyright)
 
