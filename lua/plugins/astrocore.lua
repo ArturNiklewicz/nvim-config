@@ -123,7 +123,7 @@ return {
           -- CODE/LSP (<Leader>c)
           -- ================================
           ["<Leader>ca"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
-          ["<Leader>cd"] = { function() vim.lsp.buf.definition() end, desc = "Code definition" },
+          ["<Leader>cd"] = { function() vim.lsp.buf.definition({ reuse_win = true }) end, desc = "Go to definition" },
           ["<Leader>cD"] = { function() vim.lsp.buf.declaration() end, desc = "Code declaration" },
           ["<Leader>ci"] = { function() vim.lsp.buf.implementation() end, desc = "Code implementation" },
           ["<Leader>cr"] = { function() vim.lsp.buf.references() end, desc = "Code references" },
@@ -395,7 +395,24 @@ return {
           -- Terminal removed from UI toggles - use <C-M-t> instead
           ["<Leader>uc"] = { "<cmd>set cursorline!<cr>", desc = "Toggle cursor line" },
           ["<Leader>uC"] = { "<cmd>set cursorcolumn!<cr>", desc = "Toggle cursor column" },
-          
+          ["<Leader>u/"] = { function()
+            -- Toggle comment visibility using treesitter highlights
+            if vim.g.comments_hidden then
+              -- Restore comments
+              vim.api.nvim_set_hl(0, "@comment", {})
+              vim.api.nvim_set_hl(0, "Comment", {})
+              vim.g.comments_hidden = false
+              vim.notify("Comments visible", vim.log.levels.INFO)
+            else
+              -- Hide comments by making them invisible
+              local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+              vim.api.nvim_set_hl(0, "@comment", { fg = bg, bg = bg })
+              vim.api.nvim_set_hl(0, "Comment", { fg = bg, bg = bg })
+              vim.g.comments_hidden = true
+              vim.notify("Comments hidden", vim.log.levels.INFO)
+            end
+          end, desc = "Toggle comments visibility" },
+
           -- ================================
           -- UI/THEME (<Leader>U)
           -- ================================
