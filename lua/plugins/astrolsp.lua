@@ -77,8 +77,9 @@ return {
       -- Python LSP for rope refactoring (disable overlapping features with basedpyright)
       pylsp = {
         on_attach = function(client, bufnr)
-          -- Disable documentSymbol to prevent nvim-navic conflict with basedpyright
+          -- Disable features that overlap with basedpyright (pylsp is only for rope refactoring)
           client.server_capabilities.documentSymbolProvider = false
+          client.server_capabilities.hoverProvider = false
         end,
         settings = {
           pylsp = {
@@ -217,8 +218,11 @@ return {
     -- A custom `on_attach` function to be run after the default `on_attach` function
     -- takes two parameters `client` and `bufnr`  (`:h lspconfig-setup`)
     on_attach = function(client, bufnr)
-      -- this would disable semanticTokensProvider for all clients
-      -- client.server_capabilities.semanticTokensProvider = nil
+      -- Cap hover window height so overloaded signatures are scrollable
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        max_height = 30,
+        max_width = 80,
+      })
     end,
   },
 }

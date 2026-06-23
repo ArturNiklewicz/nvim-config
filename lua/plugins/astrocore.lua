@@ -482,8 +482,46 @@ return {
           -- ================================
           -- NAVIGATION IMPROVEMENTS
           -- ================================
-          ["<C-d>"] = { "<C-d>zz", desc = "Scroll down and center" },
-          ["<C-u>"] = { "<C-u>zz", desc = "Scroll up and center" },
+          ["<C-d>"] = {
+            function()
+              local hover_win
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local cfg = vim.api.nvim_win_get_config(win)
+                if cfg.relative ~= "" and cfg.focusable ~= false then
+                  hover_win = win
+                  break
+                end
+              end
+              if hover_win then
+                local scroll = math.ceil(vim.api.nvim_win_get_height(hover_win) / 2)
+                vim.fn.win_execute(hover_win, "normal! " .. scroll .. "\5") -- \5 = <C-e>
+              else
+                local keys = vim.api.nvim_replace_termcodes("<C-d>zz", true, false, true)
+                vim.api.nvim_feedkeys(keys, "n", false)
+              end
+            end,
+            desc = "Scroll down (float or buffer)",
+          },
+          ["<C-u>"] = {
+            function()
+              local hover_win
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local cfg = vim.api.nvim_win_get_config(win)
+                if cfg.relative ~= "" and cfg.focusable ~= false then
+                  hover_win = win
+                  break
+                end
+              end
+              if hover_win then
+                local scroll = math.ceil(vim.api.nvim_win_get_height(hover_win) / 2)
+                vim.fn.win_execute(hover_win, "normal! " .. scroll .. "\25") -- \25 = <C-y>
+              else
+                local keys = vim.api.nvim_replace_termcodes("<C-u>zz", true, false, true)
+                vim.api.nvim_feedkeys(keys, "n", false)
+              end
+            end,
+            desc = "Scroll up (float or buffer)",
+          },
           ["n"] = { "nzzzv", desc = "Next search result centered" },
           ["N"] = { "Nzzzv", desc = "Previous search result centered" },
           ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
