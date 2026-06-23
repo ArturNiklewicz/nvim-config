@@ -1,13 +1,13 @@
 -- Auto-generate commit messages using AI
--- Uses OpenAI API with gpt-4o-mini + streaming
+-- Uses self-hosted vLLM (Qwen3-VL on DGX-A) via OpenAI-compatible API + streaming
 -- Parallel git commands + real-time token streaming via jobstart
 
 local M = {}
 
 local CONFIG = {
-  model = "qwen3-35b",
+  model = "qwen3-vl-4b-instruct",
   max_tokens = 300,
-  api_url = "https://api.zrobmyto.ai/v1/chat/completions",
+  api_url = "http://100.117.237.101:8000/v1/chat/completions",
   max_diff_size = 6000,
 }
 
@@ -24,9 +24,15 @@ DIFF:
 
 FORMAT: type(scope): subject
 
-Body with WHAT and WHY.
+Body with WHAT and WHY (2-4 lines max).
 
 TYPES: feat|fix|refactor|docs|test|chore|perf|style|ci|build
+
+PRIORITY RULES (apply in order):
+1. Behavioral/functional changes outrank style/formatting changes — lead with the functional change even if style lines dominate the diff volume
+2. type=style ONLY when the entire diff is cosmetic — if any logic/config changed, use a semantic type
+3. Subject line = the single most impactful change; mention incidental style cleanup in the body at most
+4. scope = the module or concept that changed most meaningfully, not the file that had most lines touched
 
 Output ONLY the commit message:]],
     branch,
@@ -72,8 +78,22 @@ local function get_git_context(callback)
 end
 
 -- Stream commit message into buffer
+local function load_env_key(name)
+  local val = os.getenv(name)
+  if val then return val end
+  local env_path = vim.fn.stdpath("config") .. "/.env"
+  local f = io.open(env_path, "r")
+  if not f then return nil end
+  for line in f:lines() do
+    local k, v = line:match("^([^=]+)=(.+)$")
+    if k == name then f:close(); return v end
+  end
+  f:close()
+  return nil
+end
+
 local function stream_commit_message(bufnr, on_done)
-  local api_key = os.getenv "OPENAI_API_KEY"
+  local api_key = load_env_key "OPENAI_API_KEY"
   if not api_key then
     on_done "OPENAI_API_KEY not set"
     return
@@ -89,7 +109,10 @@ local function stream_commit_message(bufnr, on_done)
       model = CONFIG.model,
       max_tokens = CONFIG.max_tokens,
       stream = true,
-      messages = { { role = "user", content = build_prompt(ctx.branch, ctx.files, ctx.diff) } },
+      chat_template_kwargs = { enable_thinking = false },
+      messages = {
+        { role = "user", content = build_prompt(ctx.branch, ctx.files, ctx.diff) .. "\n/no_think" },
+      },
     }
 
     -- Write payload to temp file (avoids shell escaping issues)
