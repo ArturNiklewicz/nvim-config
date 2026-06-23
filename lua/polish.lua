@@ -71,3 +71,24 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
   end,
 })
+
+-- Hide the buffer tabline while Diffview is open, restore on close
+local diffview_grp = vim.api.nvim_create_augroup("DiffviewTabline", { clear = true })
+local saved_showtabline
+
+vim.api.nvim_create_autocmd("User", {
+  group = diffview_grp,
+  pattern = "DiffviewViewOpened",
+  callback = function()
+    saved_showtabline = vim.o.showtabline
+    vim.o.showtabline = 0
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  group = diffview_grp,
+  pattern = "DiffviewViewClosed",
+  callback = function()
+    vim.o.showtabline = saved_showtabline or 2
+  end,
+})
