@@ -10,12 +10,12 @@ return {
     ---@type AstroUIOpts
     opts = {
       -- change colorscheme
-      colorscheme = "catppuccin-mocha",
+      colorscheme = "tokyonight-night",
       -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
       highlights = {
         init = { -- this table overrides highlights in all themes
-          Normal = { bg = "#1A1C25" },
-          NormalNC = { bg = "#1A1C25" },
+          Normal = { bg = "#1a1b26" },
+          NormalNC = { bg = "#1a1b26" },
         },
         astrodark = { -- a table of overrides/changes when applying the astrotheme theme
           -- Normal = { bg = "#000000" },

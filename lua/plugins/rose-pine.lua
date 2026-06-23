@@ -67,7 +67,6 @@ return {
       },
     })
     
-    -- Set Rose Pine Moon as default colorscheme
-    vim.cmd("colorscheme rose-pine-moon")
+    -- colorscheme now set centrally to tokyonight-night (see astroui.lua / polish.lua)
   end,
 }

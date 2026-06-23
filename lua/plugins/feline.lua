@@ -11,23 +11,24 @@ return {
     local vi_mode = require "feline.providers.vi_mode"
 
     local colors = {
-      bg = "#1e1e2e",
-      fg = "#cdd6f4",
-      yellow = "#f9e2af",
-      cyan = "#89dceb",
-      darkblue = "#45475a",
-      green = "#a6e3a1",
-      orange = "#fab387",
-      violet = "#cba6f7",
-      magenta = "#f5c2e7",
-      blue = "#89b4fa",
-      red = "#f38ba8",
-      black = "#11111b",
-      gray = "#6c7086",
+      bg = "#1a1b26",       -- matches tmux status bar + terminal bg
+      fg = "#c0caf5",       -- fg
+      yellow = "#e0af68",   -- yellow
+      cyan = "#7dcfff",     -- cyan
+      teal = "#99d5d6",     -- claude accent (matches tmux active tab)
+      darkblue = "#545c7e", -- dark3 (file_info pill bg)
+      green = "#9ece6a",    -- green
+      orange = "#ff9e64",   -- orange
+      violet = "#9d7cd8",   -- purple
+      magenta = "#bb9af7",  -- magenta
+      blue = "#7aa2f7",     -- blue
+      red = "#f7768e",      -- red
+      black = "#414868",    -- terminal_black
+      gray = "#737aa2",     -- dark5
     }
 
     local vi_mode_colors = {
-      NORMAL = colors.green,
+      NORMAL = colors.teal,
       INSERT = colors.blue,
       VISUAL = colors.violet,
       OP = colors.green,

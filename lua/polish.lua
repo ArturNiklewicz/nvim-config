@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 -- Set Catppuccin as the main theme (with error handling)
-local ok_theme = pcall(vim.cmd.colorscheme, "catppuccin")
+local ok_theme = pcall(vim.cmd.colorscheme, "tokyonight-night")
 if not ok_theme then
   -- Fallback to a built-in theme if Catppuccin isn't loaded yet
   vim.cmd.colorscheme("habamax")
