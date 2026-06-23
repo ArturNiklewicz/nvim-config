@@ -14,11 +14,11 @@ return {
     -- Minimal configuration for essential features
     enable_builtin = true,
     use_local_fs = false,
-    
+
     -- GitHub CLI integration
     gh_cmd = "gh",
     gh_env = {},
-    
+
     -- UI Configuration
     default_remote = { "upstream", "origin" },
     reaction_viewer_hint_icon = " ",
@@ -28,13 +28,13 @@ return {
     right_bubble_delimiter = "",
     left_bubble_delimiter = "",
     snippet_context_lines = 4,
-    
+
     -- File panel configuration
     file_panel = {
       size = 10,
       use_icons = true,
     },
-    
+
     -- Mappings (minimal set for essential operations)
     mappings = {
       issue = {
@@ -107,7 +107,7 @@ return {
         toggle_viewed = { lhs = "<localleader>tv", desc = "toggle viewer viewed state" },
       },
     },
-    
+
     -- Picker configuration
     picker = "telescope",
     picker_config = {
@@ -119,7 +119,7 @@ return {
         merge_pr = { lhs = "<C-r>", desc = "merge pull request" },
       },
     },
-    
+
     -- Colors
     colors = {
       white = "#ffffff",
@@ -138,10 +138,12 @@ return {
   },
   config = function(_, opts)
     require("octo").setup(opts)
-    
+
     -- Create user command for common operations
-    vim.api.nvim_create_user_command("OctoReview", function()
-      vim.cmd("Octo pr list")
-    end, { desc = "List pull requests" })
+    vim.api.nvim_create_user_command(
+      "OctoReview",
+      function() vim.cmd "Octo pr list" end,
+      { desc = "List pull requests" }
+    )
   end,
 }
