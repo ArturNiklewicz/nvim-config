@@ -187,23 +187,8 @@ function M.navigate(direction)
   
   local target = files[next_index]
   
-  -- Navigate to the file
-  if M.navigate_to_file(target) then
-    -- Show status notification
-    local icon = target.staged and "●" or "○"
-    local status_text = target.status
-    if target.staged then
-      status_text = "staged"
-    end
-    
-    vim.notify(string.format("%s %s [%d/%d] %s", 
-      icon,
-      status_text,
-      next_index,
-      #files,
-      target.name
-    ), vim.log.levels.INFO)
-  end
+  -- Navigate to the file (no notification - was blocking UI)
+  M.navigate_to_file(target)
 end
 
 -- Quick jump to specific file by number
@@ -221,17 +206,7 @@ function M.quick_jump(number)
   end
   
   local target = files[number]
-  if M.navigate_to_file(target) then
-    local icon = target.staged and "●" or "○"
-    local status_text = target.staged and "staged" or target.status
-    vim.notify(string.format("%s %s [%d/%d] %s", 
-      icon,
-      status_text,
-      number,
-      #files,
-      target.name
-    ), vim.log.levels.INFO)
-  end
+  M.navigate_to_file(target)
 end
 
 -- List all changed files

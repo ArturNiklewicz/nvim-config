@@ -56,6 +56,7 @@ return {
           signcolumn = "yes",
           wrap = true,
           timeoutlen = 300, -- Reduced for which-key
+          shortmess = "filnxtToOFIcCs", -- Suppress intro, file-write, search-count msgs that cause hit-enter prompts
           scrolloff = 8,    -- Keep cursor centered
           sidescrolloff = 8,
           cursorline = true, -- Enable cursorline
@@ -572,45 +573,37 @@ return {
       },
       -- Custom autocommands
       autocmds = {
-        -- Keybinding conflict detection
+        -- Keybinding conflict detection (manual - run :CheckKeyConflicts when needed)
         keybinding_conflicts = {
         {
           event = "VimEnter",
-          desc = "Detect keybinding conflicts on startup",
+          desc = "Register :CheckKeyConflicts command (no auto-run; was hit-enter source)",
+          once = true,
           callback = function()
-            vim.defer_fn(function()
+            vim.api.nvim_create_user_command("CheckKeyConflicts", function()
               local conflicts = {}
               local seen_mappings = {}
-              
-              -- Check all modes for conflicts
               for _, mode in ipairs({"n", "v", "x", "s", "o", "i", "c", "t"}) do
                 local maps = vim.api.nvim_get_keymap(mode)
-                
                 for _, map in ipairs(maps) do
                   local key = mode .. ":" .. map.lhs
                   if seen_mappings[key] then
-                    table.insert(conflicts, {
-                      mode = mode,
-                      key = map.lhs,
-                      from = seen_mappings[key].from or "unknown",
-                      to = map.from or "unknown"
-                    })
+                    table.insert(conflicts, { mode = mode, key = map.lhs })
                   else
                     seen_mappings[key] = map
                   end
                 end
               end
-              
-              -- Report conflicts if found
-              if #conflicts > 0 then
-                local msg = "Keybinding conflicts detected:\n"
-                for _, conflict in ipairs(conflicts) do
-                  msg = msg .. string.format("  Mode '%s': %s (defined in: %s and %s)\n", 
-                    conflict.mode, conflict.key, conflict.from, conflict.to)
+              if #conflicts == 0 then
+                vim.notify("No keybinding conflicts", vim.log.levels.INFO)
+              else
+                local msg = "Keybinding conflicts:"
+                for _, c in ipairs(conflicts) do
+                  msg = msg .. string.format("\n  '%s': %s", c.mode, c.key)
                 end
-                vim.notify(msg, vim.log.levels.WARN, { title = "Keybinding Conflicts" })
+                vim.notify(msg, vim.log.levels.WARN)
               end
-            end, 100) -- Delay to ensure all plugins are loaded
+            end, { desc = "Check for duplicate keymaps" })
           end,
         },
       },

@@ -11,26 +11,15 @@ return {
         style = "fancy",
         -- Filter hook: log all notifications to :messages, then allow them to proceed
         filter = function(notif)
-          -- Map log levels to readable names
-          local level_names = {
-            error = "ERROR",
-            warn = "WARNING",
-            info = "INFO",
-            debug = "DEBUG",
-            trace = "TRACE",
-          }
-          local prefix = level_names[notif.level] or "INFO"
-
-          -- Clean message: remove newlines, escape quotes
-          local msg = tostring(notif.msg or ""):gsub("\n", " "):gsub('"', '\\"'):gsub("'", "''")
-
-          -- Add to :messages history using echom
-          -- Use pcall to prevent errors from breaking notifications
-          pcall(function()
-            vim.cmd(string.format('echom "[%s] %s"', prefix, msg))
-          end)
-
-          -- Return true to allow notification to proceed (false would hide it)
+          -- Only mirror WARN/ERROR to :messages — INFO spam was a hit-enter source.
+          -- Strip newlines so echom never overflows cmdheight.
+          if notif.level == "warn" or notif.level == "error" then
+            local prefix = notif.level == "error" and "ERROR" or "WARNING"
+            local msg = tostring(notif.msg or ""):gsub("\n", " | "):gsub('"', '\\"'):gsub("'", "''")
+            pcall(function()
+              vim.cmd(string.format('silent! echom "[%s] %s"', prefix, msg))
+            end)
+          end
           return true
         end,
       },

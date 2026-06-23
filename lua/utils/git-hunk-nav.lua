@@ -101,13 +101,11 @@ function M.navigate_hunk(direction)
           vim.cmd("normal! G")
           pcall(gitsigns.prev_hunk, {wrap = false, navigation_message = false})
         end
-        vim.notify("🔄 " .. (direction == "next" and "Next" or "Previous") .. " file with changes", vim.log.levels.INFO)
+        -- Notification removed: was blocking file navigation in upper right corner
       end
     end, 100)
   else
-    -- Successfully navigated within file
-    local line = vim.api.nvim_win_get_cursor(0)[1]
-    vim.notify("📍 Hunk at line " .. line, vim.log.levels.INFO)
+    -- Successfully navigated within file (no notification needed)
   end
 end
 
