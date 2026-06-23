@@ -85,3 +85,7 @@ venv/
 *.i*86
 *.x86_64
 *.hex
+
+# Tooling caches / local scratch
+.serena/
+docs/scratchpad/
