@@ -1,6 +1,7 @@
 ---@type LazySpec
 return {
   "supermaven-inc/supermaven-nvim",
+  cmd = { "SupermavenStart", "SupermavenStop", "SupermavenToggle", "SupermavenStatus", "SupermavenUseFree", "SupermavenUsePro" },
   config = function()
     -- Initialize Supermaven state (disabled by default)
     if vim.g.supermaven_enabled == nil then
@@ -48,13 +49,5 @@ return {
         return false -- enable by default
       end,
     }
-
-    -- Stop Supermaven on startup (disabled by default)
-    vim.defer_fn(function()
-      local supermaven_ok, supermaven_api = pcall(require, "supermaven-nvim.api")
-      if supermaven_ok then
-        supermaven_api.stop()
-      end
-    end, 100)
   end,
 }

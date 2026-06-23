@@ -7,7 +7,7 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons", -- optional, for file icons
   },
-  lazy = false,
+  event = "VeryLazy",
   opts = {
     scope = "git_branch", -- Scope tags to current git branch by default
     icons = true, -- Enable devicons

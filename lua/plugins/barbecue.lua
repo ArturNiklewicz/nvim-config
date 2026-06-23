@@ -17,8 +17,7 @@ return {
     },
     "nvim-tree/nvim-web-devicons",
   },
-  lazy = false,
-  priority = 900, -- Load after LSP but before UI
+  event = { "LspAttach", "BufReadPost" },
   opts = {
     theme = "auto", -- Auto-detect from colorscheme
     show_dirname = true,

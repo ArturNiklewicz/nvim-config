@@ -6,7 +6,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
-  lazy = false,
+  event = "VeryLazy",
   opts = {
     -- Prompt for function return type (disabled by default, enable per language if needed)
     prompt_func_return_type = {

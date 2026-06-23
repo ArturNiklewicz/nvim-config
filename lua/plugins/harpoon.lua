@@ -7,7 +7,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  lazy = false,
+  event = "VeryLazy",
   opts = {
     settings = {
       save_on_toggle = true,
