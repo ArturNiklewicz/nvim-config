@@ -385,6 +385,11 @@ return {
           ["<Leader>T4"] = { "<cmd>4ToggleTerm<cr>", desc = "Terminal 4" },
           
           -- ================================
+          -- SRS/GAMIFICATION (<Leader>m)
+          -- ================================
+          ["<Leader>mg"] = { function() require("utils.streak-widget").toggle() end, desc = "Toggle streak widget" },
+
+          -- ================================
           -- UI/TOGGLES (<Leader>u)
           -- ================================
           ["<Leader>un"] = { "<cmd>set number!<cr>", desc = "Toggle line numbers" },
@@ -584,6 +589,17 @@ return {
           [">"] = { ">gv", desc = "Indent right" },
           ["J"] = { ":m '>+1<CR>gv=gv", desc = "Move selection down" },
           ["K"] = { ":m '<-2<CR>gv=gv", desc = "Move selection up" },
+
+          -- SRS flashcard: send selection + mental hook to Claude Code pane
+          ["<Leader>ms"] = { function()
+            local s = vim.fn.getpos("v")
+            local e = vim.fn.getpos(".")
+            if s[2] > e[2] or (s[2] == e[2] and s[3] > e[3]) then s, e = e, s end
+            local lines = vim.api.nvim_buf_get_text(0, s[2] - 1, s[3] - 1, e[2] - 1, e[3], {})
+            local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+            vim.api.nvim_feedkeys(esc, "nx", false)
+            vim.schedule(function() require("utils.claude-srs").open(lines, s[2], e[2]) end)
+          end, desc = "SRS flashcard" },
         },
         
         -- ================================
