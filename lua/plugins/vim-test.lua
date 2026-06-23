@@ -27,7 +27,61 @@ return {
     vim.g["test#python#pytest#options"] = "-vv"
     vim.g["test#javascript#jest#options"] = "--no-coverage"
 
-    -- Custom transformation to ensure proper Python execution
-    vim.g["test#python#pytest#executable"] = "python3 -m pytest"
+    -- Auto-detect Python test executable based on project environment
+    -- Priority: uv > poetry > pipenv > .venv/venv > system python
+    local function detect_pytest_executable()
+      local root = vim.fn.getcwd()
+      if vim.fn.filereadable(root .. "/uv.lock") == 1 then
+        return "uv run pytest"
+      elseif vim.fn.filereadable(root .. "/poetry.lock") == 1 then
+        return "poetry run pytest"
+      elseif vim.fn.filereadable(root .. "/Pipfile.lock") == 1 then
+        return "pipenv run pytest"
+      elseif vim.fn.filereadable(root .. "/.venv/bin/pytest") == 1 then
+        return root .. "/.venv/bin/pytest"
+      elseif vim.fn.filereadable(root .. "/venv/bin/pytest") == 1 then
+        return root .. "/venv/bin/pytest"
+      else
+        return "python3 -m pytest"
+      end
+    end
+
+    vim.g["test#python#pytest#executable"] = detect_pytest_executable()
+
+    -- Re-detect when changing directories
+    vim.api.nvim_create_autocmd("DirChanged", {
+      callback = function()
+        vim.g["test#python#pytest#executable"] = detect_pytest_executable()
+      end,
+    })
+
+    -- Auto-copy test results to clipboard when test terminal closes
+    vim.api.nvim_create_autocmd("TermClose", {
+      callback = function(ev)
+        local bufnr = ev.buf
+        if not vim.api.nvim_buf_is_valid(bufnr) then return end
+
+        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+        -- Filter out empty trailing lines and ANSI escape codes
+        local clean = {}
+        for _, line in ipairs(lines) do
+          local stripped = line:gsub("\27%[[%d;]*m", ""):gsub("\r", "")
+          if stripped ~= "" then
+            table.insert(clean, stripped)
+          end
+        end
+
+        if #clean == 0 then return end
+
+        -- Only capture if it looks like test output (pytest/jest/rspec markers)
+        local output = table.concat(clean, "\n")
+        if output:match("pytest") or output:match("PASSED") or output:match("FAILED")
+          or output:match("ERROR") or output:match("jest") or output:match("rspec")
+          or output:match("test session starts") then
+          vim.fn.setreg("+", output)
+          vim.notify("Test results copied to clipboard", vim.log.levels.INFO)
+        end
+      end,
+    })
   end,
 }
