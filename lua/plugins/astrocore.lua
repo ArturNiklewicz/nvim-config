@@ -72,6 +72,10 @@ return {
           -- NOTE: Group names are now defined in which-key.lua
           -- ================================
 
+          -- Free the `gl` prefix for gitlab.nvim — AstroNvim's bare `gl` (hover
+          -- diagnostics) shadowed glc/glS/etc. Diagnostics float = <Leader>xx.
+          ["gl"] = false,
+
           -- ================================
           -- QUICK ACTIONS (Root Level)
           -- ================================
@@ -87,7 +91,7 @@ return {
           ["<Leader>`"] = { function() buffer_nav.nav_to_last() end, desc = "Switch to last buffer" },
           
           -- ================================
-          -- AI/SUPERMAVEN (<Leader>a)
+          -- AI: <Leader>at Supermaven toggle  (NB: <Leader>a visual = usharp capture, set in usharp.nvim)
           -- ================================
           ["<Leader>at"] = { function()
             -- Toggle Supermaven AI inline completion
@@ -115,7 +119,7 @@ return {
           ["<Leader>bd"] = { function() buffer_nav.close_smart() end, desc = "Delete buffer" },
           ["<Leader>bD"] = { function() require("astrocore.buffer").close_all() end, desc = "Delete all buffers" },
           ["<Leader>bo"] = { function() buffer_nav.close_others() end, desc = "Delete other buffers" },
-          -- Buffer navigation removed - use <Leader>a/d for prev/next, <Leader>1-9 for direct access
+          -- Buffer navigation removed - use <Leader>1-9 for direct access
           ["<Leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" },
           ["<Leader>bS"] = { "<cmd>wa<cr>", desc = "Save all buffers" },
           ["<Leader>bc"] = { function() vim.notify("Buffer " .. vim.api.nvim_get_current_buf() .. " (" .. buffer_nav.count() .. " total)") end, desc = "Buffer count" },
@@ -214,9 +218,6 @@ return {
 
           -- Git signs toggles
           ["<Leader>gt"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
-          ["<Leader>gn"] = { "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle line number highlighting" },
-          ["<Leader>gl"] = { "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle line highlighting" },
-          ["<Leader>gW"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle word diff" },
           ["<Leader>gT"] = { "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
           ["<Leader>gr"] = { "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
           
@@ -401,6 +402,10 @@ return {
           -- Terminal removed from UI toggles - use <C-M-t> instead
           ["<Leader>uc"] = { "<cmd>set cursorline!<cr>", desc = "Toggle cursor line" },
           ["<Leader>uC"] = { "<cmd>set cursorcolumn!<cr>", desc = "Toggle cursor column" },
+          -- Git display toggles (visual/UI — moved here from <Leader>g*)
+          ["<Leader>uH"] = { "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle git line highlight" },
+          ["<Leader>uN"] = { "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle git line-number highlight" },
+          ["<Leader>uW"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle git word diff" },
           ["<Leader>u/"] = { function()
             -- Toggle comment visibility using treesitter highlights
             if vim.g.comments_hidden then

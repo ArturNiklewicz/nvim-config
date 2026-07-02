@@ -29,49 +29,6 @@ if not ok_theme then
   vim.cmd.colorscheme("habamax")
 end
 
--- Custom startup layout: ASCII art + Oil.nvim
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("CustomStartupLayout", { clear = true }),
-  once = true,
-  callback = function()
-    -- Only trigger on startup with no file arguments
-    if vim.fn.argc() == 0 then
-      vim.defer_fn(function()
-        -- Get current buffer info
-        local buftype = vim.bo.filetype
-        local bufname = vim.api.nvim_buf_get_name(0)
-
-        -- Check if we're on a dashboard-like buffer
-        if bufname == "" or buftype == "snacks_dashboard" or buftype == "" then
-          -- Save current window (dashboard)
-          local dashboard_win = vim.api.nvim_get_current_win()
-
-          -- Create horizontal split below (66% height for Oil, 33% for ASCII art)
-          vim.cmd("below " .. math.floor(vim.o.lines * 0.66) .. "split")
-
-          -- Open Oil.nvim in the bottom split
-          local ok_oil, oil = pcall(require, "oil")
-          if ok_oil then
-            oil.open()
-          else
-            vim.notify("Oil.nvim not loaded", vim.log.levels.WARN)
-          end
-
-          -- Focus back to dashboard
-          vim.api.nvim_set_current_win(dashboard_win)
-
-          -- Disable UI elements in dashboard window
-          vim.wo[dashboard_win].number = false
-          vim.wo[dashboard_win].relativenumber = false
-          vim.wo[dashboard_win].signcolumn = "no"
-          vim.wo[dashboard_win].cursorline = false
-          vim.wo[dashboard_win].cursorcolumn = false
-        end
-      end, 100) -- Delay to ensure dashboard is fully loaded
-    end
-  end,
-})
-
 -- Hide the buffer tabline while Diffview is open, restore on close
 local diffview_grp = vim.api.nvim_create_augroup("DiffviewTabline", { clear = true })
 local saved_showtabline

@@ -3,6 +3,7 @@
 return {
   "ThePrimeagen/refactoring.nvim",
   dependencies = {
+    "lewis6991/async.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
@@ -31,8 +32,5 @@ return {
   },
   config = function(_, opts)
     require("refactoring").setup(opts)
-
-    -- Load Telescope extension for interactive refactor selection
-    require("telescope").load_extension("refactoring")
   end,
 }

@@ -1,7 +1,7 @@
 -- Smart test runner that opens terminal in the right code window
 local M = {}
 
--- Helper: Check if window is special (Neo-tree, Oil, terminal, help, floating)
+-- Helper: Check if window is special (Neo-tree, terminal, help, floating)
 local function is_special_window(winid)
   if not vim.api.nvim_win_is_valid(winid) then
     return true
@@ -21,7 +21,6 @@ local function is_special_window(winid)
   local special_filetypes = {
     'neo-tree',
     'NvimTree',
-    'oil',  -- Oil.nvim file explorer
     'aerial',
     'Outline',
     'toggleterm',
@@ -34,7 +33,7 @@ local function is_special_window(winid)
     'prompt',
     'help',
     'quickfix',
-    'acwrite', -- Oil uses acwrite
+    'acwrite', -- buffer-as-file writes (fugitive etc.)
   }
 
   for _, ft in ipairs(special_filetypes) do

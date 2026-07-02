@@ -48,28 +48,8 @@ return {
     -- Define all keybindings using the new spec format
     local mappings = {
       -- Direct access commands (no submenu)
-      { "<leader>e", "<cmd>Oil<cr>", desc = "File explorer (Oil)" },
-      { "<leader>E", function() require("oil").toggle_float() end, desc = "Oil float toggle" },
-      { "<leader>o", function()
-        local oil_buffers = vim.tbl_filter(function(buf)
-          return vim.bo[buf].filetype == "oil"
-        end, vim.api.nvim_list_bufs())
-
-        if #oil_buffers > 0 then
-          for _, buf in ipairs(oil_buffers) do
-            local wins = vim.fn.win_findbuf(buf)
-            for _, win in ipairs(wins) do
-              vim.api.nvim_win_close(win, false)
-            end
-          end
-        else
-          vim.cmd("vsplit")
-          vim.cmd("Oil .")
-          vim.cmd("vertical resize 35")
-        end
-      end, desc = " Toggle Oil sidebar" },
       { "<leader>f", "<cmd>Telescope find_files<cr>", desc = " Find files" },
-      { "<leader>s", "<cmd>Telescope live_grep<cr>", desc = " Search project" },
+      { "<leader>fw", "<cmd>Telescope live_grep<cr>", desc = " Search project" },
       { "<leader>w", function() require("astrocore.buffer").close() end, desc = " Close buffer" },
       { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
       { "<leader>Q", "<cmd>qa<cr>", desc = " Quit all" },
@@ -82,7 +62,6 @@ return {
       { "<leader>n", "<cmd>enew<cr>", desc = " New file" },
       { "<leader>`", function() require("astrocore.buffer").nav_to_last() end, desc = " Switch to last buffer" },
       { "<leader>?", "<cmd>Keybindings<cr>", desc = " Show keybindings" },
-      { "<leader>-", "<cmd>Oil .<cr>", desc = " Open current directory" },
       
       -- NOTE: Buffer 1-9 navigation removed - defined in astrocore.lua to avoid duplicates
 
@@ -116,9 +95,6 @@ return {
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
       { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Branch history" },
       { "<leader>gt", "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle git signs" },
-      { "<leader>gn", "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle line number highlighting" },
-      { "<leader>gl", "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle line highlighting" },
-      { "<leader>gW", "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle word diff" },
       { "<leader>gT", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle blame line" },
       { "<leader>gr", "<cmd>Gitsigns refresh<cr>", desc = "Refresh git signs" },
       { "<leader>gj", function() require("utils.git-monitor").jump_file("next") end, desc = "Next changed file" },
@@ -139,6 +115,9 @@ return {
       { "<leader>gm", function() require("grapple").toggle_tags() end, desc = " Toggle grapple menu" },
       { "<leader>g[", function() require("grapple").cycle_tags("prev") end, desc = "◀ Previous grapple tag" },
       { "<leader>g]", function() require("grapple").cycle_tags("next") end, desc = "▶ Next grapple tag" },
+
+      -- GitLab MR review (gitlab.nvim self-registers gl* keymaps at runtime; this just names the group)
+      { "gl", group = "󰮠 GitLab (MR review)" },
 
       -- GitHub operations
       { "<leader>G", group = " GitHub" },
@@ -309,10 +288,10 @@ return {
       -- Refactoring operations
       { "<leader>r", group = " Refactor" },
 
-      -- Interactive refactor selector (Telescope)
+      -- Interactive refactor selector (native vim.ui.select; prettified by dressing/telescope-ui-select)
       { "<leader>rr", function()
-        require("telescope").extensions.refactoring.refactors()
-      end, desc = "Select refactor (Telescope)", mode = {"n", "x"} },
+        require("refactoring").select_refactor()
+      end, desc = "Select refactor", mode = {"n", "x"} },
 
       -- Extract operations
       { "<leader>re", function()
@@ -390,6 +369,9 @@ return {
       { "<leader>uh", "<cmd>set hlsearch!<cr>", desc = "Toggle search highlight" },
       { "<leader>uc", "<cmd>set cursorline!<cr>", desc = "Toggle cursor line" },
       { "<leader>uC", "<cmd>set cursorcolumn!<cr>", desc = "Toggle cursor column" },
+      { "<leader>uH", "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle git line highlight" },
+      { "<leader>uN", "<cmd>Gitsigns toggle_numhl<cr>", desc = "Toggle git line-number highlight" },
+      { "<leader>uW", "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle git word diff" },
 
       -- UI/Theme
       { "<leader>U", group = " UI/Theme" },

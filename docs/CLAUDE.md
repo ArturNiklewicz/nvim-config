@@ -43,19 +43,16 @@ Leader: `<Space>` | Local Leader: `,`
 
 ### Core Navigation
 - `<Leader>1-9` - Switch to buffer 1-9
-- `<Leader>a/d` - Previous/next buffer
+- `<Leader>a` (visual) - usharp: capture term
 - `<Leader>w` - Close buffer
 - `<Alt>1-8` - Focus window 1-8
 - `<Ctrl+I/O>` - Navigate back/forward
 - `]d/[d` - Next/previous diagnostic/diff
 
-### Claude Code (`<Leader>a`)
-- `ac` - Toggle terminal (with resume)
-- `aC` - Fresh chat (no resume)
-- `aa/ad` - Accept/deny diff changes
-- `ao` - Open all edited files
-- `as` - Send selection (visual)
-- `ab` - Add buffer to context
+### usharp / AI (`<Leader>a`)
+- `<Leader>a` (visual) - usharp: capture term → SRS (sqlite)
+- `<Leader>at` - Toggle Supermaven AI
+- `<Leader>s` / `<Leader>r` - usharp symbol overlay / code roulette
 
 ### Molten/Jupyter (`<Leader>m`)
 - `mi` - Initialize

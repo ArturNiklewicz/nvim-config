@@ -7,7 +7,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
-    "sindrets/diffview.nvim", -- Already configured in diffview.lua
+    "dlyongemallo/diffview-plus.nvim", -- Already configured in diffview.lua
   },
   cmd = "Neogit",
   init = function()

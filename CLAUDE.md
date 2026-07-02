@@ -46,7 +46,7 @@ Leader: `<Space>` | Local Leader: `,`
 
 ### Core Navigation
 - `<Leader>1-9` - Switch to buffer 1-9
-- `<Leader>a/d` - Previous/next buffer
+- `<Leader>a` (visual) - usharp: capture term
 - `<Leader>w` - Close buffer
 - `<Alt>1-8` - Focus window 1-8
 - `<Ctrl+I/O>` - Navigate back/forward
@@ -90,7 +90,7 @@ Scoped file tagging with cursor position memory (git branch-aware)
 
 **Workflow**: Use Harpoon for frequent project files, Grapple for branch-specific contextual tags
 
-### AI/Supermaven (`<Leader>a`)
+### AI (`<Leader>at` = Supermaven toggle · `<Leader>a` visual = usharp capture)
 - `at` - Toggle Supermaven AI (inline code suggestions)
   - Keybindings when enabled:
     - `<C-Tab>` - Accept suggestion

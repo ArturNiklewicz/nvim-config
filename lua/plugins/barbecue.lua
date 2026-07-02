@@ -24,7 +24,7 @@ return {
     show_basename = true,
     show_modified = true,
     modified = function(bufnr) return vim.bo[bufnr].modified end,
-    exclude_filetypes = { "netrw", "toggleterm", "Oil" },
+    exclude_filetypes = { "netrw", "toggleterm" },
 
     -- Custom background color to match theme
     theme = {

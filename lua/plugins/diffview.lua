@@ -1,6 +1,6 @@
 -- Diffview.nvim - Single tabpage interface for cycling through diffs
 return {
-  "sindrets/diffview.nvim",
+  "dlyongemallo/diffview-plus.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   cmd = {
     "DiffviewOpen",
